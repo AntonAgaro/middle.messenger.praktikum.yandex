@@ -1,0 +1,7 @@
+@use '@css' as *;
+
+.routerLink {
+  font-size: $secondary-fz;
+  color: $btn-bg;
+  text-decoration: none;
+}
