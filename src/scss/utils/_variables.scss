@@ -1,0 +1,29 @@
+@use './functions' as f;
+//FONTS
+$bold-font: 'Roboto Bold';
+$light-font: 'Roboto Light';
+$medium-font: 'Roboto Medium';
+$regular-font: 'Roboto Regular';
+//FONTS
+
+//COLORS
+$main-bg-color: #fff;
+$second-bg-color: #f5f5f6;
+$main-text-color: #1e1e1e;
+$button-text-color: #fff;
+$link-text-color: #3369f3;
+$btn-bg: #3369f3;
+//COLORS
+
+//FONT-SIZE
+$title-fz: f.pxToRem(20);
+$regular-lh: f.pxToRem(13);
+$regular-fz: f.pxToRem(13);
+$message-lh: f.pxToRem(15);
+$secondary-fz: f.pxToRem(12);
+//FONT_SIZE
+
+//BORDERS
+$block-br: f.pxToRem(12);
+$elem-br: f.pxToRem(8);
+//BORDERS
