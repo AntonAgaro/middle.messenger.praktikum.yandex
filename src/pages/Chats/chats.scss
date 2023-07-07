@@ -1,0 +1,87 @@
+@use '@css' as *;
+
+.chats {
+  max-width: 1280px;
+  margin: 0 auto;
+  flex-direction: row;
+  align-items: center;
+
+  &__container {
+    width: 100%;
+    height: calc(100% - 40px);
+    display: flex;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+  }
+
+  &__list-link-wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: pxToRem(8);
+    align-self: flex-end;
+
+    .routerLink {
+      display: flex;
+      align-items: center;
+      color: $second-text-color;
+    }
+
+    .routerLink__icon {
+      width: pxToRem(16);
+    }
+  }
+
+  &__list-search {
+    margin-top: pxToRem(32);
+    .input {
+      padding: pxToRem(12) pxToRem(12) pxToRem(12) pxToRem(24);
+      border: none;
+      border-radius: $elem-br;
+      background: $chat-borders-color;
+
+      &:focus + .label,
+      &:valid + .label {
+        left: 12px;
+        top: 50%;
+        .label__text {
+          display: none;
+        }
+      }
+    }
+    .label {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      column-gap: pxToRem(8);
+    }
+    .label__icon {
+      width: pxToRem(20);
+      height: pxToRem(20);
+    }
+  }
+
+  &__list {
+    padding: pxToRem(20) pxToRem(10);
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: $chats-list-bg;
+    border-right: 1px solid $chat-borders-color;
+  }
+
+  &__body {
+    background: $main-bg-color;
+    width: 70%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $second-text-color;
+  }
+
+  &__list-container {
+    margin-top: pxToRem(16);
+  }
+}

@@ -1,4 +1,9 @@
 <div class="input-group">
     <input class="input" id="{{ name }}" name="{{ name }}" type="{{ type }}" required>
-    <label class="label" for="{{ name }}">{{ label }}</label>
+    <label class="label" for="{{ name }}">
+        {{#if withIcon }}
+            <img class="label__icon" src="/icons/search.svg" alt="search">
+        {{/if}}
+        <span class="label__text">{{ label }}</span>
+    </label>
 </div>

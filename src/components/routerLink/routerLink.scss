@@ -4,4 +4,8 @@
   font-size: $secondary-fz;
   color: $btn-bg;
   text-decoration: none;
+
+  &__icon {
+    width: pxToRem(12);
+  }
 }

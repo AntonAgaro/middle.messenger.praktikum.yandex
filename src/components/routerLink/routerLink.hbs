@@ -1,1 +1,6 @@
-<a class="routerLink" href="{{ path }}">{{ text }}</a>
+<a class="routerLink" href="{{ path }}">
+    {{ text }}
+    {{#if withIcon }}
+        <img class="routerLink__icon" src="/icons/right.svg" alt="right">
+    {{/if}}
+</a>
