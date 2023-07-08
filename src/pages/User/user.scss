@@ -1,0 +1,71 @@
+@use '@css' as *;
+
+.user {
+  position: relative;
+  @include limited-container();
+
+  &__back-link {
+    position: absolute;
+    top: pxToRem(48);
+    left: pxToRem(48);
+  }
+
+  &__container {
+    padding: pxToRem(40);
+    @include limited-container-inner();
+    flex-direction: column;
+    align-items: center;
+    row-gap: pxToRem(32);
+  }
+
+  &__logo {
+    width: pxToRem(120);
+    height: pxToRem(120);
+    border-radius: 100%;
+    background: $chat-borders-color;
+    flex-shrink: 0;
+  }
+
+  &__name {
+    margin-top: pxToRem(20);
+    margin-bottom: pxToRem(48);
+    font-size: $title-fz;
+    line-height: $title-lh;
+  }
+
+  &__details,
+  &__btns {
+    width: 100%;
+    max-width: pxToRem(510);
+    display: flex;
+    flex-direction: column;
+    row-gap: pxToRem(12);
+  }
+
+  &__btns {
+    margin-top: pxToRem(48);
+    align-items: flex-start;
+  }
+
+  &__detail {
+    padding-bottom: pxToRem(12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $chat-borders-color;
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .input {
+      padding-bottom: 0;
+      border-bottom: 0;
+      color: $second-text-color;
+      font-family: $medium-font;
+    }
+  }
+
+  &__detail-value {
+    color: $second-text-color;
+  }
+}

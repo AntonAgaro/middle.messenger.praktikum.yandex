@@ -17,6 +17,10 @@
       font-size: $secondary-fz;
       top: calc(($regular-lh + pxToRem(8)) * -1);
     }
+
+    &.disable {
+      pointer-events: none;
+    }
   }
 
   .label {

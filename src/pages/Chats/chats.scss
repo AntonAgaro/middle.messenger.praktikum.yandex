@@ -1,16 +1,10 @@
 @use '@css' as *;
 
 .chats {
-  max-width: 1280px;
-  margin: 0 auto;
-  flex-direction: row;
-  align-items: center;
+  @include limited-container();
 
   &__container {
-    width: 100%;
-    height: calc(100% - 40px);
-    display: flex;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+    @include limited-container-inner();
   }
 
   &__list-link-wrapper {

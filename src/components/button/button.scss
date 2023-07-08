@@ -9,4 +9,21 @@
   border: none;
   outline: none;
   cursor: pointer;
+
+  &.no-bg {
+    background: inherit;
+    min-width: auto;
+    padding: 0;
+    font-size: $secondary-fz;
+    color: $btn-bg;
+    text-decoration: none;
+  }
+
+  &.red {
+    color: #ff0000;
+  }
+
+  &.align-center {
+    align-self: center;
+  }
 }
