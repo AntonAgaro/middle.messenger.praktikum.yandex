@@ -37,11 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
       renderFunc: renderUserPage,
       payload: testUserData,
     },
-    '/test/404': {
+    '/404': {
       renderFunc: renderErrorPage,
       payload: 404,
     },
-    '/test/500': {
+    '/500': {
       renderFunc: renderErrorPage,
       payload: 500,
     },

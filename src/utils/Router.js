@@ -17,11 +17,8 @@ export default class Router {
     this.renderPage(route)
   }
   renderPage(route) {
-    const routeObj = this.routes[route]
-    if (!routeObj) {
-      return
-    }
-    const payload = routeObj.payload ?? null
+    let routeObj = this.routes[route] ?? this.routes['/404']
+    const payload = routeObj.payload
     this.root.innerHTML = payload ? routeObj.renderFunc(payload) : routeObj.renderFunc()
   }
 }
