@@ -13,7 +13,7 @@ export default function renderLoginPage() {
 
   let formButtons = ''
   formButtons += render(buttonTmpl, { text: 'Авторизоваться' })
-  formButtons += render(routerLinkTmpl, { text: 'Нет аккаунта?', path: '#' })
+  formButtons += render(routerLinkTmpl, { text: 'Нет аккаунта?', path: '/signup' })
 
   return loginTmpl({
     content: render(formTmpl, {

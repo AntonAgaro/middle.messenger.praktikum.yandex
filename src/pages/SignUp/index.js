@@ -18,7 +18,7 @@ export default function renderSignUp() {
 
   let formButtons = ''
   formButtons += render(buttonTmpl, { text: 'Зарегистрироваться' })
-  formButtons += render(routerLinkTmpl, { text: 'Войти', path: '#' })
+  formButtons += render(routerLinkTmpl, { text: 'Войти', path: '/login' })
 
   return SignUpTmpl({
     content: render(formTmpl, {

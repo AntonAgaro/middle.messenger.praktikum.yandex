@@ -14,7 +14,7 @@ export default function renderErrorPage(status) {
     },
   }
 
-  const link = routerLinkTmpl({ path: '#', text: 'Назад к чатам' })
+  const link = routerLinkTmpl({ path: '/chats', text: 'Назад к чатам' })
 
   return errorPageTmpl({ ...pageTypes[status], link })
 }
