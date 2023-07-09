@@ -35,3 +35,16 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.nav {
+  padding: pxToRem(20);
+  &__list {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    column-gap: pxToRem(12);
+  }
+  &__list-item {
+    list-style: none;
+  }
+}
