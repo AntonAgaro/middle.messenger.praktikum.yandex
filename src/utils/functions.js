@@ -1,5 +1,3 @@
-import inputTmpl from '@components/input/input.hbs'
-
 export function render(templateFunc, settings) {
   return templateFunc({ ...settings })
 }
