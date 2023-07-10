@@ -1,0 +1,33 @@
+@use './functions' as f;
+//FONTS
+$bold-font: 'Roboto Bold';
+$light-font: 'Roboto Light';
+$medium-font: 'Roboto Medium';
+$regular-font: 'Roboto Regular';
+//FONTS
+
+//COLORS
+$main-bg-color: #fff;
+$second-bg-color: #f8f8f8;
+$chats-list-bg: #fbfbfb;
+$main-text-color: #1e1e1e;
+$second-text-color: #999;
+$button-text-color: #fff;
+$link-text-color: #3369f3;
+$btn-bg: #3369f3;
+//COLORS
+
+//FONT-SIZE
+$title-fz: f.pxToRem(24);
+$title-lh: f.pxToRem(24);
+$regular-fz: f.pxToRem(14);
+$regular-lh: f.pxToRem(16);
+$secondary-lh: f.pxToRem(14);
+$secondary-fz: f.pxToRem(12);
+//FONT_SIZE
+
+//BORDERS
+$block-br: f.pxToRem(12);
+$elem-br: f.pxToRem(8);
+$chat-borders-color: #eaeaea;
+//BORDERS

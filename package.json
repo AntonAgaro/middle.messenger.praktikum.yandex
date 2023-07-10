@@ -1,0 +1,27 @@
+{
+  "name": "messenger",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "vite build",
+    "start": "vite build && node server.cjs",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "express": "^4.18.2",
+    "prettier": "^3.0.0",
+    "sass": "^1.63.6",
+    "vite": "^4.3.9",
+    "vite-plugin-handlebars": "^1.6.0"
+  },
+  "engines": {
+    "node": "16.20.0"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.7"
+  }
+}

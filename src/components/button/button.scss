@@ -1,0 +1,29 @@
+@use '@css' as *;
+
+.button {
+  padding: pxToRem(12) 0;
+  min-width: pxToRem(280);
+  border-radius: $elem-br;
+  background: $btn-bg;
+  color: $button-text-color;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  &.no-bg {
+    background: inherit;
+    min-width: auto;
+    padding: 0;
+    font-size: $secondary-fz;
+    color: $btn-bg;
+    text-decoration: none;
+  }
+
+  &.red {
+    color: #ff0000;
+  }
+
+  &.align-center {
+    align-self: center;
+  }
+}

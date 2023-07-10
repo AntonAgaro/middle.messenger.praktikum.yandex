@@ -1,0 +1,33 @@
+@use '@css' as *;
+
+.input-group {
+  position: relative;
+
+  .input {
+    padding-bottom: 6px;
+    width: 100%;
+    outline: none;
+    border: 0;
+    border-bottom: 1px solid $btn-bg;
+    font-size: $regular-fz;
+    line-height: $regular-lh;
+
+    &:focus + .label,
+    &:valid + .label {
+      font-size: $secondary-fz;
+      top: calc(($regular-lh + pxToRem(8)) * -1);
+    }
+
+    &.disable {
+      pointer-events: none;
+    }
+  }
+
+  .label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: $second-text-color;
+    transition: all 0.2s ease-in-out;
+  }
+}

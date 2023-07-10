@@ -1,0 +1,23 @@
+@use '@css' as *;
+
+.main {
+  flex-direction: column;
+}
+
+.error__title {
+  font-size: pxToRem(40);
+  line-height: pxToRem(40);
+}
+
+.error__subtitle {
+  font-size: $title-fz;
+  line-height: $title-lh;
+}
+
+.error__title + .error__subtitle {
+  margin-top: pxToRem(20);
+}
+
+.error__subtitle + .routerLink {
+  margin-top: pxToRem(70);
+}

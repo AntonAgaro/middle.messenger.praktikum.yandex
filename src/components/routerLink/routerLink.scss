@@ -1,0 +1,12 @@
+@use '@css' as *;
+
+.routerLink {
+  font-size: $secondary-fz;
+  color: $btn-bg;
+  text-decoration: none;
+  cursor: pointer;
+
+  &__icon {
+    width: pxToRem(12);
+  }
+}

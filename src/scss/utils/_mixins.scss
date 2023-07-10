@@ -1,0 +1,13 @@
+@mixin limited-container() {
+  max-width: 1280px;
+  margin: 0 auto;
+  flex-direction: row;
+  align-items: center;
+}
+
+@mixin limited-container-inner() {
+  width: 100%;
+  min-height: calc(100% - 40px);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+  display: flex;
+}

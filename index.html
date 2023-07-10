@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Messenger</title>
+  </head>
+  <body>
+  <nav class="nav">
+    <ul class="nav__list">
+      <li class="nav__list-item">
+        <a data-route="/login" data-router-link class="routerLink">Логин</a>
+      </li>
+      <li class="nav__list-item">
+        <a data-route="/signup" data-router-link class="routerLink">Регистрация</a>
+      </li>
+      <li class="nav__list-item">
+        <a data-route="/chats" data-router-link class="routerLink">Чаты</a>
+      </li>
+      <li class="nav__list-item">
+        <a data-route="/user" data-router-link class="routerLink">Профиль</a>
+      </li>
+      <li class="nav__list-item">
+        <a data-route="/404" data-router-link class="routerLink">404</a>
+      </li>
+      <li class="nav__list-item">
+        <a data-route="/500" data-router-link class="routerLink">500</a>
+      </li>
+    </ul>
+  </nav>
+    <div id="app"></div>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
