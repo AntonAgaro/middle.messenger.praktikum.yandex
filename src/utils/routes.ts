@@ -3,6 +3,7 @@ import renderSignUp from '@/pages/SignUp'
 import renderChatPage from '@/pages/Chats'
 import renderUserPage from '@/pages/User'
 import renderErrorPage from '@/pages/ErrorPage'
+import { Routes } from '../types/Router'
 
 const testUserData = {
   userLogo: '',
@@ -16,7 +17,7 @@ const testUserData = {
     { title: 'Телефон', value: '+7 (909) 967 30 30', inputName: 'phone' },
   ],
 }
-export const routes = {
+const routes: Routes = {
   '/': {
     renderFunc: renderLoginPage,
   },
@@ -42,3 +43,5 @@ export const routes = {
     payload: 500,
   },
 }
+
+export default routes
