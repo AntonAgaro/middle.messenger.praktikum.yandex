@@ -1,4 +1,4 @@
-type EventHandler = (payload: any) => void
+type EventHandler = (payload?: any) => void
 type Bus = Record<string, EventHandler[]>
 export default class EventBus {
   private readonly listeners: Bus
