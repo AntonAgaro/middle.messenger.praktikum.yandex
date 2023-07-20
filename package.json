@@ -5,13 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite --open",
-    "build": "vite build",
+    "build": "tsc --noEmit && vite build",
     "start": "vite build && node server.cjs",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "eslint": "^8.44.0",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
     "express": "^4.18.2",
     "prettier": "^3.0.0",
     "sass": "^1.63.6",

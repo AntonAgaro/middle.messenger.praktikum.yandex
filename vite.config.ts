@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
 import handlebars from './vite-hbs-precompile.js'
+
 export default defineConfig({
   publicDir: 'static',
   resolve: {
