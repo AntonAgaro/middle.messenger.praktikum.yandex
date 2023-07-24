@@ -1,3 +1,4 @@
+import { v4 as makeUUID } from 'uuid'
 import EventBus from './EventBus'
 import type { Props } from '../types/Props'
 
@@ -14,12 +15,15 @@ export default class Component {
 
   private tagName = 'div'
 
+  private id: string
+
   protected props: Props
 
   constructor(tagName: string, props = {}) {
     this.EventBus = new EventBus()
     this.tagName = tagName
-    this.props = this.makePropsProxy(props)
+    this.id = makeUUID()
+    this.props = this.makePropsProxy({ ...props, _id: this.id })
 
     this.registerEvents(this.EventBus)
     this.EventBus.emit(ComponentEvents.INIT)
@@ -95,7 +99,6 @@ export default class Component {
   }
 
   private removeEvents(): void {
-    console.log('remove')
     const { events = {} } = this.props
     Object.keys(events).forEach((eventName) => {
       this.element?.removeEventListener(eventName, events[eventName])
@@ -119,16 +122,15 @@ export default class Component {
     return ''
   }
 
-  private makePropsProxy(props: Props) {
-    const self = this
+  private makePropsProxy = (props: Props) => {
     props = new Proxy(props, {
-      get(target, prop: any) {
+      get: (target, prop: any) => {
         const value = target[prop]
         return typeof value === 'function' ? value.bind(target) : value
       },
-      set(target, prop: any, value) {
+      set: (target, prop: any, value) => {
         target[prop] = value
-        self.EventBus.emit(ComponentEvents.FLOW_CDU)
+        this.EventBus.emit(ComponentEvents.FLOW_CDU)
         return true
       },
       deleteProperty() {
@@ -138,9 +140,11 @@ export default class Component {
     return props
   }
 
-  private createDocumentElement(tagName: string) {
+  private createDocumentElement(tagName: string): HTMLElement {
     // Можно сделать метод, который через фрагменты в цикле создаёт сразу несколько блоков
-    return document.createElement(tagName)
+    const element = document.createElement(tagName)
+    element.setAttribute('data-id', this.id)
+    return element
   }
 
   show() {

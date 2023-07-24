@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.4.4",
+    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
     "eslint": "^8.45.0",
@@ -28,6 +29,7 @@
     "node": "16.20.0"
   },
   "dependencies": {
-    "handlebars": "^4.7.7"
+    "handlebars": "^4.7.7",
+    "uuid": "^9.0.0"
   }
 }
