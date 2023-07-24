@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
-import handlebars from './vite-hbs-precompile.js'
 
 export default defineConfig({
   publicDir: 'static',
@@ -11,5 +10,4 @@ export default defineConfig({
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
     },
   },
-  plugins: [handlebars()],
 })

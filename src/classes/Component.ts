@@ -1,117 +1,141 @@
 import EventBus from './EventBus'
+import type { Props } from '../types/Props'
 
-type Props = Record<string, any>
 enum ComponentEvents {
   INIT = 'init',
   FLOW_CDM = 'flow:component-did-mount',
   FLOW_CDU = 'flow:component-did-update',
   FLOW_RENDER = 'flow:render',
 }
-
 export default class Component {
+  private EventBus: EventBus
+
   private element: HTMLElement | null = null
 
-  private tagName: string
+  private tagName = 'div'
 
-  private props: Record<string, any> = {}
+  protected props: Props
 
-  private eventBus: EventBus
-
-  constructor(tagName = 'div', props = {}) {
-    this.eventBus = new EventBus()
+  constructor(tagName: string, props = {}) {
+    this.EventBus = new EventBus()
     this.tagName = tagName
     this.props = this.makePropsProxy(props)
 
-    this.registerEvents(this.eventBus)
-    this.eventBus.emit(ComponentEvents.INIT)
+    this.registerEvents(this.EventBus)
+    this.EventBus.emit(ComponentEvents.INIT)
   }
 
-  private registerEvents(eventBus: EventBus): void {
+  private registerEvents(eventBus: EventBus) {
     eventBus.on(ComponentEvents.INIT, this.init.bind(this))
-    eventBus.on(ComponentEvents.FLOW_CDM, this.componentDidMount.bind(this))
-    eventBus.on(ComponentEvents.FLOW_RENDER, this.render.bind(this))
+    eventBus.on(ComponentEvents.FLOW_CDM, this.baseComponentDidMount.bind(this))
+    eventBus.on(ComponentEvents.FLOW_RENDER, this.baseRender.bind(this))
+    eventBus.on(ComponentEvents.FLOW_CDU, this.baseComponentDidUpdate.bind(this))
   }
 
-  private createResources(): void {
+  private createResources() {
     this.element = this.createDocumentElement(this.tagName)
   }
 
-  protected init() {
-    this.createResources()
-    this.eventBus.emit(ComponentEvents.FLOW_CDM)
-    this.eventBus.emit(ComponentEvents.FLOW_RENDER)
+  private addAttributes() {
+    const { attrs = {} } = this.props
+    Object.entries(attrs).forEach(([key, value]) => {
+      this.element?.setAttribute(key, value as string)
+    })
   }
 
-  protected componentDidMount() {}
+  init() {
+    this.createResources()
+    this.EventBus.emit(ComponentEvents.FLOW_CDM)
+    this.EventBus.emit(ComponentEvents.FLOW_RENDER)
+  }
 
-  // Может переопределять пользователь, необязательно трогать
-  // componentDidMount(oldProps) {}
+  private baseComponentDidMount() {
+    this.componentDidMount()
+  }
+
+  public getContent() {
+    return this.element
+  }
+
+  // param oldProps
+  componentDidMount() {}
 
   dispatchComponentDidMount() {
-    this.eventBus.emit(ComponentEvents.FLOW_CDM)
+    this.EventBus.emit(ComponentEvents.FLOW_CDM)
   }
 
-  protected componentDidUpdate() {
-    this.eventBus.emit(ComponentEvents.FLOW_RENDER)
-    // const response = this.componentDidUpdate(oldProps, newProps)
+  private baseComponentDidUpdate(oldProps: Props, newProps: Props) {
+    const isUpdated = this.componentDidUpdate(oldProps, newProps)
+    if (isUpdated) {
+      this.EventBus.emit(ComponentEvents.FLOW_RENDER)
+    }
   }
 
-  // Может переопределять пользователь, необязательно трогать
-  // componentDidUpdate(oldProps, newProps) {
-  //   return true
-  // }
+  // params oldProps: Props, newProps: Props
+  // Сравнить реально ли новые пропсы "Новые"
+  // @ts-ignore
+  componentDidUpdate(oldProps: Props, newProps: Props) {
+    return true
+  }
 
   setProps = (nextProps: Props) => {
     if (!nextProps) {
       return
     }
-    this.componentDidUpdate()
 
     Object.assign(this.props, nextProps)
+    this.EventBus.emit(ComponentEvents.FLOW_CDU)
   }
 
-  // get element() {
-  //   return this._element
-  // }
+  private addEvents(): void {
+    const { events = {} } = this.props
+    Object.keys(events).forEach((eventName) => {
+      this.element?.addEventListener(eventName, events[eventName])
+    })
+  }
 
-  protected render() {
-    // const block = this.render()
-    // Этот небезопасный метод для упрощения логики
-    // Используйте шаблонизатор из npm или напишите свой безопасный
-    // Нужно не в строку компилировать (или делать это правильно),
-    // либо сразу в DOM-элементы возвращать из compile DOM-ноду
-    if (this.element) {
-      this.element.innerHTML = this.compileTemplate()
+  private removeEvents(): void {
+    console.log('remove')
+    const { events = {} } = this.props
+    Object.keys(events).forEach((eventName) => {
+      this.element?.removeEventListener(eventName, events[eventName])
+    })
+  }
+
+  private baseRender() {
+    if (!this.element) {
+      return
     }
-  }
-
-  protected compileTemplate(): string {
-    return ''
+    const block = this.render()
+    this.removeEvents()
+    this.element.innerHTML = ''
+    this.element.innerHTML = block
+    this.addEvents()
+    this.addAttributes()
   }
 
   // Может переопределять пользователь, необязательно трогать
-  // render() {}
+  render() {
+    return ''
+  }
 
-  // protected getContent() {
-  //   return this.element
-  // }
-
-  private makePropsProxy(props: Props): Props {
+  private makePropsProxy(props: Props) {
     const self = this
-    return new Proxy(props, {
-      get(target: Props, prop: any) {
+    props = new Proxy(props, {
+      get(target, prop: any) {
         const value = target[prop]
         return typeof value === 'function' ? value.bind(target) : value
       },
-      set(target: Props, prop: any, value: any) {
+      set(target, prop: any, value) {
         target[prop] = value
-        self.eventBus.emit(ComponentEvents.FLOW_CDU)
+        self.EventBus.emit(ComponentEvents.FLOW_CDU)
         return true
       },
       deleteProperty() {
-        throw new Error('Нет доступа')
+        throw new Error('нет доступа')
       },
     })
+    return props
   }
 
   private createDocumentElement(tagName: string) {
