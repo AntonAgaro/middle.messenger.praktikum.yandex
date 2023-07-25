@@ -1,8 +1,8 @@
 import renderLoginPage from '@/pages/Login'
-import renderSignUp from '@/pages/SignUp'
-import renderChatPage from '@/pages/Chats'
-import renderUserPage from '@/pages/User'
-import renderErrorPage from '@/pages/ErrorPage'
+// import renderSignUp from '@/pages/SignUp'
+// import renderChatPage from '@/pages/Chats'
+// import renderUserPage from '@/pages/User'
+// import renderErrorPage from '@/pages/ErrorPage'
 import { Routes } from '../types/Router'
 
 const testUserData = {
@@ -24,24 +24,24 @@ const routes: Routes = {
   '/login': {
     renderFunc: renderLoginPage,
   },
-  '/signup': {
-    renderFunc: renderSignUp,
-  },
-  '/chats': {
-    renderFunc: renderChatPage,
-  },
-  '/user': {
-    renderFunc: renderUserPage,
-    payload: testUserData,
-  },
-  '/404': {
-    renderFunc: renderErrorPage,
-    payload: 404,
-  },
-  '/500': {
-    renderFunc: renderErrorPage,
-    payload: 500,
-  },
+  // '/signup': {
+  //   renderFunc: renderSignUp,
+  // },
+  // '/chats': {
+  //   renderFunc: renderChatPage,
+  // },
+  // '/user': {
+  //   renderFunc: renderUserPage,
+  //   payload: testUserData,
+  // },
+  // '/404': {
+  //   renderFunc: renderErrorPage,
+  //   payload: 404,
+  // },
+  // '/500': {
+  //   renderFunc: renderErrorPage,
+  //   payload: 500,
+  // },
 }
 
 export default routes

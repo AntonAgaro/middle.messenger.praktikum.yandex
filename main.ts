@@ -1,10 +1,12 @@
 import '@/scss/app.scss'
-import Router from '@/utils/Router.js'
-import routes from '@/utils/routes'
-import Button from './src/components/button/Button'
+import Router from './src/utils/Router'
+import routes from './src/utils/routes'
+import LoginPage from './src/pages/Login/LoginPage'
 import { render } from './src/utils/functions'
+import Form from './src/components/form/Form'
 import Input from './src/components/input/Input'
-import TestForm from './src/components/TestForm/TestForm'
+import Button from './src/components/button/Button'
+import RouterLink from './src/components/routerLink/RouterLink'
 
 document.addEventListener('DOMContentLoaded', () => {
   // const root = document.getElementById('app')
@@ -12,60 +14,42 @@ document.addEventListener('DOMContentLoaded', () => {
   //   return
   // }
   // new Router(root, routes)
-  // const button = new Button({
-  //   attrs: {
-  //     class: 'button',
-  //   },
-  //   text: 'button',
-  //   events: {
-  //     click: (e) => {
-  //       console.log(e.target)
-  //     },
-  //   },
-  // })
-  //
-  // render('#app', button)
-  //
-  // const input = new Input({
-  //   className: 'input',
-  //   type: 'text',
-  //   id: 'input',
-  //   name: 'input',
-  //   value: 'lalala',
-  //   label: 'Label',
-  //   attrs: {
-  //     class: 'input-group',
-  //   },
-  // })
-  // render('#app', input)
-
-  const button = new Button({
-    text: 'Button',
+  const loginInput = new Input({
+    label: 'Логин',
+    name: 'login',
+    type: 'text',
+    value: '',
+    className: 'input',
+    id: 'login',
+  })
+  const passInput = new Input({
+    label: 'Пароль',
+    name: 'password',
+    type: 'password',
+    value: '',
+    className: 'input',
+    id: 'password',
+  })
+  const authBtn = new Button({
+    text: 'Авторизоваться',
     attrs: {
       class: 'button',
     },
   })
-
-  const testForm = new TestForm({
-    input: new Input({
-      className: 'input',
-      type: 'text',
-      id: 'input',
-      name: 'input',
-      value: 'lalala',
-      label: 'Label',
-      attrs: {
-        class: 'input-group',
-      },
-    }),
-    button,
+  const toRegLink = new RouterLink({
+    text: 'Нет аккаунта?',
+    className: '',
+    path: '/signup',
   })
 
-  render('#app', testForm)
-
-  setTimeout(() => {
-    button.setProps({
-      text: 'Новый текст',
-    })
-  }, 1000)
+  const LoginPageEl = new LoginPage({
+    loginInput,
+    passInput,
+    authBtn,
+    toRegLink,
+    attrs: {
+      class: 'main',
+    },
+  })
+  render('#app', LoginPageEl)
 })

@@ -21,7 +21,7 @@ export default class Component {
 
   protected props: Props
 
-  private children: Record<string, Component>
+  protected children: Record<string, Component>
 
   constructor(tagName: string, propsAndChildren = {}) {
     this.EventBus = new EventBus()
