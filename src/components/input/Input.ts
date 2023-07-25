@@ -1,4 +1,3 @@
-import HandleBars from 'handlebars'
 import Component from '../../classes/Component'
 import type { Props } from '../../types/Props'
 import inputTmpl from './input.tmpl'
@@ -19,8 +18,7 @@ export default class Input extends Component {
     super('div', props)
   }
 
-  render(): string {
-    const template = HandleBars.compile(inputTmpl)
-    return template(this.props)
+  render(): DocumentFragment {
+    return this.compile(inputTmpl, this.props)
   }
 }

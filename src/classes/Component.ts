@@ -1,7 +1,9 @@
 import { v4 as makeUUID } from 'uuid'
+import HandleBars from 'handlebars'
 import EventBus from './EventBus'
 import type { Props } from '../types/Props'
 
+// TODO Переместить в enums
 enum ComponentEvents {
   INIT = 'init',
   FLOW_CDM = 'flow:component-did-mount',
@@ -15,15 +17,20 @@ export default class Component {
 
   private tagName = 'div'
 
-  private id: string
+  public id: string
 
   protected props: Props
 
-  constructor(tagName: string, props = {}) {
+  private children: Record<string, Component>
+
+  constructor(tagName: string, propsAndChildren = {}) {
     this.EventBus = new EventBus()
     this.tagName = tagName
+    // TODO сделать только если есть settings для id
     this.id = makeUUID()
+    const { props, children } = this.separatePropsAndChildren(propsAndChildren)
     this.props = this.makePropsProxy({ ...props, _id: this.id })
+    this.children = children
 
     this.registerEvents(this.EventBus)
     this.EventBus.emit(ComponentEvents.INIT)
@@ -112,14 +119,34 @@ export default class Component {
     const block = this.render()
     this.removeEvents()
     this.element.innerHTML = ''
-    this.element.innerHTML = block
+    this.element.appendChild(block)
     this.addEvents()
     this.addAttributes()
   }
 
   // Может переопределять пользователь, необязательно трогать
-  render() {
-    return ''
+  // @ts-ignore
+  render(): DocumentFragment {}
+
+  public compile(template, props: Props): DocumentFragment {
+    const propsAndStubs = { ...props }
+    Object.entries(this.children).forEach(([key, child]) => {
+      propsAndStubs[key] = `<div data-id="${child.id}"></div>`
+    })
+
+    const fragment = this.createDocumentElement('template') as HTMLTemplateElement
+
+    const templateFunc = HandleBars.compile(template)
+    fragment.innerHTML = templateFunc(propsAndStubs)
+    Object.values(this.children).forEach((child) => {
+      const stub = fragment.content.querySelector(`[data-id="${child.id}"]`)
+      const childElement = child.getContent()
+      if (stub && childElement) {
+        stub.replaceWith(childElement)
+      }
+    })
+
+    return fragment.content
   }
 
   private makePropsProxy = (props: Props) => {
@@ -138,6 +165,19 @@ export default class Component {
       },
     })
     return props
+  }
+
+  private separatePropsAndChildren(propsAndChildren: Props) {
+    const props: Props = {}
+    const children: Record<string, Component> = {}
+    Object.entries(propsAndChildren).forEach(([key, value]) => {
+      if (value instanceof Component) {
+        children[key] = value
+      } else {
+        props[key] = value
+      }
+    })
+    return { props, children }
   }
 
   private createDocumentElement(tagName: string): HTMLElement {

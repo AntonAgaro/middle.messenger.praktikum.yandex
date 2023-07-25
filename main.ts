@@ -4,6 +4,7 @@ import routes from '@/utils/routes'
 import Button from './src/components/button/Button'
 import { render } from './src/utils/functions'
 import Input from './src/components/input/Input'
+import TestForm from './src/components/TestForm/TestForm'
 
 document.addEventListener('DOMContentLoaded', () => {
   // const root = document.getElementById('app')
@@ -11,30 +12,52 @@ document.addEventListener('DOMContentLoaded', () => {
   //   return
   // }
   // new Router(root, routes)
-  const button = new Button({
-    attrs: {
-      class: 'button',
-    },
-    text: 'button',
-    events: {
-      click: (e) => {
-        console.log(e.target)
+  // const button = new Button({
+  //   attrs: {
+  //     class: 'button',
+  //   },
+  //   text: 'button',
+  //   events: {
+  //     click: (e) => {
+  //       console.log(e.target)
+  //     },
+  //   },
+  // })
+  //
+  // render('#app', button)
+  //
+  // const input = new Input({
+  //   className: 'input',
+  //   type: 'text',
+  //   id: 'input',
+  //   name: 'input',
+  //   value: 'lalala',
+  //   label: 'Label',
+  //   attrs: {
+  //     class: 'input-group',
+  //   },
+  // })
+  // render('#app', input)
+
+  const testForm = new TestForm({
+    input: new Input({
+      className: 'input',
+      type: 'text',
+      id: 'input',
+      name: 'input',
+      value: 'lalala',
+      label: 'Label',
+      attrs: {
+        class: 'input-group',
       },
-    },
+    }),
+    button: new Button({
+      text: 'Button',
+      attrs: {
+        class: 'button',
+      },
+    }),
   })
 
-  render('#app', button)
-
-  const input = new Input({
-    className: 'input',
-    type: 'text',
-    id: 'input',
-    name: 'input',
-    value: 'lalala',
-    label: 'Label',
-    attrs: {
-      class: 'input-group',
-    },
-  })
-  render('#app', input)
+  render('#app', testForm)
 })
