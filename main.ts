@@ -39,6 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // })
   // render('#app', input)
 
+  const button = new Button({
+    text: 'Button',
+    attrs: {
+      class: 'button',
+    },
+  })
+
   const testForm = new TestForm({
     input: new Input({
       className: 'input',
@@ -51,13 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
         class: 'input-group',
       },
     }),
-    button: new Button({
-      text: 'Button',
-      attrs: {
-        class: 'button',
-      },
-    }),
+    button,
   })
 
   render('#app', testForm)
+
+  setTimeout(() => {
+    button.setProps({
+      text: 'Новый текст',
+    })
+  }, 1000)
 })

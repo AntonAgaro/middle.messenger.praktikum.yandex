@@ -62,6 +62,9 @@ export default class Component {
 
   private baseComponentDidMount() {
     this.componentDidMount()
+    Object.values(this.children).forEach((child) => {
+      child.dispatchComponentDidMount()
+    })
   }
 
   public getContent() {
