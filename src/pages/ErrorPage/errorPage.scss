@@ -10,14 +10,11 @@
 }
 
 .error__subtitle {
+  margin-top: pxToRem(20);
   font-size: $title-fz;
   line-height: $title-lh;
 }
 
-.error__title + .error__subtitle {
-  margin-top: pxToRem(20);
-}
-
-.error__subtitle + .routerLink {
+.link-wrapper {
   margin-top: pxToRem(70);
 }

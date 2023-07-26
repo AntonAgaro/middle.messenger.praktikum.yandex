@@ -6,7 +6,7 @@ import routerLinkTmpl from './routerLink.tmpl'
 interface RouterLinkProps extends Props {
   text: string
   withIcon?: boolean
-  className: string
+  className?: string
   path: string
 }
 

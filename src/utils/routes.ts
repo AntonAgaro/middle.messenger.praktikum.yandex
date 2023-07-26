@@ -6,19 +6,9 @@ import renderLoginPage from '@/pages/Login'
 import { Routes } from '../types/Router'
 import renderSignUp from '../pages/SignUp'
 import renderUserPage from '../pages/User'
+import render404Page from '../pages/ErrorPage/404'
+import render500Page from '../pages/ErrorPage/500'
 
-const testUserData = {
-  userLogo: '',
-  userName: 'Ivan',
-  userDetails: [
-    { title: 'Почта', value: 'pochta@yandex.ru', inputName: 'email' },
-    { title: 'Логин', value: 'ivanivanov', inputName: 'login' },
-    { title: 'Имя', value: 'Ivan', inputName: 'first_name' },
-    { title: 'Фамилия', value: 'Ivanov', inputName: 'second_name' },
-    { title: 'Имя в чате', value: 'Ivan', inputName: 'display_name' },
-    { title: 'Телефон', value: '+7 (909) 967 30 30', inputName: 'phone' },
-  ],
-}
 const routes: Routes = {
   '/': {
     renderFunc: renderLoginPage,
@@ -35,14 +25,12 @@ const routes: Routes = {
   '/user': {
     renderFunc: renderUserPage,
   },
-  // '/404': {
-  //   renderFunc: renderErrorPage,
-  //   payload: 404,
-  // },
-  // '/500': {
-  //   renderFunc: renderErrorPage,
-  //   payload: 500,
-  // },
+  '/404': {
+    renderFunc: render404Page,
+  },
+  '/500': {
+    renderFunc: render500Page,
+  },
 }
 
 export default routes
