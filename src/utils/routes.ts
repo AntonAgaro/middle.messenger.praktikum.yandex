@@ -5,6 +5,7 @@ import renderLoginPage from '@/pages/Login'
 // import renderErrorPage from '@/pages/ErrorPage'
 import { Routes } from '../types/Router'
 import renderSignUp from '../pages/SignUp'
+import renderUserPage from '../pages/User'
 
 const testUserData = {
   userLogo: '',
@@ -31,10 +32,9 @@ const routes: Routes = {
   // '/chats': {
   //   renderFunc: renderChatPage,
   // },
-  // '/user': {
-  //   renderFunc: renderUserPage,
-  //   payload: testUserData,
-  // },
+  '/user': {
+    renderFunc: renderUserPage,
+  },
   // '/404': {
   //   renderFunc: renderErrorPage,
   //   payload: 404,

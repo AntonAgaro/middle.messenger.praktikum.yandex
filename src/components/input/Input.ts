@@ -4,8 +4,8 @@ import inputTmpl from './input.tmpl'
 import './input.scss'
 
 interface InputProps extends Props {
-  className: string
-  id: string
+  className?: string
+  id?: string
   name: string
   type: string
   value: string

@@ -1,4 +1,4 @@
-<main class="main user">
+export default `
     {{{toChatsLink}}}
     <div class="user__container">
         <div class="user__logo">
@@ -8,12 +8,13 @@
         </div>
         <h1 class="user__name">{{ userName }}</h1>
 
-        <ul class="user__details">
             {{{ userDetails }}}
-        </ul>
 
         <ul class="user__btns">
-            {{{ userButtons }}}
+           {{{ changeDataBtn }}}
+           {{{ changePassBtn }}}
+           {{{ logoutBtn }}}
+           {{{ saveDataBtn }}}
         </ul>
     </div>
-</main>
+`
