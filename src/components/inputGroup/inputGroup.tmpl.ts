@@ -1,5 +1,5 @@
 export default `<div class="input-group">
-    <input class="input {{ className }}" id="{{ name }}" name="{{ name }}" type="{{ type }}" value="{{value}}" required>
+    {{{ input }}}
     {{#unless noLabel}}
         <label class="label" for="{{ name }}">
             {{#if withIcon }}

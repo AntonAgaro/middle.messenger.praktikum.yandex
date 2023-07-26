@@ -1,8 +1,9 @@
 import ChatsPage from './ChatsPage'
 import RouterLink from '../../components/routerLink/RouterLink'
-import Input from '../../components/input/Input'
 import ChartPreview from '../../components/chatPreview/ChartPreview'
 import { render } from '../../utils/functions'
+import Input from '../../components/input/Input'
+import InputGroup from '../../components/inputGroup/InputGroup'
 
 export default function renderChatsPage() {
   const chatsPage = new ChatsPage({
@@ -11,12 +12,19 @@ export default function renderChatsPage() {
       text: 'В профиль',
       withIcon: true,
     }),
-    searchInput: new Input({
-      name: 'search',
-      type: 'text',
+    searchInput: new InputGroup({
+      input: new Input({
+        attrs: {
+          class: 'input',
+          name: 'search',
+          type: 'text',
+          value: '',
+          id: 'search',
+        },
+      }),
       label: 'Поиск',
+      name: 'search',
       withIcon: true,
-      value: '',
     }),
     chatsList: new ChartPreview({
       unreadMessages: 2,

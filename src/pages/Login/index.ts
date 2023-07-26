@@ -1,25 +1,46 @@
 import LoginPage from './LoginPage'
 import { render } from '../../utils/functions'
-import Input from '../../components/input/Input'
 import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
+import Input from '../../components/input/Input'
+import InputGroup from '../../components/inputGroup/InputGroup'
 
 export default function renderLoginPage() {
-  const loginInput = new Input({
+  const loginInput = new InputGroup({
+    input: new Input({
+      className: 'input',
+      attrs: {
+        class: 'input',
+        name: 'login',
+        type: 'text',
+        id: 'login',
+        required: true,
+      },
+      events: {
+        blur: () => {
+          console.log('dasdad')
+        },
+        click: () => {
+          console.log('fdsfsdf')
+        },
+      },
+    }),
     label: 'Логин',
     name: 'login',
-    type: 'text',
-    value: '',
-    className: 'input',
-    id: 'login',
   })
-  const passInput = new Input({
+  const passInput = new InputGroup({
+    input: new Input({
+      className: 'input',
+      attrs: {
+        class: 'input',
+        name: 'password',
+        type: 'password',
+        id: 'password',
+        required: true,
+      },
+    }),
     label: 'Пароль',
     name: 'password',
-    type: 'password',
-    value: '',
-    className: 'input',
-    id: 'password',
   })
   const authBtn = new Button({
     text: 'Авторизоваться',

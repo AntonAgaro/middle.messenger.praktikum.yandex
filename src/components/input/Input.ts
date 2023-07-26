@@ -1,24 +1,24 @@
-import Component from '../../classes/Component'
 import type { Props } from '../../types/Props'
-import inputTmpl from './input.tmpl'
-import './input.scss'
+import Component from '../../classes/Component'
 
 interface InputProps extends Props {
   className?: string
-  id?: string
-  name: string
-  type: string
-  value: string
-  noLabel?: boolean
-  label?: string
-  withIcon?: boolean
+  attrs: {
+    class: string
+    id: string
+    name: string
+    type: string
+    value?: string
+    required?: boolean
+  }
 }
+
 export default class Input extends Component {
   constructor(props: InputProps) {
-    super('div', props)
+    super('input', props)
   }
 
   render(): DocumentFragment {
-    return this.compile(inputTmpl, this.props)
+    return this.compile('', this.props)
   }
 }

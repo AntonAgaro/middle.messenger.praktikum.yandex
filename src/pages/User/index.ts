@@ -1,55 +1,92 @@
-import Input from '../../components/input/Input'
 import UserDetails from '../../components/user/UserDetails'
 import './user.scss'
 import Button from '../../components/button/Button'
 import User from './User'
 import RouterLink from '../../components/routerLink/RouterLink'
 import { render } from '../../utils/functions'
+import Input from '../../components/input/Input'
+import InputGroup from '../../components/inputGroup/InputGroup'
 
 export default function renderUserPage() {
   const isEditing = false
   const inputClassName = isEditing ? '' : 'disable'
-  const emailInput = new Input({
-    name: 'email',
-    type: 'text',
+  const emailInput = new InputGroup({
+    input: new Input({
+      attrs: {
+        class: 'input',
+        id: 'email',
+        name: 'email',
+        type: 'text',
+        value: 'pochta@yandex.ru',
+      },
+    }),
     noLabel: true,
     className: inputClassName,
-    value: 'pochta@yandex.ru',
   })
-  const loginInput = new Input({
-    name: 'login',
-    type: 'text',
+  const loginInput = new InputGroup({
+    input: new Input({
+      attrs: {
+        class: 'input',
+        id: 'login',
+        name: 'login',
+        type: 'text',
+        value: 'ivanivanov',
+      },
+    }),
     noLabel: true,
     className: inputClassName,
-    value: 'ivanivanov',
   })
-  const nameInput = new Input({
-    name: 'first_name',
-    type: 'text',
+  const nameInput = new InputGroup({
+    input: new Input({
+      attrs: {
+        class: 'input',
+        id: 'first_name',
+        name: 'first_name',
+        type: 'text',
+        value: 'Ivan',
+      },
+    }),
     noLabel: true,
     className: inputClassName,
-    value: 'Ivan',
   })
-  const surnameInput = new Input({
-    name: 'second_name',
-    type: 'text',
+  const surnameInput = new InputGroup({
+    input: new Input({
+      attrs: {
+        class: 'input',
+        id: 'second_name',
+        name: 'second_name',
+        type: 'text',
+        value: 'Ivanov',
+      },
+    }),
     noLabel: true,
     className: inputClassName,
-    value: 'Ivanov',
   })
-  const displayNameInput = new Input({
-    name: 'display_name',
-    type: 'text',
+  const displayNameInput = new InputGroup({
+    input: new Input({
+      attrs: {
+        class: 'input',
+        id: 'display_name',
+        name: 'display_name',
+        type: 'text',
+        value: 'Ivan',
+      },
+    }),
     noLabel: true,
     className: inputClassName,
-    value: 'Ivan',
   })
-  const phoneInput = new Input({
-    name: 'phone',
-    type: 'text',
+  const phoneInput = new InputGroup({
+    input: new Input({
+      attrs: {
+        class: 'input',
+        id: 'name',
+        name: 'phone',
+        type: 'text',
+        value: 'Ivan',
+      },
+    }),
     noLabel: true,
     className: inputClassName,
-    value: 'Ivan',
   })
 
   const userDetails = new UserDetails({
