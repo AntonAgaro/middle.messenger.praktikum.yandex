@@ -1,13 +1,10 @@
-import renderLoginPage from '@/pages/Login'
-// import renderSignUp from '@/pages/SignUp'
-// import renderChatPage from '@/pages/Chats'
-// import renderUserPage from '@/pages/User'
-// import renderErrorPage from '@/pages/ErrorPage'
 import { Routes } from '../types/Router'
 import renderSignUp from '../pages/SignUp'
 import renderUserPage from '../pages/User'
 import render404Page from '../pages/ErrorPage/404'
 import render500Page from '../pages/ErrorPage/500'
+import renderLoginPage from '../pages/Login'
+import renderChatsPage from '../pages/Chats'
 
 const routes: Routes = {
   '/': {
@@ -19,9 +16,9 @@ const routes: Routes = {
   '/signup': {
     renderFunc: renderSignUp,
   },
-  // '/chats': {
-  //   renderFunc: renderChatPage,
-  // },
+  '/chats': {
+    renderFunc: renderChatsPage,
+  },
   '/user': {
     renderFunc: renderUserPage,
   },

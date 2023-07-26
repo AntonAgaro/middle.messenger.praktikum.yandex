@@ -1,3 +1,4 @@
+export default `
 <div class="chat-preview">
     <div class="chat-preview__left">
         <div class="chat-preview__user-img">
@@ -19,3 +20,4 @@
         {{/if}}
     </div>
 </div>
+`
