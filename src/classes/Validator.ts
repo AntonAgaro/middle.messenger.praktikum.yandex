@@ -22,7 +22,24 @@ export default class Validator {
   }
 
   static checkIsNotEmpty(input: HTMLInputElement): boolean {
-    console.log(input)
     return input.value.length !== 0
+  }
+
+  static validate(
+    inputComponent: Component,
+    validateMethod: (input: HTMLInputElement) => boolean,
+    inputGroup: Component
+  ): boolean {
+    const target = inputComponent.getContent() as HTMLInputElement
+    if (!validateMethod(target)) {
+      inputGroup.setProps({
+        error: 'Ошибка валидации',
+      })
+      return false
+    }
+    inputGroup.setProps({
+      error: '',
+    })
+    return true
   }
 }

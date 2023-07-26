@@ -23,6 +23,11 @@
     }
   }
 
+  .input + .error {
+    margin-top: 10px;
+    color: red;
+  }
+
   .label {
     position: absolute;
     top: 0;

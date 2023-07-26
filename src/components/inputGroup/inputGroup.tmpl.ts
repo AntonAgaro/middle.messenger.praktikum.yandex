@@ -1,5 +1,6 @@
 export default `<div class="input-group">
     {{{ input }}}
+    <span class="error">{{error}}</span>
     {{#unless noLabel}}
         <label class="label" for="{{ name }}">
             {{#if withIcon }}
