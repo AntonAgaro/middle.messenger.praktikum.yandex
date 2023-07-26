@@ -4,6 +4,7 @@ import renderLoginPage from '@/pages/Login'
 // import renderUserPage from '@/pages/User'
 // import renderErrorPage from '@/pages/ErrorPage'
 import { Routes } from '../types/Router'
+import renderSignUp from '../pages/SignUp'
 
 const testUserData = {
   userLogo: '',
@@ -24,9 +25,9 @@ const routes: Routes = {
   '/login': {
     renderFunc: renderLoginPage,
   },
-  // '/signup': {
-  //   renderFunc: renderSignUp,
-  // },
+  '/signup': {
+    renderFunc: renderSignUp,
+  },
   // '/chats': {
   //   renderFunc: renderChatPage,
   // },
