@@ -4,6 +4,7 @@ import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
 import Input from '../../components/input/Input'
 import InputGroup from '../../components/inputGroup/InputGroup'
+import Validator from '../../classes/Validator'
 
 export default function renderLoginPage() {
   const loginInput = new InputGroup({
@@ -17,11 +18,11 @@ export default function renderLoginPage() {
         required: true,
       },
       events: {
-        blur: () => {
-          console.log('dasdad')
-        },
-        click: () => {
-          console.log('fdsfsdf')
+        blur: (e: Event) => {
+          const target = e.target as HTMLInputElement
+          if (Validator.checkIsNotEmpty(target)) {
+            console.log('не пустой')
+          }
         },
       },
     }),
@@ -37,6 +38,14 @@ export default function renderLoginPage() {
         type: 'password',
         id: 'password',
         required: true,
+      },
+      events: {
+        blur: (e: Event) => {
+          const target = e.target as HTMLInputElement
+          if (Validator.checkIsNotEmpty(target)) {
+            console.log('не пустой')
+          }
+        },
       },
     }),
     label: 'Пароль',
