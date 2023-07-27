@@ -26,4 +26,14 @@
   &.align-center {
     align-self: center;
   }
+
+  &.round {
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+  }
 }

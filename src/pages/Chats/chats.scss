@@ -26,21 +26,6 @@
 
   &__list-search {
     margin-top: pxToRem(32);
-    .input {
-      padding: pxToRem(12) pxToRem(12) pxToRem(12) pxToRem(24);
-      border: none;
-      border-radius: $elem-br;
-      background: $chat-borders-color;
-
-      &:focus + .label,
-      &:valid + .label {
-        left: 12px;
-        top: 50%;
-        .label__text {
-          display: none;
-        }
-      }
-    }
     .label {
       top: 50%;
       left: 50%;
@@ -55,6 +40,22 @@
     }
   }
 
+  .input.chats-input {
+    padding: pxToRem(12) pxToRem(12) pxToRem(12) pxToRem(24);
+    border: none;
+    border-radius: $elem-br;
+    background: $chat-borders-color;
+
+    &:focus + .label,
+    &:valid + .label {
+      left: 12px;
+      top: 50%;
+      .label__text {
+        display: none;
+      }
+    }
+  }
+
   &__list {
     padding: pxToRem(20) pxToRem(10);
     width: 30%;
@@ -66,16 +67,59 @@
   }
 
   &__body {
+    padding: pxToRem(12) pxToRem(24);
     background: $main-bg-color;
     width: 70%;
     min-height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-end;
     color: $second-text-color;
+  }
+
+  &__body-messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &__body-messages-inputs {
+    margin-top: pxToRem(30);
+    padding-top: pxToRem(12);
+    border-top: 1px solid $chat-borders-color;
+    display: flex;
+    align-items: center;
+    gap: pxToRem(12);
+    .input,
+    div[data-id] {
+      flex-grow: 1;
+    }
+    .button {
+      flex-shrink: 0;
+    }
   }
 
   &__list-container {
     margin-top: pxToRem(16);
+  }
+
+  &__message {
+    padding: pxToRem(12);
+    max-width: 380px;
+    width: fit-content;
+    height: auto;
+    color: $main-text-color;
+    border-radius: $elem-br;
+
+    &--from {
+      align-self: flex-start;
+      background: $second-bg-color;
+      border-radius: $elem-br;
+    }
+
+    &--to {
+      align-self: flex-end;
+      background: #e4edfd;
+    }
   }
 }
