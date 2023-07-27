@@ -21,8 +21,8 @@ export default function renderLoginPage() {
       required: true,
     },
     events: {
-      blur(e: Event) {
-        Validator.validate(loginInput, Validator.checkIsNotEmpty, loginInputGroup)
+      blur() {
+        Validator.validate(loginInput, Validator.checkLogin, loginInputGroup)
       },
     },
   })
@@ -37,8 +37,8 @@ export default function renderLoginPage() {
       required: true,
     },
     events: {
-      blur: (e: Event) => {
-        Validator.validate(passInput, Validator.checkIsNotEmpty, passInputGroup)
+      blur: () => {
+        Validator.validate(passInput, Validator.checkPass, passInputGroup)
       },
     },
   })
@@ -62,12 +62,14 @@ export default function renderLoginPage() {
         e.preventDefault()
         const target = e.target as HTMLElement
         const form = target.closest('form')
-        const isLoginInputValid = Validator.validate(loginInput, Validator.checkIsNotEmpty, loginInputGroup)
-        const isPassInputValid = Validator.validate(passInput, Validator.checkIsNotEmpty, passInputGroup)
+        const isLoginInputValid = Validator.validate(loginInput, Validator.checkLogin, loginInputGroup)
+        const isPassInputValid = Validator.validate(passInput, Validator.checkPass, passInputGroup)
         if (!form || !isLoginInputValid || !isPassInputValid) {
           return
         }
         const formData = new FormData(form)
+        // @ts-ignore
+        // eslint-disable-next-line no-restricted-syntax
         for (const [name, value] of formData) {
           console.log(`${name} = ${value}`) // key1=value1, потом key2=value2
         }

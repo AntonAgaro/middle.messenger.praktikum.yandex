@@ -17,6 +17,8 @@
     "@typescript-eslint/semi": "off",
     "no-param-reassign": "off",
     "class-methods-use-this": "off",
-    "no-new": "off"
+    "no-new": "off",
+    "max-len": "off",
+    "no-console": "off"
   }
 }
