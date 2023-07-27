@@ -55,7 +55,7 @@ export default class HTTPTransport {
         })
       }
 
-      xhr.onload = function () {
+      xhr.onload = () => {
         if (xhr.status >= 200) {
           resolve(xhr)
         } else {

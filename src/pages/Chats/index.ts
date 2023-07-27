@@ -19,7 +19,7 @@ export default function renderChatsPage() {
             console.log('1')
           },
         },
-      })
+      }),
     )
   }
   let messageInputGroup: Component
@@ -34,7 +34,7 @@ export default function renderChatsPage() {
     },
     events: {
       blur() {
-        Validator.validate(messageInput, Validator.checkLogin, messageInputGroup)
+        Validator.validate(messageInput, Validator.checkIsNotEmpty, messageInputGroup)
       },
     },
   })
@@ -78,7 +78,7 @@ export default function renderChatsPage() {
           e.preventDefault()
           const target = e.target as HTMLElement
           const form = target.closest('form')
-          const isMessageInputValid = Validator.validate(messageInput, Validator.checkLogin, messageInputGroup)
+          const isMessageInputValid = Validator.validate(messageInput, Validator.checkIsNotEmpty, messageInputGroup)
           if (!form || !isMessageInputValid) {
             return
           }
