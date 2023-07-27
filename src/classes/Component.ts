@@ -21,7 +21,7 @@ export default class Component {
 
   protected props: Props
 
-  protected children: Record<string, Component>
+  protected children: Record<string, Component | Component[]>
 
   constructor(tagName: string, propsAndChildren = {}) {
     this.EventBus = new EventBus()
@@ -63,7 +63,13 @@ export default class Component {
   private baseComponentDidMount() {
     this.componentDidMount()
     Object.values(this.children).forEach((child) => {
-      child.dispatchComponentDidMount()
+      if (Array.isArray(child)) {
+        child.forEach((c) => {
+          c.dispatchComponentDidMount()
+        })
+      } else {
+        child.dispatchComponentDidMount()
+      }
     })
   }
 
@@ -88,6 +94,7 @@ export default class Component {
   // params oldProps: Props, newProps: Props
   // Сравнить реально ли новые пропсы "Новые"
   // @ts-ignore
+  // eslint-disable-next-line
   componentDidUpdate(oldProps: Props, newProps: Props) {
     return true
   }
@@ -131,10 +138,18 @@ export default class Component {
   // @ts-ignore
   render(): DocumentFragment {}
 
-  public compile(template, props: Props): DocumentFragment {
+  public compile(template: string, props: Props): DocumentFragment {
     const propsAndStubs = { ...props }
     Object.entries(this.children).forEach(([key, child]) => {
-      propsAndStubs[key] = `<div data-id="${child.id}"></div>`
+      if (Array.isArray(child)) {
+        propsAndStubs[key] = []
+        child.forEach((c) => {
+          propsAndStubs[key].push(`<div data-id="${c.id}"></div>`)
+        })
+        propsAndStubs[key] = propsAndStubs[key].join(' ')
+      } else {
+        propsAndStubs[key] = `<div data-id="${child.id}"></div>`
+      }
     })
 
     const fragment = this.createDocumentElement('template') as HTMLTemplateElement
@@ -142,11 +157,14 @@ export default class Component {
     const templateFunc = HandleBars.compile(template)
     fragment.innerHTML = templateFunc(propsAndStubs)
     Object.values(this.children).forEach((child) => {
-      const stub = fragment.content.querySelector(`[data-id="${child.id}"]`)
-      const childElement = child.getContent()
-      if (stub && childElement) {
-        stub.replaceWith(childElement)
-      }
+      const arrayWithChildren = Array.isArray(child) ? child : [child]
+      arrayWithChildren.forEach((c) => {
+        const stub = fragment.content.querySelector(`[data-id="${c.id}"]`)
+        const childElement = c.getContent()
+        if (stub && childElement) {
+          stub.replaceWith(childElement)
+        }
+      })
     })
 
     return fragment.content
@@ -172,9 +190,9 @@ export default class Component {
 
   private separatePropsAndChildren(propsAndChildren: Props) {
     const props: Props = {}
-    const children: Record<string, Component> = {}
+    const children: Record<string, Component | Component[]> = {}
     Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Component) {
+      if (value instanceof Component || Array.isArray(value)) {
         children[key] = value
       } else {
         props[key] = value

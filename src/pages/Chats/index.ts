@@ -6,6 +6,19 @@ import Input from '../../components/input/Input'
 import InputGroup from '../../components/inputGroup/InputGroup'
 
 export default function renderChatsPage() {
+  const chatLists = []
+  for (let i = 0; i < 10; i++) {
+    chatLists.push(
+      new ChartPreview({
+        unreadMessages: 2,
+        events: {
+          click: () => {
+            console.log('1')
+          },
+        },
+      })
+    )
+  }
   const chatsPage = new ChatsPage({
     linkToProfile: new RouterLink({
       path: '/user',
@@ -26,9 +39,8 @@ export default function renderChatsPage() {
       name: 'search',
       withIcon: true,
     }),
-    chatsList: new ChartPreview({
-      unreadMessages: 2,
-    }),
+    chatsList: chatLists,
+
     attrs: {
       class: 'chats',
     },
