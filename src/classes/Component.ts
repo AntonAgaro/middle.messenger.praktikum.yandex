@@ -84,8 +84,8 @@ export default class Component {
     this.EventBus.emit(ComponentEvents.FLOW_CDM)
   }
 
-  private baseComponentDidUpdate(oldProps: Props, newProps: Props) {
-    const isUpdated = this.componentDidUpdate(oldProps, newProps)
+  private baseComponentDidUpdate() {
+    const isUpdated = this.componentDidUpdate()
     if (isUpdated) {
       this.EventBus.emit(ComponentEvents.FLOW_RENDER)
     }
@@ -93,9 +93,7 @@ export default class Component {
 
   // params oldProps: Props, newProps: Props
   // Сравнить реально ли новые пропсы "Новые"
-  // @ts-ignore
-  // eslint-disable-next-line
-  componentDidUpdate(oldProps: Props, newProps: Props) {
+  componentDidUpdate() {
     return true
   }
 
@@ -134,9 +132,10 @@ export default class Component {
     this.addAttributes()
   }
 
-  // Может переопределять пользователь, необязательно трогать
-  // @ts-ignore
-  render(): DocumentFragment {}
+  render(): DocumentFragment {
+    const fragment = this.createDocumentElement('template') as HTMLTemplateElement
+    return fragment.content
+  }
 
   public compile(template: string, props: Props): DocumentFragment {
     const propsAndStubs = { ...props }

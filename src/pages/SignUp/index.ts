@@ -187,8 +187,7 @@ export default function renderSignUp() {
           return
         }
         const formData = new FormData(form)
-        // @ts-ignore
-        // eslint-disable-next-line no-restricted-syntax
+
         for (const [name, value] of formData) {
           console.log(`${name} = ${value}`) // key1=value1, потом key2=value2
         }

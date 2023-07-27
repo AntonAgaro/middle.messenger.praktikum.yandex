@@ -68,8 +68,7 @@ export default function renderLoginPage() {
           return
         }
         const formData = new FormData(form)
-        // @ts-ignore
-        // eslint-disable-next-line no-restricted-syntax
+
         for (const [name, value] of formData) {
           console.log(`${name} = ${value}`)
         }
