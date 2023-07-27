@@ -2,8 +2,11 @@
 
 .input-group {
   position: relative;
+  display: flex;
+  flex-direction: column;
 
   .input {
+    order: 1;
     padding-bottom: 6px;
     width: 100%;
     outline: none;
@@ -23,7 +26,8 @@
     }
   }
 
-  .input + .error {
+  .error {
+    order: 2;
     margin-top: 10px;
     color: red;
   }

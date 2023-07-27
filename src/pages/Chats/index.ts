@@ -28,6 +28,7 @@ export default function renderChatsPage() {
     searchInput: new InputGroup({
       input: new Input({
         attrs: {
+          required: true,
           class: 'input',
           name: 'search',
           type: 'text',
