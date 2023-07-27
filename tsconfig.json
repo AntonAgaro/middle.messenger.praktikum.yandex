@@ -15,11 +15,4 @@
     "noImplicitReturns": true,
     "skipLibCheck": true
   }
-//  "baseURL"
-//  "include": ["src"],
-//  "path": {
-//    "@": ["src"],
-//    "@css": ["src/scss/utils"],
-//    "@components": ["src/components"]
-//  }
 }
