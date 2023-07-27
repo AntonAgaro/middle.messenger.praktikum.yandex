@@ -18,7 +18,7 @@
     &:focus + .label,
     &:valid + .label {
       font-size: $secondary-fz;
-      top: calc(($regular-lh + pxToRem(8)) * -1);
+      top: calc(($regular-lh + rem(8)) * -1);
     }
 
     &.disable {

@@ -2,33 +2,36 @@
 
 .user {
   position: relative;
-  @include limited-container();
+
+  @include limited-container;
 
   &__back-link {
     position: absolute;
-    top: pxToRem(48);
-    left: pxToRem(48);
+    top: rem(48);
+    left: rem(48);
   }
 
   &__container {
-    padding: pxToRem(40);
-    @include limited-container-inner();
+    padding: rem(40);
+
+    @include limited-container-inner;
+
     flex-direction: column;
     align-items: center;
-    row-gap: pxToRem(32);
+    row-gap: rem(32);
   }
 
   &__logo {
-    width: pxToRem(120);
-    height: pxToRem(120);
+    width: rem(120);
+    height: rem(120);
     border-radius: 100%;
     background: $chat-borders-color;
     flex-shrink: 0;
   }
 
   &__name {
-    margin-top: pxToRem(20);
-    margin-bottom: pxToRem(48);
+    margin-top: rem(20);
+    margin-bottom: rem(48);
     font-size: $title-fz;
     line-height: $title-lh;
   }
@@ -36,23 +39,24 @@
   &__details,
   &__btns {
     width: 100%;
-    max-width: pxToRem(510);
+    max-width: rem(510);
     display: flex;
     flex-direction: column;
-    row-gap: pxToRem(12);
+    row-gap: rem(12);
   }
 
   &__btns {
-    margin-top: pxToRem(48);
+    margin-top: rem(48);
     align-items: flex-start;
   }
 
   &__detail {
-    padding-bottom: pxToRem(12);
+    padding-bottom: rem(12);
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid $chat-borders-color;
+
     &:last-child {
       border-bottom: none;
     }

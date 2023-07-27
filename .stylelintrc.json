@@ -2,9 +2,11 @@
   "plugins": [
     "stylelint-scss"
   ],
-  "extends": "stylelint-config-standard",
+  "extends": "stylelint-config-standard-scss",
   "rules": {
-    "color-hex-case": "lower"
+    "selector-class-pattern": null,
+    "no-descending-specificity": null,
+    "scss/double-slash-comment-whitespace-inside": null
   },
   "ignoreFiles": [
     "build/*"

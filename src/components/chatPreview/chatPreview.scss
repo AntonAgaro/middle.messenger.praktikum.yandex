@@ -1,28 +1,28 @@
 @use '@css' as *;
 
 .chat-preview {
-  padding: pxToRem(12) 0;
+  padding: rem(12) 0;
   display: flex;
   justify-content: space-between;
-  column-gap: pxToRem(4);
+  column-gap: rem(4);
   border-top: 1px solid $chat-borders-color;
   cursor: pointer;
 
   &__left {
     display: flex;
     align-items: center;
-    column-gap: pxToRem(12);
+    column-gap: rem(12);
   }
 
   &__left-text {
     display: flex;
     flex-direction: column;
-    row-gap: pxToRem(4);
+    row-gap: rem(4);
   }
 
   &__user-img {
-    width: pxToRem(48);
-    height: pxToRem(48);
+    width: rem(48);
+    height: rem(48);
     border-radius: 100%;
     background: $chat-borders-color;
     flex-shrink: 0;
@@ -43,14 +43,14 @@
   }
 
   &__time {
-    font-size: pxToRem(12);
+    font-size: rem(12);
     color: $second-text-color;
   }
 
   &__indicator {
     margin-top: auto;
-    width: pxToRem(20);
-    height: pxToRem(20);
+    width: rem(20);
+    height: rem(20);
     background: $btn-bg;
     border-radius: 100%;
     display: flex;

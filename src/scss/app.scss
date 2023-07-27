@@ -35,13 +35,15 @@ body {
 }
 
 .nav {
-  padding: pxToRem(20);
+  padding: rem(20);
+
   &__list {
     display: flex;
     align-self: center;
     justify-content: center;
-    column-gap: pxToRem(12);
+    column-gap: rem(12);
   }
+
   &__list-item {
     list-style: none;
   }
