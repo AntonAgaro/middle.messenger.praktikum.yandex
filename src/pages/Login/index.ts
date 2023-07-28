@@ -56,6 +56,7 @@ export default function renderLoginPage() {
     text: 'Авторизоваться',
     attrs: {
       class: 'button',
+      type: 'submit',
     },
     events: {
       click: (e: Event) => {

@@ -72,6 +72,7 @@ export default function renderChatsPage() {
       withIcon: true,
       attrs: {
         class: 'button round',
+        type: 'submit',
       },
       events: {
         click: (e: Event) => {

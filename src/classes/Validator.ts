@@ -25,15 +25,34 @@ export default class Validator {
     return input.value.length !== 0
   }
 
+  static setErrorMessage(validateMethod: (input: HTMLInputElement) => boolean): string {
+    switch (validateMethod) {
+      case Validator.checkNames:
+        return 'Только буквы, первая - заглавная!'
+      case Validator.checkLogin:
+        return 'Только буквы и цифры, 3-20 символов'
+      case Validator.checkEmail:
+        return 'Неверно введен email. Пример: example@gmail.com'
+      case Validator.checkPass:
+        return '8-40 символов, обязательно заглавная буква и цифра'
+      case Validator.checkPhone:
+        return 'Неверно введен номер. Пример, +7 (777) 232 13 13'
+      case Validator.checkIsNotEmpty:
+        return 'Поле не должно быть пустым'
+      default:
+        return 'Проверьте введенные данные'
+    }
+  }
+
   static validate(
     inputComponent: Component,
     validateMethod: (input: HTMLInputElement) => boolean,
-    inputGroup: Component
+    inputGroup: Component,
   ): boolean {
     const target = inputComponent.getContent() as HTMLInputElement
     if (!validateMethod(target)) {
       inputGroup.setProps({
-        error: 'Ошибка валидации',
+        error: Validator.setErrorMessage(validateMethod),
       })
       return false
     }

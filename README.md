@@ -22,3 +22,6 @@ https://sweet-cucurucho-117501.netlify.app
 3. Используются Eslint, Stylelint
 4. Добавлена валидация форм, данные форм выводятся в консоль
 5. Добавлен класс для работы с запросами
+
+Запустить Eslint: ./node_modules/.bin/eslint .
+Запустить Stylelint: npx stylelint "**/*.scss"

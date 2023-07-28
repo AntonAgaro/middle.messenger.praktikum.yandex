@@ -166,6 +166,7 @@ export default function renderSignUp() {
     text: 'Зарегистрироваться',
     attrs: {
       class: 'button',
+      type: 'submit',
     },
     events: {
       click: (e: Event) => {

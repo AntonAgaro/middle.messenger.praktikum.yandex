@@ -105,6 +105,7 @@ export default function renderUserPage() {
     text: 'Изменить данные',
     attrs: {
       class: 'button no-bg',
+      type: 'button',
     },
   })
 
@@ -112,6 +113,7 @@ export default function renderUserPage() {
     text: 'Изменить пароль',
     attrs: {
       class: 'button no-bg',
+      type: 'button',
     },
   })
 
@@ -119,6 +121,7 @@ export default function renderUserPage() {
     text: 'Выйти',
     attrs: {
       class: 'button no-bg red',
+      type: 'button',
     },
   })
 
@@ -126,6 +129,7 @@ export default function renderUserPage() {
     text: 'Сохранить',
     attrs: {
       class: 'button align-center',
+      type: 'submit',
     },
   })
 
