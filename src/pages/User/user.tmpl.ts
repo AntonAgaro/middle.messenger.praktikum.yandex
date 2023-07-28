@@ -1,6 +1,6 @@
 export default `
     {{{toChatsLink}}}
-    <div class="user__container">
+    <form class="user__container">
         <div class="user__logo">
             {{#if userLogo}}
                 <img src="{{userLogo}}" alt="logo">
@@ -11,10 +11,15 @@ export default `
             {{{ userDetails }}}
 
         <ul class="user__btns">
+        {{#ifEquals isEditing "off"}}
            {{{ changeDataBtn }}}
            {{{ changePassBtn }}}
            {{{ logoutBtn }}}
+        {{/ifEquals}}
+        
+        {{#ifEquals isEditing "on"}}
            {{{ saveDataBtn }}}
+       {{/ifEquals}}
         </ul>
-    </div>
+    </form>
 `

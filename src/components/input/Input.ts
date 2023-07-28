@@ -10,6 +10,7 @@ interface InputProps extends Props {
     type: string
     value?: string
     required?: boolean
+    disabled?: boolean
   }
 }
 

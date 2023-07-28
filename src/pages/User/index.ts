@@ -6,96 +6,149 @@ import RouterLink from '../../components/routerLink/RouterLink'
 import { render } from '../../utils/functions'
 import Input from '../../components/input/Input'
 import InputGroup from '../../components/inputGroup/InputGroup'
+import Component from '../../classes/Component'
+import Validator from '../../classes/Validator'
 
 export default function renderUserPage() {
   const isEditing = false
   const inputClassName = isEditing ? '' : 'disable'
-  const emailInput = new InputGroup({
-    input: new Input({
+  let UserPage: Component
+  let emailInputGroup: Component
+  let loginInputGroup: Component
+  let nameInputGroup: Component
+  let surnameInputGroup: Component
+  let displayNameInputGroup: Component
+  let phoneInputGroup: Component
+  const userPageInputs = {
+    emailInput: new Input({
       attrs: {
         class: 'input',
         id: 'email',
         name: 'email',
         type: 'text',
         value: 'pochta@yandex.ru',
+        disabled: true,
+      },
+      events: {
+        blur() {
+          Validator.validate(userPageInputs.emailInput, Validator.checkEmail, emailInputGroup)
+        },
       },
     }),
-    noLabel: true,
-    className: inputClassName,
-  })
-  const loginInput = new InputGroup({
-    input: new Input({
+    loginInput: new Input({
       attrs: {
         class: 'input',
         id: 'login',
         name: 'login',
         type: 'text',
         value: 'ivanivanov',
+        disabled: true,
+      },
+      events: {
+        blur() {
+          Validator.validate(userPageInputs.loginInput, Validator.checkLogin, loginInputGroup)
+        },
       },
     }),
-    noLabel: true,
-    className: inputClassName,
-  })
-  const nameInput = new InputGroup({
-    input: new Input({
+    nameInput: new Input({
       attrs: {
         class: 'input',
         id: 'first_name',
         name: 'first_name',
         type: 'text',
         value: 'Ivan',
+        disabled: true,
+      },
+      events: {
+        blur() {
+          Validator.validate(userPageInputs.nameInput, Validator.checkNames, nameInputGroup)
+        },
       },
     }),
-    noLabel: true,
-    className: inputClassName,
-  })
-  const surnameInput = new InputGroup({
-    input: new Input({
+    surnameInput: new Input({
       attrs: {
         class: 'input',
         id: 'second_name',
         name: 'second_name',
         type: 'text',
         value: 'Ivanov',
+        disabled: true,
+      },
+      events: {
+        blur() {
+          Validator.validate(userPageInputs.surnameInput, Validator.checkNames, surnameInputGroup)
+        },
       },
     }),
-    noLabel: true,
-    className: inputClassName,
-  })
-  const displayNameInput = new InputGroup({
-    input: new Input({
+    displayNameInput: new Input({
       attrs: {
         class: 'input',
         id: 'display_name',
         name: 'display_name',
         type: 'text',
         value: 'Ivan',
+        disabled: true,
+      },
+      events: {
+        blur() {
+          Validator.validate(userPageInputs.displayNameInput, Validator.checkLogin, displayNameInputGroup)
+        },
       },
     }),
-    noLabel: true,
-    className: inputClassName,
-  })
-  const phoneInput = new InputGroup({
-    input: new Input({
+    phoneInput: new Input({
       attrs: {
         class: 'input',
         id: 'name',
         name: 'phone',
         type: 'text',
         value: 'Ivan',
+        disabled: true,
+      },
+      events: {
+        blur() {
+          Validator.validate(userPageInputs.phoneInput, Validator.checkPhone, phoneInputGroup)
+        },
       },
     }),
+  }
+  emailInputGroup = new InputGroup({
+    input: userPageInputs.emailInput,
+    noLabel: true,
+    className: inputClassName,
+  })
+  loginInputGroup = new InputGroup({
+    input: userPageInputs.loginInput,
+    noLabel: true,
+    className: inputClassName,
+  })
+  nameInputGroup = new InputGroup({
+    input: userPageInputs.nameInput,
+    noLabel: true,
+    className: inputClassName,
+  })
+  surnameInputGroup = new InputGroup({
+    input: userPageInputs.surnameInput,
+    noLabel: true,
+    className: inputClassName,
+  })
+  displayNameInputGroup = new InputGroup({
+    input: userPageInputs.displayNameInput,
+    noLabel: true,
+    className: inputClassName,
+  })
+  phoneInputGroup = new InputGroup({
+    input: userPageInputs.phoneInput,
     noLabel: true,
     className: inputClassName,
   })
 
   const userDetails = new UserDetails({
-    emailInput,
-    loginInput,
-    nameInput,
-    surnameInput,
-    displayNameInput,
-    phoneInput,
+    emailInput: emailInputGroup,
+    loginInput: loginInputGroup,
+    nameInput: nameInputGroup,
+    surnameInput: surnameInputGroup,
+    displayNameInput: displayNameInputGroup,
+    phoneInput: phoneInputGroup,
     attrs: {
       class: 'user__details',
     },
@@ -106,6 +159,16 @@ export default function renderUserPage() {
     attrs: {
       class: 'button no-bg',
       type: 'button',
+    },
+    events: {
+      click: () => {
+        Object.values(userPageInputs).forEach((input) => {
+          input.getContent()?.removeAttribute('disabled')
+        })
+        UserPage.setProps({
+          isEditing: 'on',
+        })
+      },
     },
   })
 
@@ -131,6 +194,17 @@ export default function renderUserPage() {
       class: 'button align-center',
       type: 'submit',
     },
+    events: {
+      click: (e: Event) => {
+        e.preventDefault()
+        UserPage.setProps({
+          isEditing: 'off',
+        })
+        Object.values(userPageInputs).forEach((input) => {
+          input.getContent()?.setAttribute('disabled', 'true')
+        })
+      },
+    },
   })
 
   const toChatsLink = new RouterLink({
@@ -139,7 +213,7 @@ export default function renderUserPage() {
     className: 'user__back-link',
   })
 
-  const UserPage = new User({
+  UserPage = new User({
     toChatsLink,
     userName: 'Ivan',
     userDetails,
@@ -147,6 +221,7 @@ export default function renderUserPage() {
     changePassBtn,
     logoutBtn,
     saveDataBtn,
+    isEditing: 'off',
     attrs: {
       class: 'main user',
     },
