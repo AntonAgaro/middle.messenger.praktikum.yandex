@@ -190,7 +190,7 @@ export default function renderSignUp() {
         const formData = new FormData(form)
 
         for (const [name, value] of formData) {
-          console.log(`${name} = ${value}`) // key1=value1, потом key2=value2
+          console.log(`${name} = ${value}`)
         }
       },
     },

@@ -101,7 +101,7 @@ export default function renderUserPage() {
         id: 'name',
         name: 'phone',
         type: 'text',
-        value: 'Ivan',
+        value: '+79033333333',
         disabled: true,
       },
       events: {
@@ -197,6 +197,27 @@ export default function renderUserPage() {
     events: {
       click: (e: Event) => {
         e.preventDefault()
+        const target = e.target as HTMLElement
+        const form = target.closest('form')
+        const validationArray = [
+          Validator.validate(userPageInputs.emailInput, Validator.checkEmail, emailInputGroup),
+          Validator.validate(userPageInputs.loginInput, Validator.checkLogin, loginInputGroup),
+          Validator.validate(userPageInputs.nameInput, Validator.checkNames, nameInputGroup),
+          Validator.validate(userPageInputs.surnameInput, Validator.checkNames, surnameInputGroup),
+          Validator.validate(userPageInputs.phoneInput, Validator.checkPhone, phoneInputGroup),
+          Validator.validate(userPageInputs.displayNameInput, Validator.checkLogin, displayNameInputGroup),
+        ]
+
+        const isValid = validationArray.every((v) => v)
+        if (!form || !isValid) {
+          return
+        }
+        const formData = new FormData(form)
+
+        for (const [name, value] of formData) {
+          console.log(`${name} = ${value}`)
+        }
+
         UserPage.setProps({
           isEditing: 'off',
         })

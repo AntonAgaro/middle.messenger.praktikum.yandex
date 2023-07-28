@@ -30,7 +30,7 @@ export default class Validator {
       case Validator.checkNames:
         return 'Только буквы, первая - заглавная!'
       case Validator.checkLogin:
-        return 'Только буквы и цифры, 3-20 символов'
+        return 'Только английские буквы и цифры, 3-20 символов'
       case Validator.checkEmail:
         return 'Неверно введен email. Пример: example@gmail.com'
       case Validator.checkPass:
