@@ -5,16 +5,28 @@
   "type": "module",
   "scripts": {
     "dev": "vite --open",
-    "build": "vite build",
+    "prebuild": "tsc --noEmit",
+    "build": "npm run prebuild && vite build",
     "start": "vite build && node server.cjs",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "eslint": "^8.44.0",
+    "@types/node": "^20.4.4",
+    "@types/uuid": "^9.0.2",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "eslint": "^8.45.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
     "express": "^4.18.2",
     "prettier": "^3.0.0",
     "sass": "^1.63.6",
+    "stylelint": "^15.10.2",
+    "stylelint-config-standard-scss": "^10.0.0",
+    "stylelint-scss": "^5.0.1",
+    "typescript": "^5.1.6",
     "vite": "^4.3.9",
     "vite-plugin-handlebars": "^1.6.0"
   },
@@ -22,6 +34,7 @@
     "node": "16.20.0"
   },
   "dependencies": {
-    "handlebars": "^4.7.7"
+    "handlebars": "^4.7.7",
+    "uuid": "^9.0.0"
   }
 }

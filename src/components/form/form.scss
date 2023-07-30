@@ -1,14 +1,14 @@
 @use '@css' as *;
 
 .form {
-  width: pxToRem(340);
-  min-height: pxToRem(460);
-  padding: pxToRem(50) pxToRem(30) pxToRem(30);
+  width: rem(340);
+  min-height: rem(460);
+  padding: rem(50) rem(30) rem(30);
   display: flex;
   flex-direction: column;
-  row-gap: pxToRem(40);
+  row-gap: rem(40);
   border-radius: $block-br;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 0 6px 0 rgb(0 0 0 / 14%);
 
   &__title {
     font-size: $title-fz;
@@ -19,7 +19,7 @@
   &__inputs {
     display: flex;
     flex-direction: column;
-    row-gap: pxToRem(48);
+    row-gap: rem(48);
   }
 
   &__buttons {
@@ -27,6 +27,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: pxToRem(14);
+    row-gap: rem(14);
   }
 }

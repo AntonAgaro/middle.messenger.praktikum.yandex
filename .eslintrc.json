@@ -1,0 +1,33 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "prettier"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.eslint.json",
+    "parser": "@typescript-eslint/parser",
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "@typescript-eslint/semi": "off",
+    "no-param-reassign": "off",
+    "class-methods-use-this": "off",
+    "no-new": "off",
+    "max-len": "off",
+    "no-console": "off",
+    "no-plusplus": "off",
+    "guard-for-in": "off",
+    "no-restricted-syntax": "off",
+    "prefer-promise-reject-errors": "off",
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": "off",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "func-names": "off"
+  }
+}

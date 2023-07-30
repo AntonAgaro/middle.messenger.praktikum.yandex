@@ -5,19 +5,16 @@
 }
 
 .error__title {
-  font-size: pxToRem(40);
-  line-height: pxToRem(40);
+  font-size: rem(40);
+  line-height: rem(40);
 }
 
 .error__subtitle {
+  margin-top: rem(20);
   font-size: $title-fz;
   line-height: $title-lh;
 }
 
-.error__title + .error__subtitle {
-  margin-top: pxToRem(20);
-}
-
-.error__subtitle + .routerLink {
-  margin-top: pxToRem(70);
+.link-wrapper {
+  margin-top: rem(70);
 }

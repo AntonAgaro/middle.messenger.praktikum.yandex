@@ -1,8 +1,8 @@
 @use '@css' as *;
 
 .button {
-  padding: pxToRem(12) 0;
-  min-width: pxToRem(280);
+  padding: rem(12) 0;
+  min-width: rem(280);
   border-radius: $elem-br;
   background: $btn-bg;
   color: $button-text-color;
@@ -20,10 +20,20 @@
   }
 
   &.red {
-    color: #ff0000;
+    color: #f00;
   }
 
   &.align-center {
     align-self: center;
+  }
+
+  &.round {
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
   }
 }
