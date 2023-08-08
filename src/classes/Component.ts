@@ -190,7 +190,6 @@ export default class Component {
   private separatePropsAndChildren(propsAndChildren: Props) {
     const props: Props = {}
     const children: Record<string, Component | Component[]> = {}
-    console.log(propsAndChildren)
     Object.entries(propsAndChildren).forEach(([key, value]) => {
       if (value instanceof Component || Array.isArray(value)) {
         children[key] = value
@@ -198,7 +197,6 @@ export default class Component {
         props[key] = value
       }
     })
-    console.log(children)
     return { props, children }
   }
 
