@@ -18,15 +18,22 @@ export default class Router {
     }
     this.rootSelector = root
     Router.instance = this
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement
+      if (target.matches('[data-router-link]')) {
+        e.preventDefault()
+        this.go(target.getAttribute('data-route') as string)
+      }
+    })
   }
 
-  private use(path: string, components: Component): Router {
+  use(path: string, components: Component): Router {
     const route = new Route(path, components, { rootQuery: this.rootSelector })
     this.routes.push(route)
     return this
   }
 
-  private start(): void {
+  start(): void {
     window.onpopstate = (event) => {
       if (event.currentTarget) {
         this.onRoute(event.currentTarget.location.pathname)

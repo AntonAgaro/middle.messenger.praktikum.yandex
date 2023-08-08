@@ -1,3 +1,4 @@
+import './user.scss'
 import Component from '../../classes/Component'
 import type { Props } from '../../types/Props'
 import userTmpl from './user.tmpl'
