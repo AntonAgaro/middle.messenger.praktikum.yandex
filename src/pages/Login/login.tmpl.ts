@@ -2,7 +2,7 @@ export default `
 <form class="form">
 <h1 class="form__title">{{title}}</h1>
     <div class="form__inputs">
-        {{{loginInput}}}
+        {{{ loginInput }}}
         {{{ passInput }}}
     </div>
     <div class="form__buttons">
