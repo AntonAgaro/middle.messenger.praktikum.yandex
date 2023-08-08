@@ -5,7 +5,7 @@ import { isEqual, routeRender } from '../../utils/functions'
 export default class Route {
   private pathname: string
 
-  private readonly component: Component
+  private readonly componentClass: Component
 
   private block: Component | null = null
 
@@ -13,7 +13,7 @@ export default class Route {
 
   constructor(path: string, view: Component, props: Props) {
     this.pathname = path
-    this.component = view
+    this.componentClass = view
     this.props = props
   }
 
@@ -36,7 +36,9 @@ export default class Route {
 
   public render() {
     if (!this.block) {
-      this.block = new this.component()
+      this.block = new this.componentClass()
+      // TODO подумамать как убрать КОСТЫЛЬ
+      this.block?.setProps(this.props)
       routeRender(this.props.rootQuery, this.block as Component)
       return
     }

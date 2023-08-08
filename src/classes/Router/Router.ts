@@ -1,5 +1,6 @@
 import Component from '../Component'
 import Route from './Route'
+import { Props } from '../../types/Props'
 
 export default class Router {
   private static instance: Router
@@ -27,8 +28,8 @@ export default class Router {
     })
   }
 
-  use(path: string, components: Component): Router {
-    const route = new Route(path, components, { rootQuery: this.rootSelector })
+  use(path: string, component: Component, params: Props = {}): Router {
+    const route = new Route(path, component, { rootQuery: this.rootSelector, ...params })
     this.routes.push(route)
     return this
   }

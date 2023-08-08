@@ -10,7 +10,7 @@ enum ComponentEvents {
   FLOW_CDU = 'flow:component-did-update',
   FLOW_RENDER = 'flow:render',
 }
-export default class Component {
+export default abstract class Component {
   private EventBus: EventBus
 
   private element: HTMLElement | null = null
@@ -209,7 +209,7 @@ export default class Component {
 
   show() {
     if (this.element) {
-      this.element.style.display = 'block'
+      this.element.style.display = 'flex'
     }
   }
 

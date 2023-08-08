@@ -6,6 +6,7 @@ import LoginPage from './src/pages/Login/LoginPage'
 import SignUpPage from './src/pages/SignUp/SignUpPage'
 import ChatsPage from './src/pages/Chats/ChatsPage'
 import User from './src/pages/User/User'
+import ErrorPage from './src/pages/ErrorPage/ErrorPage'
 
 HandleBars.registerHelper('ifEquals', function (this: Props, a, b, options) {
   if (a === b) {
@@ -41,9 +42,25 @@ document.addEventListener('DOMContentLoaded', () => {
       path: '/user',
       component: User,
     },
+    {
+      path: '/404',
+      component: ErrorPage,
+      params: {
+        title: '404',
+        subtitle: 'Не туда попали',
+      },
+    },
+    {
+      path: '/500',
+      component: ErrorPage,
+      params: {
+        title: '500',
+        subtitle: 'Мы уже фиксим',
+      },
+    },
   ]
   routes.forEach((route) => {
-    RouterClass.use(route.path, route.component)
+    RouterClass.use(route.path, route.component, route.params ?? {})
   })
   RouterClass.start()
 })
