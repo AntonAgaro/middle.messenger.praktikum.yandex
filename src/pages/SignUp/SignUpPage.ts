@@ -203,7 +203,6 @@ export default class SignUpPage extends Component {
             Store.set('user', userRes.response)
             RouterClass.go('/chats')
           }
-          console.log(userRes.response)
         },
       },
     })

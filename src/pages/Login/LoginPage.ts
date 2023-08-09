@@ -8,6 +8,7 @@ import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
 import { AuthApi } from '../../api/Auth.api'
 import RouterClass from '../../classes/Router/Router'
+import Store from '../../classes/Store'
 
 export default class LoginPage extends Component {
   constructor(props: Props) {
@@ -74,7 +75,13 @@ export default class LoginPage extends Component {
           const formData = new FormData(form)
           const data = Object.fromEntries(formData)
           const loginRes = (await AuthApi.login(data)) as XMLHttpRequest
-          if (loginRes.status === 200) {
+
+          if (loginRes.status !== 200) {
+            throw new Error(loginRes.response.reason)
+          }
+          const userRes = (await AuthApi.getUser()) as XMLHttpRequest
+          if (userRes.status === 200) {
+            Store.set('user', userRes.response)
             RouterClass.go('/chats')
           }
         },

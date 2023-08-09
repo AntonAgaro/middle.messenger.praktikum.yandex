@@ -6,6 +6,8 @@ import SignUpPage from '../../pages/SignUp/SignUpPage'
 import ChatsPage from '../../pages/Chats/ChatsPage'
 import User from '../../pages/User/User'
 import ErrorPage from '../../pages/ErrorPage/ErrorPage'
+import { Routes } from '../../enums/Routes'
+import Store from '../Store'
 
 class Router {
   private static instance: Router
@@ -41,9 +43,15 @@ class Router {
 
   start(): void {
     window.onpopstate = (event) => {
+      console.log(Store.getState().user)
       if (event.currentTarget) {
         this.onRoute(event.currentTarget.location.pathname)
       }
+    }
+    if (!Store.getState().user) {
+      this.history.pushState({}, '', Routes.Login)
+      this.onRoute(Routes.Login)
+      return
     }
 
     this.onRoute(window.location.pathname)
@@ -63,6 +71,11 @@ class Router {
   }
 
   go(path: string): void {
+    if (!Store.getState().user) {
+      this.history.pushState({}, '', Routes.Login)
+      this.onRoute(Routes.Login)
+      return
+    }
     this.history.pushState({}, '', path)
     this.onRoute(path)
   }
@@ -85,27 +98,27 @@ class Router {
 const RouterClass = new Router('#app')
 const routes = [
   {
-    path: '/',
+    path: Routes.Start,
     component: LoginPage,
   },
   {
-    path: '/login',
+    path: Routes.Login,
     component: LoginPage,
   },
   {
-    path: '/signup',
+    path: Routes.SignUp,
     component: SignUpPage,
   },
   {
-    path: '/chats',
+    path: Routes.Chats,
     component: ChatsPage,
   },
   {
-    path: '/user',
+    path: Routes.User,
     component: User,
   },
   {
-    path: '/404',
+    path: Routes.Error404,
     component: ErrorPage,
     params: {
       title: '404',
@@ -113,7 +126,7 @@ const routes = [
     },
   },
   {
-    path: '/500',
+    path: Routes.Error500,
     component: ErrorPage,
     params: {
       title: '500',
