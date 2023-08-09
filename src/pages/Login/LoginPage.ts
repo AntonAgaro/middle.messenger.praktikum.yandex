@@ -6,6 +6,8 @@ import Validator from '../../classes/Validator'
 import InputGroup from '../../components/inputGroup/InputGroup'
 import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
+import { AuthApi } from '../../api/Auth.api'
+import RouterClass from '../../classes/Router/Router'
 
 export default class LoginPage extends Component {
   constructor(props: Props) {
@@ -60,7 +62,7 @@ export default class LoginPage extends Component {
         type: 'submit',
       },
       events: {
-        click: (e: Event) => {
+        click: async (e: Event) => {
           e.preventDefault()
           const target = e.target as HTMLElement
           const form = target.closest('form')
@@ -70,9 +72,10 @@ export default class LoginPage extends Component {
             return
           }
           const formData = new FormData(form)
-
-          for (const [name, value] of formData) {
-            console.log(`${name} = ${value}`)
+          const data = Object.fromEntries(formData)
+          const loginRes = (await AuthApi.login(data)) as XMLHttpRequest
+          if (loginRes.status === 200) {
+            RouterClass.go('/chats')
           }
         },
       },

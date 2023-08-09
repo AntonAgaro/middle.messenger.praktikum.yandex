@@ -2,14 +2,8 @@ import { v4 as makeUUID } from 'uuid'
 import HandleBars from 'handlebars'
 import EventBus from './EventBus'
 import type { Props } from '../types/Props'
+import { ComponentEvents } from '../enums/ComponentEvents'
 
-// TODO Переместить в enums
-enum ComponentEvents {
-  INIT = 'init',
-  FLOW_CDM = 'flow:component-did-mount',
-  FLOW_CDU = 'flow:component-did-update',
-  FLOW_RENDER = 'flow:render',
-}
 export default abstract class Component {
   private EventBus: EventBus
 
