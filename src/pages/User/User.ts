@@ -8,9 +8,15 @@ import InputGroup from '../../components/inputGroup/InputGroup'
 import UserDetails from '../../components/user/UserDetails'
 import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
+import Store from '../../classes/Store'
+import { StoreEvent } from '../../enums/StoreEvents'
 
 export default class User extends Component {
   constructor(props: Props) {
+    let user = null
+    Store.on(StoreEvent.Updated, () => {
+      user = Store.getState().user
+    })
     const isEditing = false
     const inputClassName = isEditing ? '' : 'disable'
     let emailInputGroup: Component
@@ -248,6 +254,7 @@ export default class User extends Component {
         class: 'main user',
       },
     })
+    console.log(Store.getState())
   }
 
   render() {

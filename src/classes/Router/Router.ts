@@ -1,8 +1,13 @@
 import Component from '../Component'
 import Route from './Route'
 import { Props } from '../../types/Props'
+import LoginPage from '../../pages/Login/LoginPage'
+import SignUpPage from '../../pages/SignUp/SignUpPage'
+import ChatsPage from '../../pages/Chats/ChatsPage'
+import User from '../../pages/User/User'
+import ErrorPage from '../../pages/ErrorPage/ErrorPage'
 
-export default class Router {
+class Router {
   private static instance: Router
 
   private routes: Route[] = []
@@ -76,3 +81,48 @@ export default class Router {
     // this.history.go(1)
   }
 }
+
+const RouterClass = new Router('#app')
+const routes = [
+  {
+    path: '/',
+    component: LoginPage,
+  },
+  {
+    path: '/login',
+    component: LoginPage,
+  },
+  {
+    path: '/signup',
+    component: SignUpPage,
+  },
+  {
+    path: '/chats',
+    component: ChatsPage,
+  },
+  {
+    path: '/user',
+    component: User,
+  },
+  {
+    path: '/404',
+    component: ErrorPage,
+    params: {
+      title: '404',
+      subtitle: 'Не туда попали',
+    },
+  },
+  {
+    path: '/500',
+    component: ErrorPage,
+    params: {
+      title: '500',
+      subtitle: 'Мы уже фиксим',
+    },
+  },
+]
+routes.forEach((route) => {
+  RouterClass.use(route.path, route.component, route.params ?? {})
+})
+
+export default RouterClass

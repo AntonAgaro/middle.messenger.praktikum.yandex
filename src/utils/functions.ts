@@ -1,4 +1,5 @@
 import type Component from '../classes/Component'
+import { Indexed } from '../types/Indexed'
 
 export function render(rootSelector: string, component: Component): void {
   const root = document.querySelector(rootSelector)
@@ -31,10 +32,6 @@ export function trimAny(string: string, chars?: string): string {
   return string.replace(reg, '')
 }
 
-type Indexed<T = unknown> = {
-  [key in string]: T
-}
-
 export function merge(lhs: Indexed, rhs: Indexed): Indexed {
   const merged = {
     ...lhs,
@@ -53,19 +50,19 @@ export function merge(lhs: Indexed, rhs: Indexed): Indexed {
   return merged
 }
 
-// function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
-//   const keys = path.split('.')
-//   let current = object as Indexed
-//   for (let i = 0; i < keys.length - 1; i++) {
-//     const key = keys[i]
-//     if (!current[key]) {
-//       current[key] = {}
-//     }
-//     current = current[key] as Indexed
-//   }
-//   current[keys[keys.length - 1]] = value
-//   return object
-// }
+export function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
+  const keys = path.split('.')
+  let current = object as Indexed
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i]
+    if (!current[key]) {
+      current[key] = {}
+    }
+    current = current[key] as Indexed
+  }
+  current[keys[keys.length - 1]] = value
+  return object
+}
 
 // function isEqualObj(a: Record<string, any>, b: Record<string, any>): boolean {
 //   // Код здесь

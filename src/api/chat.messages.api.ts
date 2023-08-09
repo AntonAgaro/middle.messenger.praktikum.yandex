@@ -1,5 +1,5 @@
-import HTTPTransport from '../../HTTPTransort'
-import BaseApi from '../BaseApi'
+import HTTPTransport from '../classes/HTTPTransort'
+import BaseApi from '../classes/BaseApi'
 
 const chatMessagesApiInstanse = new HTTPTransport()
 const id = 'test'

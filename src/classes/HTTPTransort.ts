@@ -47,6 +47,7 @@ export default class HTTPTransport {
       }
 
       xhr.responseType = 'json'
+      xhr.withCredentials = true
 
       const handleError = () => {
         reject({
@@ -69,7 +70,10 @@ export default class HTTPTransport {
 
       if (method === 'GET' || !data) {
         xhr.send()
+      } else if (data instanceof FormData) {
+        xhr.send(data)
       } else {
+        xhr.setRequestHeader('Content-type', 'application/json')
         xhr.send(JSON.stringify(data))
       }
     })

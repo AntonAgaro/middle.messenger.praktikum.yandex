@@ -1,4 +1,4 @@
-export default class BaseApi {
+export default abstract class BaseApi {
   create() {
     throw new Error('Not Implemented!')
   }

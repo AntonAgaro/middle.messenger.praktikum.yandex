@@ -6,6 +6,10 @@ import Validator from '../../classes/Validator'
 import InputGroup from '../../components/inputGroup/InputGroup'
 import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
+import { SignUpApi } from '../../api/SignUp.api'
+import { AuthApi } from '../../api/Auth.api'
+import Store from '../../classes/Store'
+import RouterClass from '../../classes/Router/Router'
 
 export default class SignUpPage extends Component {
   constructor(props: Props) {
@@ -170,7 +174,7 @@ export default class SignUpPage extends Component {
         type: 'submit',
       },
       events: {
-        click: (e: Event) => {
+        click: async (e: Event) => {
           e.preventDefault()
           const target = e.target as HTMLElement
           const form = target.closest('form')
@@ -189,10 +193,17 @@ export default class SignUpPage extends Component {
             return
           }
           const formData = new FormData(form)
-
-          for (const [name, value] of formData) {
-            console.log(`${name} = ${value}`)
+          const data = Object.fromEntries(formData)
+          const signUpResponse = (await SignUpApi.create(data)) as XMLHttpRequest
+          if (signUpResponse.status !== 200) {
+            throw new Error(signUpResponse.response.reason)
           }
+          const userRes = (await AuthApi.getUser()) as XMLHttpRequest
+          if (userRes.status === 200) {
+            Store.set('user', userRes.response)
+            RouterClass.go('/chats')
+          }
+          console.log(userRes.response)
         },
       },
     })
