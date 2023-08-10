@@ -37,6 +37,9 @@ export default class User extends Component {
     let surnameInputGroup: Component
     let displayNameInputGroup: Component
     let phoneInputGroup: Component
+    let oldPassInputGroup: Component
+    let newPassInputGroup: Component
+    let repeatNewPassInputGroup: Component
     const userPageInputs: Record<string, Component> = {
       emailInput: new Input({
         attrs: {
@@ -129,6 +132,75 @@ export default class User extends Component {
         },
       }),
     }
+
+    const changePassInputs = {
+      oldPassInput: new Input({
+        className: 'input',
+        attrs: {
+          class: 'input',
+          name: 'oldPassword',
+          type: 'password',
+          id: 'old_password',
+          required: true,
+        },
+        events: {
+          blur: () => {
+            Validator.validate(changePassInputs.oldPassInput, Validator.checkPass, oldPassInputGroup)
+          },
+        },
+      }),
+      newPassInput: new Input({
+        className: 'input',
+        attrs: {
+          class: 'input',
+          name: 'newPassword',
+          type: 'password',
+          id: 'new_password',
+          required: true,
+        },
+        events: {
+          blur: () => {
+            Validator.validate(changePassInputs.newPassInput, Validator.checkPass, newPassInputGroup)
+          },
+        },
+      }),
+      repeatNewPassInput: new Input({
+        className: 'input',
+        attrs: {
+          class: 'input',
+          name: 'repeat_new_password',
+          type: 'password',
+          id: 'repeat_new_password',
+          required: true,
+        },
+        events: {
+          blur: () => {
+            Validator.validate(changePassInputs.repeatNewPassInput, Validator.checkPass, repeatNewPassInputGroup)
+          },
+        },
+      }),
+    }
+    oldPassInputGroup = new InputGroup({
+      input: changePassInputs.oldPassInput,
+      label: 'Старый пароль',
+      attrs: {
+        class: 'input-group--wide',
+      },
+    })
+    newPassInputGroup = new InputGroup({
+      input: changePassInputs.newPassInput,
+      label: 'Новый пароль',
+      attrs: {
+        class: 'input-group--wide',
+      },
+    })
+    repeatNewPassInputGroup = new InputGroup({
+      input: changePassInputs.repeatNewPassInput,
+      label: 'Повторите новый пароль',
+      attrs: {
+        class: 'input-group--wide',
+      },
+    })
     emailInputGroup = new InputGroup({
       input: userPageInputs.emailInput,
       noLabel: true,
@@ -185,6 +257,21 @@ export default class User extends Component {
           })
           this.setProps({
             isEditing: 'on',
+          })
+        },
+      },
+    })
+
+    const changePassBtn = new Button({
+      text: 'Изменить пароль',
+      attrs: {
+        class: 'button no-bg',
+        type: 'button',
+      },
+      events: {
+        click: () => {
+          this.setProps({
+            isPassEditing: 'on',
           })
         },
       },
@@ -250,6 +337,40 @@ export default class User extends Component {
       },
     })
 
+    const saveNewPassBtn = new Button({
+      text: 'Сохранить',
+      attrs: {
+        class: 'button align-center',
+        type: 'submit',
+      },
+      events: {
+        click: async (e: Event) => {
+          e.preventDefault()
+          const target = e.target as HTMLElement
+          const form = target.closest('form')
+          const validationArray = [
+            Validator.validate(changePassInputs.oldPassInput, Validator.checkPass, oldPassInputGroup),
+            Validator.validate(changePassInputs.newPassInput, Validator.checkPass, newPassInputGroup),
+            Validator.validate(changePassInputs.repeatNewPassInput, Validator.checkPass, repeatNewPassInputGroup),
+          ]
+
+          const isValid = validationArray.every((v) => v)
+          if (!form || !isValid) {
+            return
+          }
+          const formData = new FormData(form)
+          const data = Object.fromEntries(formData)
+          const changePassRes = (await UserApi.changePassword(data)) as XMLHttpRequest
+          if (changePassRes.status === 200) {
+            this.setProps({
+              isPassEditing: 'off',
+              error: '',
+            })
+          }
+        },
+      },
+    })
+
     const toChatsLink = new RouterLink({
       text: 'К чатам',
       path: '/chats',
@@ -262,9 +383,15 @@ export default class User extends Component {
       userName: user.display_name ?? '',
       userDetails,
       changeDataBtn,
+      changePassBtn,
       logoutBtn,
       saveDataBtn,
+      oldPassInput: oldPassInputGroup,
+      newPassInput: newPassInputGroup,
+      repeatNewPassInput: repeatNewPassInputGroup,
+      saveNewPassBtn,
       isEditing: 'off',
+      isPassEditing: 'off',
       user,
       attrs: {
         class: 'main user',

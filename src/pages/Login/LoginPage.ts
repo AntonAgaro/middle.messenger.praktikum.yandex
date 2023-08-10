@@ -15,6 +15,16 @@ export default class LoginPage extends Component {
     let loginInputGroup: Component
     let passInputGroup: Component
 
+    // Проверка, что нет текущего пользователя и надо редиректить
+    if (!Store.getState().user) {
+      AuthApi.getUser().then((res) => {
+        const result = res as XMLHttpRequest
+        if (result.status === 200) {
+          Store.set('user', result.response)
+        }
+      })
+    }
+
     const loginInput = new Input({
       className: 'input',
       attrs: {

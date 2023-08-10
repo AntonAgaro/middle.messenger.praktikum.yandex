@@ -8,4 +8,10 @@ export class UserApi extends BaseApi {
       data,
     })
   }
+
+  static changePassword(data: Record<string, any>) {
+    return UserApiInstance.put('https://ya-praktikum.tech/api/v2/user/password', {
+      data,
+    })
+  }
 }
