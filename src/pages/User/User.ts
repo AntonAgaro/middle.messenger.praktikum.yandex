@@ -10,6 +10,9 @@ import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
 import Store from '../../classes/Store'
 import { StoreEvent } from '../../enums/StoreEvents'
+import { AuthApi } from '../../api/Auth.api'
+import Router from '../../classes/Router/Router'
+import { Routes } from '../../enums/Routes'
 
 export default class User extends Component {
   constructor(props: Props) {
@@ -191,6 +194,15 @@ export default class User extends Component {
       attrs: {
         class: 'button no-bg red',
         type: 'button',
+      },
+      events: {
+        click: async () => {
+          const logoutRes = (await AuthApi.logout()) as XMLHttpRequest
+          if (logoutRes.status === 200) {
+            Store.set('user', null)
+            Router.go(Routes.Login)
+          }
+        },
       },
     })
 

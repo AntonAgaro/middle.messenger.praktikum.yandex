@@ -12,4 +12,8 @@ export class AuthApi extends BaseApi {
       data,
     })
   }
+
+  static logout() {
+    return authApiInstance.post('https://ya-praktikum.tech/api/v2/auth/logout')
+  }
 }
