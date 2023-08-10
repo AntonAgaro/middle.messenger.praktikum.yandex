@@ -15,6 +15,7 @@ import Router from '../../classes/Router/Router'
 import { Routes } from '../../enums/Routes'
 import { TUser } from '../../types/TUser'
 import { UserApi } from '../../api/User.api'
+import Modal from '../../components/modal/Modal'
 
 export default class User extends Component {
   constructor(props: Props) {
@@ -377,6 +378,30 @@ export default class User extends Component {
       className: 'user__back-link',
     })
 
+    const modal = new Modal({
+      title: 'Загрузите аватар',
+      attrs: {
+        class: 'modal-bg',
+      },
+      input: new Input({
+        className: 'input',
+        attrs: {
+          class: 'input',
+          name: 'avatar',
+          type: 'file',
+          id: 'avatar',
+          required: true,
+        },
+      }),
+      button: new Button({
+        text: 'Сохранить',
+        attrs: {
+          class: 'button align-center',
+          type: 'submit',
+        },
+      }),
+    })
+
     super('main', {
       ...props,
       toChatsLink,
@@ -393,8 +418,19 @@ export default class User extends Component {
       isEditing: 'off',
       isPassEditing: 'off',
       user,
+      modal,
       attrs: {
         class: 'main user',
+      },
+      events: {
+        click: (e: Event) => {
+          e.stopPropagation()
+          const target = e.target as HTMLElement
+          const modalEl = modal.getContent()
+          if (target.matches('.user__logo') && modalEl) {
+            modalEl.style.display = 'flex'
+          }
+        },
       },
     })
 
