@@ -87,10 +87,16 @@ export default class LoginPage extends Component {
           const loginRes = (await AuthApi.login(data)) as XMLHttpRequest
 
           if (loginRes.status !== 200) {
-            throw new Error(loginRes.response.reason)
+            this.setProps({
+              serverError: loginRes.response.reason,
+            })
           }
           const userRes = (await AuthApi.getUser()) as XMLHttpRequest
+
           if (userRes.status === 200) {
+            this.setProps({
+              serverError: '',
+            })
             Store.set('user', userRes.response)
             RouterClass.go('/chats')
           }
