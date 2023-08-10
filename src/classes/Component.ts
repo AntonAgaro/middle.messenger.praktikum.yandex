@@ -13,7 +13,7 @@ export default abstract class Component {
 
   public id: string
 
-  protected props: Props
+  public props: Props
 
   protected children: Record<string, Component | Component[]>
 

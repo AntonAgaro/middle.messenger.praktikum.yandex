@@ -13,13 +13,22 @@ import { StoreEvent } from '../../enums/StoreEvents'
 import { AuthApi } from '../../api/Auth.api'
 import Router from '../../classes/Router/Router'
 import { Routes } from '../../enums/Routes'
+import { TUser } from '../../types/TUser'
+import { UserApi } from '../../api/User.api'
 
 export default class User extends Component {
   constructor(props: Props) {
-    let user = null
-    Store.on(StoreEvent.Updated, () => {
-      user = Store.getState().user
-    })
+    let user: TUser
+    if (!Store.getState().user) {
+      AuthApi.getUser().then((res) => {
+        const result = res as XMLHttpRequest
+        if (result.status === 200) {
+          Store.set('user', result.response)
+        }
+      })
+    }
+    user = Store.getState().user as TUser
+
     const isEditing = false
     const inputClassName = isEditing ? '' : 'disable'
     let emailInputGroup: Component
@@ -28,14 +37,14 @@ export default class User extends Component {
     let surnameInputGroup: Component
     let displayNameInputGroup: Component
     let phoneInputGroup: Component
-    const userPageInputs = {
+    const userPageInputs: Record<string, Component> = {
       emailInput: new Input({
         attrs: {
           class: 'input',
           id: 'email',
           name: 'email',
           type: 'text',
-          value: 'pochta@yandex.ru',
+          value: user.email,
           disabled: true,
         },
         events: {
@@ -50,7 +59,7 @@ export default class User extends Component {
           id: 'login',
           name: 'login',
           type: 'text',
-          value: 'ivanivanov',
+          value: user.login,
           disabled: true,
         },
         events: {
@@ -65,7 +74,7 @@ export default class User extends Component {
           id: 'first_name',
           name: 'first_name',
           type: 'text',
-          value: 'Ivan',
+          value: user.first_name,
           disabled: true,
         },
         events: {
@@ -80,7 +89,7 @@ export default class User extends Component {
           id: 'second_name',
           name: 'second_name',
           type: 'text',
-          value: 'Ivanov',
+          value: user.second_name,
           disabled: true,
         },
         events: {
@@ -95,7 +104,7 @@ export default class User extends Component {
           id: 'display_name',
           name: 'display_name',
           type: 'text',
-          value: 'Ivan',
+          value: user.display_name ?? '',
           disabled: true,
         },
         events: {
@@ -110,7 +119,7 @@ export default class User extends Component {
           id: 'name',
           name: 'phone',
           type: 'text',
-          value: '+79033333333',
+          value: user.phone,
           disabled: true,
         },
         events: {
@@ -181,14 +190,6 @@ export default class User extends Component {
       },
     })
 
-    const changePassBtn = new Button({
-      text: 'Изменить пароль',
-      attrs: {
-        class: 'button no-bg',
-        type: 'button',
-      },
-    })
-
     const logoutBtn = new Button({
       text: 'Выйти',
       attrs: {
@@ -213,7 +214,7 @@ export default class User extends Component {
         type: 'submit',
       },
       events: {
-        click: (e: Event) => {
+        click: async (e: Event) => {
           e.preventDefault()
           const target = e.target as HTMLElement
           const form = target.closest('form')
@@ -231,9 +232,12 @@ export default class User extends Component {
             return
           }
           const formData = new FormData(form)
-
-          for (const [name, value] of formData) {
-            console.log(`${name} = ${value}`)
+          const data = Object.fromEntries(formData)
+          console.log(data)
+          const changeUserDataRes = (await UserApi.update(data)) as XMLHttpRequest
+          console.log(changeUserDataRes)
+          if (changeUserDataRes.status === 200) {
+            Store.set('user', changeUserDataRes.response)
           }
 
           this.setProps({
@@ -255,18 +259,31 @@ export default class User extends Component {
     super('main', {
       ...props,
       toChatsLink,
-      userName: 'Ivan',
+      userName: user.display_name ?? '',
       userDetails,
       changeDataBtn,
-      changePassBtn,
       logoutBtn,
       saveDataBtn,
       isEditing: 'off',
+      user,
       attrs: {
         class: 'main user',
       },
     })
-    console.log(Store.getState())
+
+    Store.on(StoreEvent.Updated, () => {
+      user = Store.getState().user as TUser
+      if (!user) {
+        return
+      }
+      Object.keys(userPageInputs).forEach((inputName) => {
+        this.setProps({
+          user,
+          userName: user.display_name,
+        })
+        console.log(inputName)
+      })
+    })
   }
 
   render() {

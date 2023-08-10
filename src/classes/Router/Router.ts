@@ -96,6 +96,7 @@ class Router {
 }
 
 const RouterClass = new Router('#app')
+// TODO Переделать чтобы кмопонеты сразу как экземпляры передавались
 const routes = [
   {
     path: Routes.Start,

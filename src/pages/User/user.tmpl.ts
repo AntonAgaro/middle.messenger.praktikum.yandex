@@ -13,7 +13,6 @@ export default `
         <ul class="user__btns">
         {{#ifEquals isEditing "off"}}
            {{{ changeDataBtn }}}
-           {{{ changePassBtn }}}
            {{{ logoutBtn }}}
         {{/ifEquals}}
         
