@@ -14,4 +14,10 @@ export class UserApi extends BaseApi {
       data,
     })
   }
+
+  static changeAvatar(data: FormData) {
+    return UserApiInstance.put('https://ya-praktikum.tech/api/v2/user/profile/avatar', {
+      data,
+    })
+  }
 }

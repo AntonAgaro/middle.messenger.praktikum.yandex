@@ -41,6 +41,7 @@ export default class User extends Component {
     let oldPassInputGroup: Component
     let newPassInputGroup: Component
     let repeatNewPassInputGroup: Component
+    let modal: Component
     const userPageInputs: Record<string, Component> = {
       emailInput: new Input({
         attrs: {
@@ -378,26 +379,61 @@ export default class User extends Component {
       className: 'user__back-link',
     })
 
-    const modal = new Modal({
+    const userAvatarInput = new Input({
+      className: 'input',
+      attrs: {
+        class: 'input',
+        name: 'avatar',
+        type: 'file',
+        id: 'avatar',
+        required: true,
+      },
+      events: {
+        change: () => {
+          modal.setProps({
+            title: 'Файл загружен',
+          })
+        },
+      },
+    })
+    const userAvatarInputGroup = new InputGroup({
+      input: userAvatarInput,
+    })
+    modal = new Modal({
       title: 'Загрузите аватар',
       attrs: {
         class: 'modal-bg',
       },
-      input: new Input({
-        className: 'input',
-        attrs: {
-          class: 'input',
-          name: 'avatar',
-          type: 'file',
-          id: 'avatar',
-          required: true,
-        },
-      }),
+      input: userAvatarInputGroup,
       button: new Button({
         text: 'Сохранить',
         attrs: {
           class: 'button align-center',
           type: 'submit',
+        },
+        events: {
+          click: async (e: Event) => {
+            e.preventDefault()
+            const target = e.target as HTMLElement
+            const form = target.closest('form') as HTMLFormElement
+            const input = userAvatarInput.getContent() as HTMLInputElement
+            if (!input.value) {
+              userAvatarInputGroup.setProps({
+                error: 'Добавьте файл!',
+              })
+              return
+            }
+            const formData = new FormData(form)
+            const userAvatarRes = (await UserApi.changeAvatar(formData)) as XMLHttpRequest
+            if (userAvatarRes.status !== 200) {
+              userAvatarInputGroup.setProps({
+                error: userAvatarRes.response.reason,
+              })
+              return
+            }
+            Store.set('user', userAvatarRes.response)
+            modal.hide()
+          },
         },
       }),
     })
@@ -406,6 +442,7 @@ export default class User extends Component {
       ...props,
       toChatsLink,
       userName: user.display_name ?? '',
+      userLogo: user.avatar ? `https://ya-praktikum.tech/api/v2/resources/${user.avatar}` : '',
       userDetails,
       changeDataBtn,
       changePassBtn,
@@ -424,10 +461,9 @@ export default class User extends Component {
       },
       events: {
         click: (e: Event) => {
-          e.stopPropagation()
           const target = e.target as HTMLElement
           const modalEl = modal.getContent()
-          if (target.matches('.user__logo') && modalEl) {
+          if (target.closest('.user__logo') && modalEl) {
             modalEl.style.display = 'flex'
           }
         },
@@ -439,12 +475,10 @@ export default class User extends Component {
       if (!user) {
         return
       }
-      Object.keys(userPageInputs).forEach((inputName) => {
-        this.setProps({
-          user,
-          userName: user.display_name,
-        })
-        console.log(inputName)
+      this.setProps({
+        user,
+        userName: user.display_name,
+        userLogo: `https://ya-praktikum.tech/api/v2/resources/${user.avatar}`,
       })
     })
   }
