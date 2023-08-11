@@ -9,6 +9,8 @@ export default abstract class Component {
 
   private element: HTMLElement | null = null
 
+  private eventListeners: Record<string, any> = {}
+
   private tagName = 'div'
 
   public id: string
@@ -102,15 +104,15 @@ export default abstract class Component {
 
   private addEvents(): void {
     const { events = {} } = this.props
+    this.eventListeners = events
     Object.keys(events).forEach((eventName) => {
       this.element?.addEventListener(eventName, events[eventName])
     })
   }
 
   private removeEvents(): void {
-    const { events = {} } = this.props
-    Object.keys(events).forEach((eventName) => {
-      this.element?.removeEventListener(eventName, events[eventName])
+    Object.keys(this.eventListeners).forEach((eventName) => {
+      this.element?.removeEventListener(eventName, this.eventListeners[eventName])
     })
   }
 
@@ -171,7 +173,6 @@ export default abstract class Component {
       },
       set: (target, prop: any, value) => {
         target[prop] = value
-        this.EventBus.emit(ComponentEvents.FLOW_CDU)
         return true
       },
       deleteProperty() {

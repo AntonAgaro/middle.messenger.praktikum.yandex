@@ -9,11 +9,10 @@ import InputGroup from '../../components/inputGroup/InputGroup'
 import RouterLink from '../../components/routerLink/RouterLink'
 import Button from '../../components/button/Button'
 import Store from '../../classes/Store'
-import { ChatApi } from '../../api/chat.api'
 import Modal from '../../components/modal/Modal'
-import { getUserChats } from './chatPageUtils'
 import { StoreEvent } from '../../enums/StoreEvents'
 import ChatBody from '../../components/chatBody/ChatBody'
+import ChatPageController from './ChatPageController'
 
 export default class ChatsPage extends Component {
   constructor(props: Props) {
@@ -21,20 +20,7 @@ export default class ChatsPage extends Component {
     let modalInputGroup: Component
     // const { user } = Store.getState()
     // Получаем чаты юзера
-    getUserChats()
-
-    const addChatBtn = new Button({
-      text: 'Добавить чат',
-      attrs: {
-        class: 'button xs',
-        type: 'button',
-      },
-      events: {
-        click: () => {
-          chatsModal.show()
-        },
-      },
-    })
+    ChatPageController.getUserChats()
 
     const modalInput = new Input({
       className: 'input',
@@ -53,6 +39,7 @@ export default class ChatsPage extends Component {
     })
 
     modalInputGroup = new InputGroup({
+      label: 'Название чата',
       input: modalInput,
     })
 
@@ -61,28 +48,6 @@ export default class ChatsPage extends Component {
       attrs: {
         class: 'button',
         type: 'submit',
-      },
-      events: {
-        click: async (e: Event) => {
-          e.preventDefault()
-          const target = e.target as HTMLElement
-          const form = target.closest('form')
-          const isModalInputValid = Validator.validate(modalInput, Validator.checkIsNotEmpty, modalInputGroup)
-          if (!form || !isModalInputValid) {
-            return
-          }
-          const formData = new FormData(form)
-          const data = Object.fromEntries(formData)
-          const createChatRes = (await ChatApi.create(data)) as XMLHttpRequest
-          if (createChatRes.status !== 200) {
-            chatsModal.setProps({
-              serverError: createChatRes.response.reason,
-            })
-            return
-          }
-          chatsModal.hide()
-          getUserChats()
-        },
       },
     })
 
@@ -93,6 +58,39 @@ export default class ChatsPage extends Component {
       title: 'Добавить чат',
       input: modalInputGroup,
       button: modalBtn,
+    })
+
+    const addChatBtn = new Button({
+      text: 'Добавить чат',
+      attrs: {
+        class: 'button xs',
+        type: 'button',
+      },
+      events: {
+        click: () => {
+          chatsModal.setProps({
+            title: 'Добавить чат',
+          })
+          modalInput.setProps({
+            attrs: {
+              name: 'title',
+            },
+          })
+          modalInputGroup.setProps({
+            label: 'Название чата',
+            error: '',
+          })
+          modalBtn.setProps({
+            text: 'Добавить чат',
+            events: {
+              click: async (e: Event) => {
+                await ChatPageController.createChat(e, modalInput, modalInputGroup, chatsModal)
+              },
+            },
+          })
+          chatsModal.show()
+        },
+      },
     })
 
     const chatsList = new ChatsList({
@@ -142,6 +140,31 @@ export default class ChatsPage extends Component {
         attrs: {
           class: 'button',
           type: 'submit',
+        },
+        events: {
+          click: () => {
+            chatsModal.setProps({
+              title: 'Добавить пользователя',
+            })
+            modalInput.setProps({
+              attrs: {
+                name: 'login',
+              },
+            })
+            modalInputGroup.setProps({
+              label: 'Логин',
+              error: '',
+            })
+            modalBtn.setProps({
+              text: 'Добавить пользователя',
+              events: {
+                click: async (e: Event) => {
+                  await ChatPageController.addUserToChat(e, modalInput, modalInputGroup, chatsModal)
+                },
+              },
+            })
+            chatsModal.show()
+          },
         },
       }),
       removeUserToChatBtn: new Button({
