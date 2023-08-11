@@ -11,6 +11,7 @@ import Button from '../../components/button/Button'
 import Store from '../../classes/Store'
 import { ChatApi } from '../../api/chat.api'
 import Modal from '../../components/modal/Modal'
+import { getUserChats } from './chatPageUtils'
 
 export default class ChatsPage extends Component {
   constructor(props: Props) {
@@ -18,13 +19,7 @@ export default class ChatsPage extends Component {
     let modalInputGroup: Component
     // const { user } = Store.getState()
     // Получаем чаты юзера
-    ChatApi.getUserChats().then((res) => {
-      const result = res as XMLHttpRequest
-      if (result.status === 200) {
-        Store.set('chats', result.response)
-      }
-    })
-    console.log(Store.getState())
+    getUserChats()
 
     const addChatBtn = new Button({
       text: 'Добавить чат',
@@ -64,6 +59,28 @@ export default class ChatsPage extends Component {
       attrs: {
         class: 'button',
         type: 'submit',
+      },
+      events: {
+        click: async (e: Event) => {
+          e.preventDefault()
+          const target = e.target as HTMLElement
+          const form = target.closest('form')
+          const isModalInputValid = Validator.validate(modalInput, Validator.checkIsNotEmpty, modalInputGroup)
+          if (!form || !isModalInputValid) {
+            return
+          }
+          const formData = new FormData(form)
+          const data = Object.fromEntries(formData)
+          const createChatRes = (await ChatApi.create(data)) as XMLHttpRequest
+          if (createChatRes.status !== 200) {
+            chatsModal.setProps({
+              serverError: createChatRes.response.reason,
+            })
+            return
+          }
+          chatsModal.hide()
+          getUserChats()
+        },
       },
     })
 
