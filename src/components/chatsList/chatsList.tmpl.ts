@@ -1,6 +1,7 @@
 export default `
 {{#each chats }}
-<li class="chat-preview" data-chat-id="{{ id }}">
+{{ ../active }}
+<li class="chat-preview {{#if active }}active{{/if}}" data-chat-id="{{ id }}">
     <div class="chat-preview__left">
         <div class="chat-preview__user-img">
             {{#if avatar }}

@@ -10,13 +10,11 @@ import RouterLink from '../../components/routerLink/RouterLink'
 import Button from '../../components/button/Button'
 import Store from '../../classes/Store'
 import Modal from '../../components/modal/Modal'
-import { StoreEvent } from '../../enums/StoreEvents'
 import ChatBody from '../../components/chatBody/ChatBody'
 import ChatPageController from './ChatPageController'
 
 export default class ChatsPage extends Component {
   constructor(props: Props) {
-    let chatsModal: Component
     let modalInputGroup: Component
     // const { user } = Store.getState()
     // Получаем чаты юзера
@@ -51,7 +49,7 @@ export default class ChatsPage extends Component {
       },
     })
 
-    chatsModal = new Modal({
+    const chatsModal = new Modal({
       attrs: {
         class: 'modal-bg',
       },
@@ -98,17 +96,6 @@ export default class ChatsPage extends Component {
         class: 'chats__list-container',
       },
       chats: Store.getState().chats,
-      events: {
-        click: (e: Event) => {
-          const target = e.target as HTMLElement
-          const chatPreview = target.closest('.chat-preview')
-          if (!chatPreview) {
-            return
-          }
-          document.querySelectorAll('.chat-preview').forEach((el) => el.classList.remove('active'))
-          chatPreview.classList.add('active')
-        },
-      },
     })
 
     let messageInputGroup: Component
@@ -229,12 +216,6 @@ export default class ChatsPage extends Component {
       attrs: {
         class: 'chats',
       },
-    })
-
-    Store.on(StoreEvent.Updated, () => {
-      chatsList.setProps({
-        chats: Store.getState().chats,
-      })
     })
   }
 

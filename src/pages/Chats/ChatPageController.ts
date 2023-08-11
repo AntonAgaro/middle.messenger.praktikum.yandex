@@ -3,6 +3,7 @@ import Store from '../../classes/Store'
 import Component from '../../classes/Component'
 import Validator from '../../classes/Validator'
 import { UserApi } from '../../api/User.api'
+import { TUser } from '../../types/TUser'
 
 export default class ChatPageController {
   static getUserChats() {
@@ -62,7 +63,15 @@ export default class ChatPageController {
       })
       return
     }
-
-    console.log(userArr)
+    const activeChatId = Store.getState().activeChatId ?? 0
+    const usersIdArr = userArr.map((user: TUser) => user.id)
+    const addUserToChatRes = (await ChatApi.addUserToChat(usersIdArr, activeChatId)) as XMLHttpRequest
+    if (addUserToChatRes.status !== 200) {
+      modalInputGroup.setProps({
+        error: userSearchRequest.response.reason,
+      })
+      return
+    }
+    chatsModal.hide()
   }
 }

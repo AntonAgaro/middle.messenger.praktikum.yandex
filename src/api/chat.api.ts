@@ -12,4 +12,13 @@ export class ChatApi extends BaseApi {
       data,
     })
   }
+
+  static addUserToChat(users: number[], activeChatId: number) {
+    return chatApiInstance.put('https://ya-praktikum.tech/api/v2/chats/users', {
+      data: {
+        chatId: +activeChatId,
+        users,
+      },
+    })
+  }
 }

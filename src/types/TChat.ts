@@ -5,4 +5,5 @@ export type TChat = {
   last_message: string | null
   title: string
   unread_count: number
+  active?: boolean
 }

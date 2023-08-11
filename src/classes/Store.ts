@@ -7,6 +7,7 @@ import { TUser } from '../types/TUser'
 type State = {
   chats?: TChat[]
   user?: TUser
+  activeChatId?: number
 }
 class Store extends EventBus {
   private state: State = {}
