@@ -2,19 +2,83 @@ import Component from '../../classes/Component'
 import type { Props } from '../../types/Props'
 import chatsPageTmpl from './chatsPage.tmpl'
 import './chats.scss'
-import ChartPreview from '../../components/chatPreview/ChartPreview'
+import ChatPreview from '../../components/chatPreview/ChatPreview'
 import Input from '../../components/input/Input'
 import Validator from '../../classes/Validator'
 import InputGroup from '../../components/inputGroup/InputGroup'
 import RouterLink from '../../components/routerLink/RouterLink'
 import Button from '../../components/button/Button'
+import Store from '../../classes/Store'
+import { ChatApi } from '../../api/chat.api'
+import Modal from '../../components/modal/Modal'
 
 export default class ChatsPage extends Component {
   constructor(props: Props) {
+    let chatsModal: Component
+    let modalInputGroup: Component
+    // const { user } = Store.getState()
+    // Получаем чаты юзера
+    ChatApi.getUserChats().then((res) => {
+      const result = res as XMLHttpRequest
+      if (result.status === 200) {
+        Store.set('chats', result.response)
+      }
+    })
+    console.log(Store.getState())
+
+    const addChatBtn = new Button({
+      text: 'Добавить чат',
+      attrs: {
+        class: 'button xs',
+        type: 'button',
+      },
+      events: {
+        click: () => {
+          chatsModal.show()
+        },
+      },
+    })
+
+    const modalInput = new Input({
+      className: 'input',
+      attrs: {
+        class: 'input',
+        name: 'title',
+        type: 'title',
+        id: 'title',
+        required: true,
+      },
+      events: {
+        blur: () => {
+          Validator.validate(modalInput, Validator.checkIsNotEmpty, modalInputGroup)
+        },
+      },
+    })
+
+    modalInputGroup = new InputGroup({
+      input: modalInput,
+    })
+
+    const modalBtn = new Button({
+      text: 'Добавить чат',
+      attrs: {
+        class: 'button',
+        type: 'submit',
+      },
+    })
+
+    chatsModal = new Modal({
+      attrs: {
+        class: 'modal-bg',
+      },
+      title: 'Добавить чат',
+      input: modalInputGroup,
+      button: modalBtn,
+    })
     const chatLists = []
     for (let i = 0; i < 10; i++) {
       chatLists.push(
-        new ChartPreview({
+        new ChatPreview({
           unreadMessages: 2,
           events: {
             click: () => {
@@ -46,11 +110,13 @@ export default class ChatsPage extends Component {
 
     super('main', {
       ...props,
+      modal: chatsModal,
       linkToProfile: new RouterLink({
         path: '/user',
         text: 'В профиль',
         withIcon: true,
       }),
+      addChatBtn,
       searchInput: new InputGroup({
         input: new Input({
           attrs: {

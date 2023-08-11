@@ -1,9 +1,9 @@
 import Component from '../../classes/Component'
 import type { Props } from '../../types/Props'
-import chartPreviewTmpl from './chartPreview.tmpl'
+import chartPreviewTmpl from './chatPreview.tmpl'
 import './chatPreview.scss'
 
-export default class ChartPreview extends Component {
+export default class ChatPreview extends Component {
   constructor(props: Props) {
     super('div', props)
   }

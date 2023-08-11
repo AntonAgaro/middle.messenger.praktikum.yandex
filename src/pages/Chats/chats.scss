@@ -7,8 +7,10 @@
     @include limited-container-inner;
   }
 
-  &__list-link-wrapper {
+  &__list-btns-wrapper {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     column-gap: rem(8);
     align-self: flex-end;
