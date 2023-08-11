@@ -129,4 +129,54 @@
       background: #e4edfd;
     }
   }
+
+  &__body-header {
+    padding: rem(8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $second-text-color;
+  }
+
+  &__more-dropdown {
+    position: relative;
+  }
+
+  &__more-dropdown-wrapper {
+    display: none;
+    position: absolute;
+    bottom: rem(-120);
+    right: 0;
+    width: rem(210);
+    height: rem(110);
+    background: $second-bg-color;
+    padding: rem(12);
+    flex-direction: column;
+    row-gap: rem(8);
+    border-radius: $elem-br;
+    &.active {
+      display: flex;
+    }
+
+    .button {
+      min-width: 100%;
+    }
+  }
+
+  .show-more-actions-btn {
+    width: rem(24);
+    height: rem(24);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $btn-bg;
+    border-radius: 100%;
+    cursor: pointer;
+  }
+
+  .chat-user {
+    width: 24px;
+    height: 24px;
+    color: #1e1e1e;
+  }
 }

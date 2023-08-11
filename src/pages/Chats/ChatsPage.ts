@@ -13,6 +13,7 @@ import { ChatApi } from '../../api/chat.api'
 import Modal from '../../components/modal/Modal'
 import { getUserChats } from './chatPageUtils'
 import { StoreEvent } from '../../enums/StoreEvents'
+import ChatBody from '../../components/chatBody/ChatBody'
 
 export default class ChatsPage extends Component {
   constructor(props: Props) {
@@ -132,6 +133,50 @@ export default class ChatsPage extends Component {
       input: messageInput,
     })
 
+    const chatBody = new ChatBody({
+      attrs: {
+        class: 'chats__body',
+      },
+      addUserToChatBtn: new Button({
+        text: 'Добавить пользователя',
+        attrs: {
+          class: 'button',
+          type: 'submit',
+        },
+      }),
+      removeUserToChatBtn: new Button({
+        text: 'Удалить пользователя',
+        attrs: {
+          class: 'button',
+          type: 'submit',
+        },
+      }),
+      messageInput: messageInputGroup,
+      messageButton: new Button({
+        text: '',
+        withIcon: true,
+        attrs: {
+          class: 'button round',
+          type: 'submit',
+        },
+        events: {
+          click: (e: Event) => {
+            e.preventDefault()
+            const target = e.target as HTMLElement
+            const form = target.closest('form')
+            const isMessageInputValid = Validator.validate(messageInput, Validator.checkIsNotEmpty, messageInputGroup)
+            if (!form || !isMessageInputValid) {
+              return
+            }
+            const formData = new FormData(form)
+            for (const [name, value] of formData) {
+              console.log(`${name} = ${value}`)
+            }
+          },
+        },
+      }),
+    })
+
     super('main', {
       ...props,
       modal: chatsModal,
@@ -157,33 +202,10 @@ export default class ChatsPage extends Component {
         withIcon: true,
       }),
       chatsList,
-      messageInput: messageInputGroup,
+      chatBody,
       attrs: {
         class: 'chats',
       },
-      messageButton: new Button({
-        text: '',
-        withIcon: true,
-        attrs: {
-          class: 'button round',
-          type: 'submit',
-        },
-        events: {
-          click: (e: Event) => {
-            e.preventDefault()
-            const target = e.target as HTMLElement
-            const form = target.closest('form')
-            const isMessageInputValid = Validator.validate(messageInput, Validator.checkIsNotEmpty, messageInputGroup)
-            if (!form || !isMessageInputValid) {
-              return
-            }
-            const formData = new FormData(form)
-            for (const [name, value] of formData) {
-              console.log(`${name} = ${value}`)
-            }
-          },
-        },
-      }),
     })
 
     Store.on(StoreEvent.Updated, () => {
