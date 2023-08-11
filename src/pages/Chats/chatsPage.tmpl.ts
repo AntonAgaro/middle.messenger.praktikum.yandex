@@ -8,9 +8,9 @@ export default `
         <div class="chats__list-search">
             {{{ searchInput }}}
         </div>
-        <div class="chats__list-container">
+        
             {{{ chatsList }}}
-        </div>
+
     </div>
     <div class="chats__body">
         <div class="chats__body-messages">

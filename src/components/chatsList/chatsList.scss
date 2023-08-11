@@ -8,6 +8,10 @@
   border-top: 1px solid $chat-borders-color;
   cursor: pointer;
 
+  &.active {
+    background: $chat-active-color;
+  }
+
   &__left {
     display: flex;
     align-items: center;

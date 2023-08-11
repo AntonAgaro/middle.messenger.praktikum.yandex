@@ -185,7 +185,8 @@ export default abstract class Component {
     const props: Props = {}
     const children: Record<string, Component | Component[]> = {}
     Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Component || Array.isArray(value)) {
+      // value[0] instanceof Component) чтобы не собирать в children пропс в виде массива
+      if (value instanceof Component || (Array.isArray(value) && value[0] instanceof Component)) {
         children[key] = value
       } else {
         props[key] = value

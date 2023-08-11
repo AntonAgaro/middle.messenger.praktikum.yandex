@@ -2,7 +2,7 @@ import Component from '../../classes/Component'
 import type { Props } from '../../types/Props'
 import chatsPageTmpl from './chatsPage.tmpl'
 import './chats.scss'
-import ChatPreview from '../../components/chatPreview/ChatPreview'
+import ChatsList from '../../components/chatsList/ChatsList'
 import Input from '../../components/input/Input'
 import Validator from '../../classes/Validator'
 import InputGroup from '../../components/inputGroup/InputGroup'
@@ -12,6 +12,7 @@ import Store from '../../classes/Store'
 import { ChatApi } from '../../api/chat.api'
 import Modal from '../../components/modal/Modal'
 import { getUserChats } from './chatPageUtils'
+import { StoreEvent } from '../../enums/StoreEvents'
 
 export default class ChatsPage extends Component {
   constructor(props: Props) {
@@ -92,19 +93,25 @@ export default class ChatsPage extends Component {
       input: modalInputGroup,
       button: modalBtn,
     })
-    const chatLists = []
-    for (let i = 0; i < 10; i++) {
-      chatLists.push(
-        new ChatPreview({
-          unreadMessages: 2,
-          events: {
-            click: () => {
-              console.log('1')
-            },
-          },
-        }),
-      )
-    }
+
+    const chatsList = new ChatsList({
+      attrs: {
+        class: 'chats__list-container',
+      },
+      chats: Store.getState().chats,
+      events: {
+        click: (e: Event) => {
+          const target = e.target as HTMLElement
+          const chatPreview = target.closest('.chat-preview')
+          if (!chatPreview) {
+            return
+          }
+          document.querySelectorAll('.chat-preview').forEach((el) => el.classList.remove('active'))
+          chatPreview.classList.add('active')
+        },
+      },
+    })
+
     let messageInputGroup: Component
     const messageInput = new Input({
       attrs: {
@@ -149,7 +156,7 @@ export default class ChatsPage extends Component {
         name: 'search',
         withIcon: true,
       }),
-      chatsList: chatLists,
+      chatsList,
       messageInput: messageInputGroup,
       attrs: {
         class: 'chats',
@@ -177,6 +184,12 @@ export default class ChatsPage extends Component {
           },
         },
       }),
+    })
+
+    Store.on(StoreEvent.Updated, () => {
+      chatsList.setProps({
+        chats: Store.getState().chats,
+      })
     })
   }
 
