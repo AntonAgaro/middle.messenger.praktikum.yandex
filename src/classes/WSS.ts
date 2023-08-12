@@ -1,7 +1,10 @@
+import EventBus from './EventBus'
+import { WSSEvents } from '../enums/WSSEvents'
+
 interface WssEvent extends Event {
   message?: string
 }
-export default class WSS {
+export default class WSS extends EventBus {
   public socket: WebSocket
 
   private userId: string | number
@@ -13,6 +16,7 @@ export default class WSS {
   private interval: NodeJS.Timer
 
   constructor(userId: string | number, chatId: string | number, token: string) {
+    super()
     this.userId = userId
     this.chatId = chatId
     this.token = token
@@ -27,6 +31,7 @@ export default class WSS {
           type: 'message',
         }),
       )
+      this.getOldMessages()
     })
 
     this.socket.addEventListener('close', (event) => {
@@ -39,8 +44,21 @@ export default class WSS {
       console.log(`Код: ${event.code} | Причина: ${event.reason}`)
     })
 
-    this.socket.addEventListener('message', (event) => {
-      console.log('Получены данные', event.data)
+    this.socket.addEventListener('message', (message) => {
+      try {
+        const data = JSON.parse(message.data)
+        if (Array.isArray(data)) {
+          this.emit(WSSEvents.OldMessages, data)
+          return
+        }
+        if (['pong', 'user connected'].includes(data.type)) {
+          return
+        }
+        this.emit(WSSEvents.Message, data)
+      } catch (e) {
+        console.log(e)
+      }
+      // console.log('Получены данные', message.data)
     })
 
     this.socket.addEventListener('error', (event) => {
@@ -51,14 +69,32 @@ export default class WSS {
       this.socket.send(
         JSON.stringify({
           content: '',
-          type: 'message',
+          type: 'ping',
         }),
       )
-    }, 5000)
+    }, 60000)
   }
 
   public closeConnection() {
     this.socket.close()
     clearInterval(this.interval)
+  }
+
+  public getOldMessages() {
+    this.socket.send(
+      JSON.stringify({
+        content: '0',
+        type: 'get old',
+      }),
+    )
+  }
+
+  public sendMessage(message: string) {
+    this.socket.send(
+      JSON.stringify({
+        content: message,
+        type: 'message',
+      }),
+    )
   }
 }

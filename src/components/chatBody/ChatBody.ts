@@ -10,6 +10,8 @@ import Input from '../input/Input'
 import InputGroup from '../inputGroup/InputGroup'
 import WSS from '../../classes/WSS'
 import { TUser } from '../../types/TUser'
+import { WSSEvents } from '../../enums/WSSEvents'
+import ChatPageController from '../../pages/Chats/ChatPageController'
 
 export default class ChatBody extends Component {
   constructor(props: Props) {
@@ -38,6 +40,12 @@ export default class ChatBody extends Component {
         socket.closeConnection()
       }
       socket = new WSS((Store.getState().user as TUser).id, chatId, chatToken)
+      socket.on(WSSEvents.OldMessages, (data) => {
+        console.log('old data', data)
+      })
+      socket.on(WSSEvents.Message, (data) => {
+        console.log('new data', data)
+      })
     })
 
     let messageInputGroup: Component
@@ -82,17 +90,11 @@ export default class ChatBody extends Component {
         },
         events: {
           click: (e: Event) => {
-            e.preventDefault()
-            const target = e.target as HTMLElement
-            const form = target.closest('form')
-            const isMessageInputValid = Validator.validate(messageInput, Validator.checkIsNotEmpty, messageInputGroup)
-            if (!form || !isMessageInputValid) {
+            const data = ChatPageController.handleFormData(e, messageInput, messageInputGroup)
+            if (!Object.keys(data).length) {
               return
             }
-            const formData = new FormData(form)
-            for (const [name, value] of formData) {
-              console.log(`${name} = ${value}`)
-            }
+            socket.sendMessage(data.message as string)
           },
         },
       }),
