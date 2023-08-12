@@ -24,13 +24,6 @@ export default class WSS extends EventBus {
 
     this.socket.addEventListener('open', () => {
       console.log('Соединение установлено')
-
-      this.socket.send(
-        JSON.stringify({
-          content: 'Моё первое сообщение миру!',
-          type: 'message',
-        }),
-      )
       this.getOldMessages()
     })
 
