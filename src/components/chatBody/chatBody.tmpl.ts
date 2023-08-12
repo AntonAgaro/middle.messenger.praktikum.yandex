@@ -28,18 +28,16 @@ export default `
     
     </div>
     <div class="chats__body-messages">
-     
-            {{#each messages}}
-                <div class="chats__message {{#if className}}chats__message--from{{else}}chats__message--to{{/if}}">
-                <div class="chats__message-text">
-                    {{content}}
-                </div>
-                 <div class="chats__message-date">
-                    {{ time }} 
-                </div>   
-                </div>
-            {{/each}}
-        
+        {{#each messages}}
+            <div class="chats__message {{#if className}}chats__message--from{{else}}chats__message--to{{/if}}">
+            <div class="chats__message-text">
+                {{content}}
+            </div>
+             <div class="chats__message-date">
+                {{ time }} 
+            </div>   
+            </div>
+        {{/each}}
     
     <form class="chats__body-messages-inputs">
         {{{ messageInput }}}
