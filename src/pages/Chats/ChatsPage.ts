@@ -161,6 +161,31 @@ export default class ChatsPage extends Component {
           class: 'button',
           type: 'submit',
         },
+        events: {
+          click: () => {
+            chatsModal.setProps({
+              title: 'Удалить пользователя из чата',
+            })
+            modalInput.setProps({
+              attrs: {
+                name: 'login',
+              },
+            })
+            modalInputGroup.setProps({
+              label: 'Логин',
+              error: '',
+            })
+            modalBtn.setProps({
+              text: 'Удалить пользователя',
+              events: {
+                click: async (e: Event) => {
+                  await ChatPageController.deleteUserFromChat(e, modalInput, modalInputGroup, chatsModal)
+                },
+              },
+            })
+            chatsModal.show()
+          },
+        },
       }),
       messageInput: messageInputGroup,
       messageButton: new Button({

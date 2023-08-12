@@ -22,6 +22,15 @@ export class ChatApi extends BaseApi {
     })
   }
 
+  static deleteUserFromChat(users: number[], activeChatId: number) {
+    return chatApiInstance.delete('https://ya-praktikum.tech/api/v2/chats/users', {
+      data: {
+        chatId: +activeChatId,
+        users,
+      },
+    })
+  }
+
   static getChatUsers(id: number | string) {
     return chatApiInstance.get(`https://ya-praktikum.tech/api/v2/chats/${id}/users`)
   }
