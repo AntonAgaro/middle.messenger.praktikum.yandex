@@ -38,11 +38,8 @@ export function merge(lhs: Indexed, rhs: Indexed): Indexed {
     ...rhs,
   }
 
-  // Loop through the properties of the merged object
   for (const key of Object.keys(merged)) {
-    // Check if the property is an object
     if (typeof merged[key] === 'object' && merged[key] !== null) {
-      // If the property is an object, recursively merge the objects
       merged[key] = merge(lhs[key] as Indexed, rhs[key] as Indexed)
     }
   }

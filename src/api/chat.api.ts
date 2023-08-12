@@ -34,4 +34,8 @@ export class ChatApi extends BaseApi {
   static getChatUsers(id: number | string) {
     return chatApiInstance.get(`https://ya-praktikum.tech/api/v2/chats/${id}/users`)
   }
+
+  static getChatToken(chatId: string | number) {
+    return chatApiInstance.post(`https://ya-praktikum.tech/api/v2/chats/token/${chatId}`)
+  }
 }

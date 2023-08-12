@@ -8,9 +8,12 @@ import Button from '../button/Button'
 import Validator from '../../classes/Validator'
 import Input from '../input/Input'
 import InputGroup from '../inputGroup/InputGroup'
+import WSS from '../../classes/WSS'
+import { TUser } from '../../types/TUser'
 
 export default class ChatBody extends Component {
   constructor(props: Props) {
+    let socket: WSS
     Store.on(StoreEvent.Updated, async () => {
       const chatId = Store.getState().activeChatId
       if (!chatId) {
@@ -28,7 +31,13 @@ export default class ChatBody extends Component {
       this.setProps({
         users: chatUsersRes.response,
       })
-      console.log(chatUsersRes)
+
+      const chatTokenRes = (await ChatApi.getChatToken(chatId)) as XMLHttpRequest
+      const chatToken = chatTokenRes.response.token
+      if (socket) {
+        socket.closeConnection()
+      }
+      socket = new WSS((Store.getState().user as TUser).id, chatId, chatToken)
     })
 
     let messageInputGroup: Component
