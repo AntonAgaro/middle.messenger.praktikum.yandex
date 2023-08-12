@@ -71,7 +71,7 @@ class Router {
   }
 
   go(path: string): void {
-    if (!Store.getState().user) {
+    if (!Store.getState().user && path !== Routes.SignUp) {
       this.history.pushState({}, '', Routes.Login)
       this.onRoute(Routes.Login)
       return
