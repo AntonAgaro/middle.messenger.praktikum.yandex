@@ -43,7 +43,7 @@ export default class ChatBody extends Component {
       }
       socket = new WSS((Store.getState().user as TUser).id, chatId, chatToken)
       socket.on(WSSEvents.OldMessages, (data) => {
-        messages = [...messages, ...data.reverse()]
+        messages = this.handleMessages([...messages, ...data.reverse()])
         console.log('old data', data)
         this.setProps({
           messages,
@@ -52,7 +52,7 @@ export default class ChatBody extends Component {
       socket.on(WSSEvents.Message, (data) => {
         messages.push(data)
         this.setProps({
-          messages,
+          messages: this.handleMessages(messages),
         })
         console.log('new data', data)
       })
@@ -114,5 +114,15 @@ export default class ChatBody extends Component {
 
   render() {
     return this.compile(ChatBodyTmpl, this.props)
+  }
+
+  private handleMessages(messages: TMessage[]): TMessage[] {
+    return messages.map((message) => {
+      message.time = new Date(message.time).toLocaleString()
+      if (message.user_id === (Store.getState().user as TUser).id) {
+        message.className = 'current-user'
+      }
+      return message
+    })
   }
 }

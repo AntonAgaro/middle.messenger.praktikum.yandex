@@ -37,7 +37,14 @@ export default `
         Привет! 
         </div>
         {{#each messages}}
-        <div>{{content}}</div>
+            <div class="chats__message {{#if className}}chats__message--from{{else}}chats__message--to{{/if}}">
+            <div class="chats__message-text">
+                {{content}}
+            </div>
+             <div class="chats__message-date">
+                {{ time }} 
+            </div>   
+            </div>
         {{/each}}
     </div>
     

@@ -88,6 +88,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    row-gap: rem(8);
   }
 
   &__body-messages-inputs {
@@ -119,6 +120,8 @@
     height: auto;
     color: $main-text-color;
     border-radius: $elem-br;
+    display: flex;
+    flex-direction: column;
 
     &--from {
       align-self: flex-start;
@@ -130,6 +133,11 @@
       align-self: flex-end;
       background: #e4edfd;
     }
+  }
+
+  &__message-date {
+    align-self: flex-end;
+    font-size: rem(12);
   }
 
   &__body-header {

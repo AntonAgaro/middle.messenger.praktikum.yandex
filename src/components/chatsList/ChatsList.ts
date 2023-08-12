@@ -12,7 +12,6 @@ export default class ChatsList extends Component {
       const activeChat = Store.getState().activeChatId ?? 0
       chats.forEach((chat) => {
         if (chat.id === +activeChat) {
-          console.log('active')
           chat.active = true
         } else {
           delete chat.active

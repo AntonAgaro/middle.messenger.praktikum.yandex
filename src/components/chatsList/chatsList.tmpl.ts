@@ -10,7 +10,6 @@ export default `
         </div>
         <div class="chat-preview__left-text">
             <div class="chat-preview__user-name">{{ title }}</div>
-            <div class="chat-preview__message">{{ last_message }}</div>
         </div>
     </div>
     <div class="chat-preview__right">
