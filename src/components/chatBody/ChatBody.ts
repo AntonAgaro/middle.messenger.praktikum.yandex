@@ -12,10 +12,12 @@ import WSS from '../../classes/WSS'
 import { TUser } from '../../types/TUser'
 import { WSSEvents } from '../../enums/WSSEvents'
 import ChatPageController from '../../pages/Chats/ChatPageController'
+import { TMessage } from '../../types/TMessage'
 
 export default class ChatBody extends Component {
   constructor(props: Props) {
     let socket: WSS
+    let messages: TMessage[] = []
     Store.on(StoreEvent.Updated, async () => {
       const chatId = Store.getState().activeChatId
       if (!chatId) {
@@ -41,9 +43,17 @@ export default class ChatBody extends Component {
       }
       socket = new WSS((Store.getState().user as TUser).id, chatId, chatToken)
       socket.on(WSSEvents.OldMessages, (data) => {
+        messages = [...messages, ...data.reverse()]
         console.log('old data', data)
+        this.setProps({
+          messages,
+        })
       })
       socket.on(WSSEvents.Message, (data) => {
+        messages.push(data)
+        this.setProps({
+          messages,
+        })
         console.log('new data', data)
       })
     })
@@ -80,6 +90,7 @@ export default class ChatBody extends Component {
           dropdown.classList.toggle('active')
         },
       },
+      messages,
       messageInput: messageInputGroup,
       messageButton: new Button({
         text: '',

@@ -36,6 +36,9 @@ export default `
         <div class="chats__message chats__message--to">
         Привет! 
         </div>
+        {{#each messages}}
+        <div>{{content}}</div>
+        {{/each}}
     </div>
     
     <form class="chats__body-messages-inputs">
