@@ -1,17 +1,17 @@
-import Component from '../Component'
+import type Component from '../Component'
 import { Props } from '../../types/Props'
 import { isEqual, routeRender } from '../../utils/functions'
 
 export default class Route {
   private pathname: string
 
-  private readonly componentClass: Component
+  private readonly componentClass: typeof Component
 
   private block: Component | null = null
 
   private props: Props
 
-  constructor(path: string, view: Component, props: Props) {
+  constructor(path: string, view: typeof Component, props: Props) {
     this.pathname = path
     this.componentClass = view
     this.props = props
@@ -36,8 +36,7 @@ export default class Route {
 
   public render() {
     if (!this.block) {
-      this.block = new this.componentClass()
-      // TODO подумамать как убрать КОСТЫЛЬ
+      this.block = new this.componentClass('')
       this.block?.setProps(this.props)
       routeRender(this.props.rootQuery, this.block as Component)
       return

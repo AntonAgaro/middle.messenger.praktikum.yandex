@@ -17,10 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return
   }
 
-  // TODO убрать костыль
-  Store.on(StoreEvent.Updated, () => {
-    console.log('213')
-  })
+  Store.on(StoreEvent.Updated, () => {})
 
   RouterClass.start()
 })

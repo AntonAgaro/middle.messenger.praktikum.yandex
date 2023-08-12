@@ -6,9 +6,7 @@
   flex-direction: column;
 
   &--wide {
-    & {
-      min-width: rem(350);
-    }
+    min-width: rem(350);
   }
 
   .input {

@@ -35,7 +35,7 @@ class Router {
     })
   }
 
-  use(path: string, component: Component, params: Props = {}): Router {
+  use(path: string, component: typeof Component, params: Props = {}): Router {
     const route = new Route(path, component, { rootQuery: this.rootSelector, ...params })
     this.routes.push(route)
     return this
@@ -43,9 +43,8 @@ class Router {
 
   start(): void {
     window.onpopstate = (event) => {
-      console.log(Store.getState().user)
       if (event.currentTarget) {
-        this.onRoute(event.currentTarget.location.pathname)
+        this.onRoute((event.currentTarget as EventTarget & { location: Record<string, any> }).location.pathname)
       }
     }
     if (!Store.getState().user) {
@@ -96,7 +95,6 @@ class Router {
 }
 
 const RouterClass = new Router('#app')
-// TODO Переделать чтобы кмопонеты сразу как экземпляры передавались
 const routes = [
   {
     path: Routes.Start,
@@ -136,7 +134,7 @@ const routes = [
   },
 ]
 routes.forEach((route) => {
-  RouterClass.use(route.path, route.component, route.params ?? {})
+  RouterClass.use(route.path, <typeof Component>(<unknown>route.component), route.params ?? {})
 })
 
 export default RouterClass

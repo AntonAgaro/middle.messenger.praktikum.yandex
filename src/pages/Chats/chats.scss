@@ -2,10 +2,12 @@
 
 .chats {
   @include limited-container;
+
   min-height: calc(100vh - 40px);
 
   &__container {
     @include limited-container-inner;
+
     min-height: calc(100vh - 40px);
   }
 
@@ -163,6 +165,7 @@
     flex-direction: column;
     row-gap: rem(8);
     border-radius: $elem-br;
+
     &.active {
       display: flex;
     }
@@ -194,6 +197,7 @@
     display: flex;
     align-items: center;
     column-gap: rem(4);
+
     img {
       width: 24px;
       height: 24px;

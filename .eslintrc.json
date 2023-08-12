@@ -30,6 +30,7 @@
     "@typescript-eslint/ban-ts-comment": "warn",
     "func-names": "off",
     "no-constructor-return": "off",
-    "new-cap": "off"
+    "new-cap": "off",
+    "import/no-cycle": "off"
   }
 }

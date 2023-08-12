@@ -14,7 +14,6 @@ export default class ChatPageController {
         Store.set('chats', result.response)
       }
     })
-    console.log(Store.getState())
   }
 
   static handleFormData(e: Event, input: Component, inputGroup: Component): Record<string, FormDataEntryValue> {

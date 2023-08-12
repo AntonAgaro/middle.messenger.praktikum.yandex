@@ -4,7 +4,7 @@ import EventBus from './EventBus'
 import type { Props } from '../types/Props'
 import { ComponentEvents } from '../enums/ComponentEvents'
 
-export default abstract class Component {
+export default class Component {
   private EventBus: EventBus
 
   private element: HTMLElement | null = null
@@ -22,7 +22,6 @@ export default abstract class Component {
   constructor(tagName: string, propsAndChildren = {}) {
     this.EventBus = new EventBus()
     this.tagName = tagName
-    // TODO сделать только если есть settings для id
     this.id = makeUUID()
     const { props, children } = this.separatePropsAndChildren(propsAndChildren)
     this.props = this.makePropsProxy({ ...props, _id: this.id })
