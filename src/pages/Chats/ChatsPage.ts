@@ -98,26 +98,6 @@ export default class ChatsPage extends Component {
       chats: Store.getState().chats,
     })
 
-    let messageInputGroup: Component
-    const messageInput = new Input({
-      attrs: {
-        required: true,
-        class: 'input chats-input',
-        name: 'message',
-        type: 'text',
-        value: '',
-        id: 'message',
-      },
-      events: {
-        blur() {
-          Validator.validate(messageInput, Validator.checkIsNotEmpty, messageInputGroup)
-        },
-      },
-    })
-    messageInputGroup = new InputGroup({
-      input: messageInput,
-    })
-
     const chatBody = new ChatBody({
       attrs: {
         class: 'chats__body',
@@ -184,30 +164,6 @@ export default class ChatsPage extends Component {
               },
             })
             chatsModal.show()
-          },
-        },
-      }),
-      messageInput: messageInputGroup,
-      messageButton: new Button({
-        text: '',
-        withIcon: true,
-        attrs: {
-          class: 'button round',
-          type: 'submit',
-        },
-        events: {
-          click: (e: Event) => {
-            e.preventDefault()
-            const target = e.target as HTMLElement
-            const form = target.closest('form')
-            const isMessageInputValid = Validator.validate(messageInput, Validator.checkIsNotEmpty, messageInputGroup)
-            if (!form || !isMessageInputValid) {
-              return
-            }
-            const formData = new FormData(form)
-            for (const [name, value] of formData) {
-              console.log(`${name} = ${value}`)
-            }
           },
         },
       }),
