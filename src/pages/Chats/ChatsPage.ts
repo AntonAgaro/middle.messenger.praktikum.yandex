@@ -122,6 +122,7 @@ export default class ChatsPage extends Component {
       attrs: {
         class: 'chats__body',
       },
+      chatId: Store.getState().activeChatId,
       addUserToChatBtn: new Button({
         text: 'Добавить пользователя',
         attrs: {

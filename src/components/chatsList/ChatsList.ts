@@ -4,7 +4,6 @@ import chatsListTmpl from './chatsList.tmpl'
 import './chatsList.scss'
 import Store from '../../classes/Store'
 import { StoreEvent } from '../../enums/StoreEvents'
-import { TChat } from '../../types/TChat'
 
 export default class ChatsList extends Component {
   constructor(props: Props) {

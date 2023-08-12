@@ -174,9 +174,21 @@
     cursor: pointer;
   }
 
-  .chat-user {
-    width: 24px;
-    height: 24px;
+  .chat__users {
+    display: flex;
+    align-items: center;
+    column-gap: rem(8);
     color: #1e1e1e;
+  }
+
+  .chat__user {
+    display: flex;
+    align-items: center;
+    column-gap: rem(4);
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 100%;
+    }
   }
 }
