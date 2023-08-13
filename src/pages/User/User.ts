@@ -21,12 +21,16 @@ export default class User extends Component {
   constructor(props: Props) {
     let user: TUser
     if (!Store.getState().user) {
-      AuthApi.getUser().then((res) => {
-        const result = res as XMLHttpRequest
-        if (result.status === 200) {
-          Store.set('user', result.response)
-        }
-      })
+      try {
+        AuthApi.getUser().then((res) => {
+          const result = res as XMLHttpRequest
+          if (result.status === 200) {
+            Store.set('user', result.response)
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
     user = Store.getState().user as TUser
 
