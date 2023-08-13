@@ -29,6 +29,7 @@ export default class ChatPageController {
       return {}
     }
     const formData = new FormData(form)
+    form.reset()
     return Object.fromEntries(formData)
   }
 

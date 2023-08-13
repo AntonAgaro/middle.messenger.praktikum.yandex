@@ -39,9 +39,7 @@ export default `
             </div>
         {{/each}}
     
-    <form class="chats__body-messages-inputs">
-        {{{ messageInput }}}
-        {{{ messageButton }}}
-    </form>
+    {{{ sendMessageForm }}}
+    
 {{/if}}    
 `

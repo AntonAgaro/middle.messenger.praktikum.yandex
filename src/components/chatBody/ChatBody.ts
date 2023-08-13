@@ -13,6 +13,7 @@ import { TUser } from '../../types/TUser'
 import { WSSEvents } from '../../enums/WSSEvents'
 import ChatPageController from '../../pages/Chats/ChatPageController'
 import { TMessage } from '../../types/TMessage'
+import Form from '../form/Form'
 
 export default class ChatBody extends Component {
   constructor(props: Props) {
@@ -76,6 +77,32 @@ export default class ChatBody extends Component {
       input: messageInput,
     })
 
+    const messageButton = new Button({
+      text: '',
+      withIcon: true,
+      attrs: {
+        class: 'button round',
+        type: 'submit',
+      },
+    })
+
+    const sendMessageForm = new Form({
+      inputs: messageInputGroup,
+      buttons: messageButton,
+      attrs: {
+        class: 'chats__body-messages-inputs',
+      },
+      events: {
+        submit: (e: Event) => {
+          const data = ChatPageController.handleFormData(e, messageInput, messageInputGroup)
+          if (!Object.keys(data).length) {
+            return
+          }
+          socket.sendMessage(data.message as string)
+        },
+      },
+    })
+
     super('div', {
       ...props,
       events: {
@@ -89,24 +116,7 @@ export default class ChatBody extends Component {
         },
       },
       messages,
-      messageInput: messageInputGroup,
-      messageButton: new Button({
-        text: '',
-        withIcon: true,
-        attrs: {
-          class: 'button round',
-          type: 'submit',
-        },
-        events: {
-          click: (e: Event) => {
-            const data = ChatPageController.handleFormData(e, messageInput, messageInputGroup)
-            if (!Object.keys(data).length) {
-              return
-            }
-            socket.sendMessage(data.message as string)
-          },
-        },
-      }),
+      sendMessageForm,
     })
   }
 
