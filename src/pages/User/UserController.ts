@@ -69,4 +69,36 @@ export default class UserController {
       })
     }
   }
+
+  static async changeUserAvatar(
+    e: Event,
+    userAvatarInput: Component,
+    userAvatarInputGroup: Component,
+    modal: Component,
+  ) {
+    try {
+      e.preventDefault()
+      const target = e.target as HTMLElement
+      const form = target.closest('form') as HTMLFormElement
+      const input = userAvatarInput.getContent() as HTMLInputElement
+      if (!input.value) {
+        userAvatarInputGroup.setProps({
+          error: 'Добавьте файл!',
+        })
+        return
+      }
+      const formData = new FormData(form)
+      const userAvatarRes = (await UserApi.changeAvatar(formData)) as XMLHttpRequest
+      if (userAvatarRes.status !== 200) {
+        userAvatarInputGroup.setProps({
+          error: userAvatarRes.response.reason,
+        })
+        return
+      }
+      Store.set('user', userAvatarRes.response)
+      modal.hide()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

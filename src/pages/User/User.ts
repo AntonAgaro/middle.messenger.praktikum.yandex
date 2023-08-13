@@ -13,7 +13,6 @@ import { StoreEvent } from '../../enums/StoreEvents'
 import { AuthApi } from '../../api/Auth.api'
 import { Routes } from '../../enums/Routes'
 import { TUser } from '../../types/TUser'
-import { UserApi } from '../../api/User.api'
 import Modal from '../../components/modal/Modal'
 import HTTPTransport from '../../classes/HTTPTransort'
 import UserController from './UserController'
@@ -383,26 +382,7 @@ export default class User extends Component {
         },
         events: {
           click: async (e: Event) => {
-            e.preventDefault()
-            const target = e.target as HTMLElement
-            const form = target.closest('form') as HTMLFormElement
-            const input = userAvatarInput.getContent() as HTMLInputElement
-            if (!input.value) {
-              userAvatarInputGroup.setProps({
-                error: 'Добавьте файл!',
-              })
-              return
-            }
-            const formData = new FormData(form)
-            const userAvatarRes = (await UserApi.changeAvatar(formData)) as XMLHttpRequest
-            if (userAvatarRes.status !== 200) {
-              userAvatarInputGroup.setProps({
-                error: userAvatarRes.response.reason,
-              })
-              return
-            }
-            Store.set('user', userAvatarRes.response)
-            modal.hide()
+            await UserController.changeUserAvatar(e, userAvatarInput, userAvatarInputGroup, modal)
           },
         },
       }),

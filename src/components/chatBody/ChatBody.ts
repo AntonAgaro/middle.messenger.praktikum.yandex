@@ -20,41 +20,45 @@ export default class ChatBody extends Component {
     let socket: WSS
     let messages: TMessage[] = []
     Store.on(StoreEvent.Updated, async () => {
-      const chatId = Store.getState().activeChatId
-      if (!chatId) {
-        return
-      }
+      try {
+        const chatId = Store.getState().activeChatId
+        if (!chatId) {
+          return
+        }
 
-      this.setProps({
-        chatId,
-      })
-      const chatUsersRes = (await ChatApi.getChatUsers(chatId)) as XMLHttpRequest
-      if (chatUsersRes.status !== 200) {
-        return
-      }
-
-      this.setProps({
-        users: chatUsersRes.response,
-      })
-
-      const chatTokenRes = (await ChatApi.getChatToken(chatId)) as XMLHttpRequest
-      const chatToken = chatTokenRes.response.token
-      if (socket) {
-        socket.closeConnection()
-      }
-      socket = new WSS((Store.getState().user as TUser).id, chatId, chatToken)
-      socket.on(WSSEvents.OldMessages, (data) => {
-        messages = this.handleMessages([[], ...data.reverse()])
         this.setProps({
-          messages,
+          chatId,
         })
-      })
-      socket.on(WSSEvents.Message, (data) => {
-        messages.push(data)
+        const chatUsersRes = (await ChatApi.getChatUsers(chatId)) as XMLHttpRequest
+        if (chatUsersRes.status !== 200) {
+          return
+        }
+
         this.setProps({
-          messages: this.handleMessages(messages),
+          users: chatUsersRes.response,
         })
-      })
+
+        const chatTokenRes = (await ChatApi.getChatToken(chatId)) as XMLHttpRequest
+        const chatToken = chatTokenRes.response.token
+        if (socket) {
+          socket.closeConnection()
+        }
+        socket = new WSS((Store.getState().user as TUser).id, chatId, chatToken)
+        socket.on(WSSEvents.OldMessages, (data) => {
+          messages = this.handleMessages([[], ...data.reverse()])
+          this.setProps({
+            messages,
+          })
+        })
+        socket.on(WSSEvents.Message, (data) => {
+          messages.push(data)
+          this.setProps({
+            messages: this.handleMessages(messages),
+          })
+        })
+      } catch (error) {
+        console.log(error)
+      }
     })
 
     let messageInputGroup: Component
