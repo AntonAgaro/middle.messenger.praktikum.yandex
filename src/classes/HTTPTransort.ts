@@ -10,7 +10,7 @@ function queryStringify(data: Record<string, string>) {
   return res
 }
 
-type HTTPMethod = (url: string, options: Record<string, any>) => Promise<unknown>
+type HTTPMethod = (url: string, options?: Record<string, any>) => Promise<unknown>
 
 export default class HTTPTransport {
   static baseURL = 'https://ya-praktikum.tech/api/v2'
@@ -35,7 +35,7 @@ export default class HTTPTransport {
   // headers — obj
   // data — obj
 
-  request: HTTPMethod = (url, options) => {
+  request: HTTPMethod = (url, options = {}) => {
     const { method, data } = options
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
