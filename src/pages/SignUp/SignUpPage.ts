@@ -6,11 +6,8 @@ import Validator from '../../classes/Validator'
 import InputGroup from '../../components/inputGroup/InputGroup'
 import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
-import { SignUpApi } from '../../api/SignUp.api'
-import { AuthApi } from '../../api/Auth.api'
-import Store from '../../classes/Store'
-import RouterClass from '../../classes/Router/Router'
 import { Routes } from '../../enums/Routes'
+import SignUpController from './SignUpController'
 
 export default class SignUpPage extends Component {
   constructor(props: Props) {
@@ -198,10 +195,7 @@ export default class SignUpPage extends Component {
       },
       events: {
         submit: async (e: Event) => {
-          e.preventDefault()
-          const target = e.target as HTMLElement
-          const form = target.closest('form')
-          const validationArray = [
+          await SignUpController.signUp(e, [
             Validator.validate(emailInput, Validator.checkEmail, emailInputGroup),
             Validator.validate(loginInput, Validator.checkLogin, loginInputGroup),
             Validator.validate(nameInput, Validator.checkNames, nameInputGroup),
@@ -209,23 +203,7 @@ export default class SignUpPage extends Component {
             Validator.validate(phoneInput, Validator.checkPhone, phoneInputGroup),
             Validator.validate(passInput, Validator.checkPass, passInputGroup),
             Validator.validate(repeatPassInput, Validator.checkPass, repeatPassInputGroup),
-          ]
-
-          const isValid = validationArray.every((v) => v)
-          if (!form || !isValid) {
-            return
-          }
-          const formData = new FormData(form)
-          const data = Object.fromEntries(formData)
-          const signUpResponse = (await SignUpApi.create(data)) as XMLHttpRequest
-          if (signUpResponse.status !== 200) {
-            throw new Error(signUpResponse.response.reason)
-          }
-          const userRes = (await AuthApi.getUser()) as XMLHttpRequest
-          if (userRes.status === 200) {
-            Store.set('user', userRes.response)
-            RouterClass.go(Routes.Chats)
-          }
+          ])
         },
       },
     })
