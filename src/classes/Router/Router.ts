@@ -97,10 +97,6 @@ class Router {
 const RouterClass = new Router('#app')
 const routes = [
   {
-    path: Routes.Start,
-    component: LoginPage,
-  },
-  {
     path: Routes.Login,
     component: LoginPage,
   },
