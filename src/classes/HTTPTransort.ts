@@ -1,9 +1,5 @@
-enum HTTPMethods {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-}
+import { HTTPMethods } from '../enums/HTTPMethods'
+
 function queryStringify(data: Record<string, string>) {
   // Можно делать трансформацию GET-параметров в отдельной функции
   let res = '?'
@@ -14,10 +10,12 @@ function queryStringify(data: Record<string, string>) {
   return res
 }
 
+type HTTPMethod = (url: string, options: Record<string, any>) => Promise<unknown>
+
 export default class HTTPTransport {
   static baseURL = 'https://ya-praktikum.tech/api/v2'
 
-  get = (url: string, options: Record<string, any> = {}) => {
+  get: HTTPMethod = (url, options = {}) => {
     if (options.data) {
       options.data = queryStringify(options.data)
       url += options.data
@@ -25,11 +23,11 @@ export default class HTTPTransport {
     return this.request(url, { ...options, method: HTTPMethods.GET })
   }
 
-  post = (url: string, options = {}) => this.request(url, { ...options, method: HTTPMethods.POST })
+  post: HTTPMethod = (url, options = {}) => this.request(url, { ...options, method: HTTPMethods.POST })
 
-  put = (url: string, options = {}) => this.request(url, { ...options, method: HTTPMethods.PUT })
+  put: HTTPMethod = (url, options = {}) => this.request(url, { ...options, method: HTTPMethods.PUT })
 
-  delete = (url: string, options = {}) => this.request(url, { ...options, method: HTTPMethods.DELETE })
+  delete: HTTPMethod = (url, options = {}) => this.request(url, { ...options, method: HTTPMethods.DELETE })
 
   // PUT, POST, DELETE
 
@@ -37,7 +35,7 @@ export default class HTTPTransport {
   // headers — obj
   // data — obj
 
-  request = (url: string, options: Record<string, any>) => {
+  request: HTTPMethod = (url, options) => {
     const { method, data } = options
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
