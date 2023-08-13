@@ -8,6 +8,7 @@ import User from '../../pages/User/User'
 import ErrorPage from '../../pages/ErrorPage/ErrorPage'
 import { Routes } from '../../enums/Routes'
 import Store from '../Store'
+import { AuthApi } from '../../api/Auth.api'
 
 class Router {
   private static instance: Router
@@ -41,16 +42,26 @@ class Router {
     return this
   }
 
-  start(): void {
+  async start() {
     window.onpopstate = (event) => {
       if (event.currentTarget) {
         this.onRoute((event.currentTarget as EventTarget & { location: Record<string, any> }).location.pathname)
       }
     }
+    // Проверка, что нет текущего пользователя и надо редиректить
     if (!Store.getState().user) {
-      this.history.pushState({}, '', Routes.Login)
-      this.onRoute(Routes.Login)
-      return
+      try {
+        const userRes = (await AuthApi.getUser()) as XMLHttpRequest
+        if (userRes.status === 200) {
+          Store.set('user', userRes.response)
+        } else {
+          this.history.pushState({}, '', Routes.Login)
+          this.onRoute(Routes.Login)
+          return
+        }
+      } catch (e) {
+        console.log(e)
+      }
     }
 
     this.onRoute(window.location.pathname)

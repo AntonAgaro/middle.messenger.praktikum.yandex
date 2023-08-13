@@ -6,8 +6,6 @@ import Validator from '../../classes/Validator'
 import InputGroup from '../../components/inputGroup/InputGroup'
 import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
-import { AuthApi } from '../../api/Auth.api'
-import Store from '../../classes/Store'
 import LoginController from './LoginController'
 import { Routes } from '../../enums/Routes'
 
@@ -15,16 +13,6 @@ export default class LoginPage extends Component {
   constructor(props: Props) {
     let loginInputGroup: Component
     let passInputGroup: Component
-
-    // Проверка, что нет текущего пользователя и надо редиректить
-    if (!Store.getState().user) {
-      AuthApi.getUser().then((res) => {
-        const result = res as XMLHttpRequest
-        if (result.status === 200) {
-          Store.set('user', result.response)
-        }
-      })
-    }
 
     const loginInput = new Input({
       className: 'input',
