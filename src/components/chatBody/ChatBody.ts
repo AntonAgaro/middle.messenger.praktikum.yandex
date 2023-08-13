@@ -43,7 +43,6 @@ export default class ChatBody extends Component {
       }
       socket = new WSS((Store.getState().user as TUser).id, chatId, chatToken)
       socket.on(WSSEvents.OldMessages, (data) => {
-        console.log(data)
         messages = this.handleMessages([[], ...data.reverse()])
         this.setProps({
           messages,
@@ -54,7 +53,6 @@ export default class ChatBody extends Component {
         this.setProps({
           messages: this.handleMessages(messages),
         })
-        console.log('new data', data)
       })
     })
 

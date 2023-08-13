@@ -17,7 +17,6 @@ import { Routes } from '../../enums/Routes'
 export default class ChatsPage extends Component {
   constructor(props: Props) {
     let modalInputGroup: Component
-    // const { user } = Store.getState()
     // Получаем чаты юзера
     ChatPageController.getUserChats()
 
@@ -81,8 +80,10 @@ export default class ChatsPage extends Component {
           })
           modalBtn.setProps({
             text: 'Добавить чат',
+          })
+          chatsModal.setProps({
             events: {
-              click: async (e: Event) => {
+              submit: async (e: Event) => {
                 await ChatPageController.createChat(e, modalInput, modalInputGroup, chatsModal)
               },
             },
@@ -126,8 +127,10 @@ export default class ChatsPage extends Component {
             })
             modalBtn.setProps({
               text: 'Добавить пользователя',
+            })
+            chatsModal.setProps({
               events: {
-                click: async (e: Event) => {
+                submit: async (e: Event) => {
                   await ChatPageController.addUserToChat(e, modalInput, modalInputGroup, chatsModal)
                 },
               },
@@ -158,8 +161,10 @@ export default class ChatsPage extends Component {
             })
             modalBtn.setProps({
               text: 'Удалить пользователя',
+            })
+            chatsModal.setProps({
               events: {
-                click: async (e: Event) => {
+                submit: async (e: Event) => {
                   await ChatPageController.deleteUserFromChat(e, modalInput, modalInputGroup, chatsModal)
                 },
               },
