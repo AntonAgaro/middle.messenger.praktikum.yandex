@@ -11,12 +11,12 @@ import RouterLink from '../../components/routerLink/RouterLink'
 import Store from '../../classes/Store'
 import { StoreEvent } from '../../enums/StoreEvents'
 import { AuthApi } from '../../api/Auth.api'
-import Router from '../../classes/Router/Router'
 import { Routes } from '../../enums/Routes'
 import { TUser } from '../../types/TUser'
 import { UserApi } from '../../api/User.api'
 import Modal from '../../components/modal/Modal'
 import HTTPTransport from '../../classes/HTTPTransort'
+import UserController from './UserController'
 
 export default class User extends Component {
   constructor(props: Props) {
@@ -288,11 +288,7 @@ export default class User extends Component {
       },
       events: {
         click: async () => {
-          const logoutRes = (await AuthApi.logout()) as XMLHttpRequest
-          if (logoutRes.status === 200) {
-            Store.set('user', null)
-            Router.go(Routes.Login)
-          }
+          await UserController.logout()
         },
       },
     })
@@ -305,37 +301,19 @@ export default class User extends Component {
       },
       events: {
         click: async (e: Event) => {
-          e.preventDefault()
-          const target = e.target as HTMLElement
-          const form = target.closest('form')
-          const validationArray = [
-            Validator.validate(userPageInputs.emailInput, Validator.checkEmail, emailInputGroup),
-            Validator.validate(userPageInputs.loginInput, Validator.checkLogin, loginInputGroup),
-            Validator.validate(userPageInputs.nameInput, Validator.checkNames, nameInputGroup),
-            Validator.validate(userPageInputs.surnameInput, Validator.checkNames, surnameInputGroup),
-            Validator.validate(userPageInputs.phoneInput, Validator.checkPhone, phoneInputGroup),
-            Validator.validate(userPageInputs.displayNameInput, Validator.checkLogin, displayNameInputGroup),
-          ]
-
-          const isValid = validationArray.every((v) => v)
-          if (!form || !isValid) {
-            return
-          }
-          const formData = new FormData(form)
-          const data = Object.fromEntries(formData)
-          console.log(data)
-          const changeUserDataRes = (await UserApi.update(data)) as XMLHttpRequest
-          console.log(changeUserDataRes)
-          if (changeUserDataRes.status === 200) {
-            Store.set('user', changeUserDataRes.response)
-          }
-
-          this.setProps({
-            isEditing: 'off',
-          })
-          Object.values(userPageInputs).forEach((input) => {
-            input.getContent()?.setAttribute('disabled', 'true')
-          })
+          await UserController.changeUserData(
+            e,
+            [
+              Validator.validate(userPageInputs.emailInput, Validator.checkEmail, emailInputGroup),
+              Validator.validate(userPageInputs.loginInput, Validator.checkLogin, loginInputGroup),
+              Validator.validate(userPageInputs.nameInput, Validator.checkNames, nameInputGroup),
+              Validator.validate(userPageInputs.surnameInput, Validator.checkNames, surnameInputGroup),
+              Validator.validate(userPageInputs.phoneInput, Validator.checkPhone, phoneInputGroup),
+              Validator.validate(userPageInputs.displayNameInput, Validator.checkLogin, displayNameInputGroup),
+            ],
+            this,
+            userPageInputs,
+          )
         },
       },
     })
@@ -348,28 +326,15 @@ export default class User extends Component {
       },
       events: {
         click: async (e: Event) => {
-          e.preventDefault()
-          const target = e.target as HTMLElement
-          const form = target.closest('form')
-          const validationArray = [
-            Validator.validate(changePassInputs.oldPassInput, Validator.checkPass, oldPassInputGroup),
-            Validator.validate(changePassInputs.newPassInput, Validator.checkPass, newPassInputGroup),
-            Validator.validate(changePassInputs.repeatNewPassInput, Validator.checkPass, repeatNewPassInputGroup),
-          ]
-
-          const isValid = validationArray.every((v) => v)
-          if (!form || !isValid) {
-            return
-          }
-          const formData = new FormData(form)
-          const data = Object.fromEntries(formData)
-          const changePassRes = (await UserApi.changePassword(data)) as XMLHttpRequest
-          if (changePassRes.status === 200) {
-            this.setProps({
-              isPassEditing: 'off',
-              error: '',
-            })
-          }
+          await UserController.changeUserPass(
+            e,
+            [
+              Validator.validate(changePassInputs.oldPassInput, Validator.checkPass, oldPassInputGroup),
+              Validator.validate(changePassInputs.newPassInput, Validator.checkPass, newPassInputGroup),
+              Validator.validate(changePassInputs.repeatNewPassInput, Validator.checkPass, repeatNewPassInputGroup),
+            ],
+            this,
+          )
         },
       },
     })
