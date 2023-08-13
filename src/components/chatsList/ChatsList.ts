@@ -41,7 +41,6 @@ export default class ChatsList extends Component {
             return
           }
           Store.set('activeChatId', chatPreview.getAttribute('data-chat-id'))
-          console.log(Store.getState())
         },
       },
     })

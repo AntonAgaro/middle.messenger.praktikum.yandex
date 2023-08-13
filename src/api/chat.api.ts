@@ -38,4 +38,12 @@ export class ChatApi extends BaseApi {
   static getChatToken(chatId: string | number) {
     return chatApiInstance.post(`/chats/token/${chatId}`)
   }
+
+  static deleteChat(chatId: string | number) {
+    return chatApiInstance.delete('/chats', {
+      data: {
+        chatId,
+      },
+    })
+  }
 }

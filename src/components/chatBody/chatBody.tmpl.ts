@@ -23,6 +23,7 @@ export default `
         <div class="chats__more-dropdown-wrapper" id="chats__more-dropdown-wrapper">
             {{{ addUserToChatBtn }}}
             {{{ removeUserToChatBtn }}}
+            {{{ deleteChatBtn }}}
         </div>
     </div>
     

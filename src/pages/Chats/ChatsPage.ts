@@ -173,6 +173,18 @@ export default class ChatsPage extends Component {
           },
         },
       }),
+      deleteChatBtn: new Button({
+        text: 'Удалить чат',
+        attrs: {
+          class: 'button',
+          type: 'button',
+        },
+        events: {
+          click: async () => {
+            await ChatPageController.deleteChat()
+          },
+        },
+      }),
     })
 
     super('main', {

@@ -22,14 +22,13 @@ export default class ChatPageController {
 
   static handleFormData(e: Event, input: Component, inputGroup: Component): Record<string, FormDataEntryValue> {
     e.preventDefault()
-    const target = e.target as HTMLElement
-    const form = target.closest('form')
+    const target = e.target as HTMLFormElement
     const isInput = Validator.validate(input, Validator.checkIsNotEmpty, inputGroup)
-    if (!form || !isInput) {
+    if (!target || !isInput) {
       return {}
     }
-    const formData = new FormData(form)
-    form.reset()
+    const formData = new FormData(target)
+    target.reset()
     return Object.fromEntries(formData)
   }
 
@@ -125,6 +124,21 @@ export default class ChatPageController {
       }
       Store.emit(StoreEvent.Updated)
       chatsModal.hide()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  static async deleteChat() {
+    try {
+      const activeChatId = Store.getState().activeChatId ?? 0
+      await ChatApi.deleteChat(activeChatId)
+      const actualUserChatsRes = (await ChatApi.getUserChats()) as XMLHttpRequest
+      const actualUserChats = actualUserChatsRes.response
+      Store.set('activeChatId', null)
+      Store.set('chats', actualUserChats)
+      const newActiveChatId = actualUserChats && actualUserChats.length ? actualUserChats[0].id : null
+      Store.set('activeChatId', newActiveChatId)
     } catch (error) {
       console.log(error)
     }
