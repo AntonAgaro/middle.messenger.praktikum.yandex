@@ -10,6 +10,7 @@ import { SignUpApi } from '../../api/SignUp.api'
 import { AuthApi } from '../../api/Auth.api'
 import Store from '../../classes/Store'
 import RouterClass from '../../classes/Router/Router'
+import { Routes } from '../../enums/Routes'
 
 export default class SignUpPage extends Component {
   constructor(props: Props) {
@@ -173,8 +174,30 @@ export default class SignUpPage extends Component {
         class: 'button',
         type: 'submit',
       },
+    })
+    const toLoginLink = new RouterLink({
+      text: 'Войти',
+      className: '',
+      path: Routes.Login,
+    })
+
+    super('main', {
+      ...props,
+      title: 'Регистрация',
+      emailInput: emailInputGroup,
+      loginInput: loginInputGroup,
+      nameInput: nameInputGroup,
+      surnameInput: surnameInputGroup,
+      phoneInput: phoneInputGroup,
+      passInput: passInputGroup,
+      repeatPassInput: repeatPassInputGroup,
+      authBtn,
+      toLoginLink,
+      attrs: {
+        class: 'main',
+      },
       events: {
-        click: async (e: Event) => {
+        submit: async (e: Event) => {
           e.preventDefault()
           const target = e.target as HTMLElement
           const form = target.closest('form')
@@ -201,31 +224,9 @@ export default class SignUpPage extends Component {
           const userRes = (await AuthApi.getUser()) as XMLHttpRequest
           if (userRes.status === 200) {
             Store.set('user', userRes.response)
-            RouterClass.go('/chats')
+            RouterClass.go(Routes.Chats)
           }
         },
-      },
-    })
-    const toLoginLink = new RouterLink({
-      text: 'Войти',
-      className: '',
-      path: '/login',
-    })
-
-    super('main', {
-      ...props,
-      title: 'Регистрация',
-      emailInput: emailInputGroup,
-      loginInput: loginInputGroup,
-      nameInput: nameInputGroup,
-      surnameInput: surnameInputGroup,
-      phoneInput: phoneInputGroup,
-      passInput: passInputGroup,
-      repeatPassInput: repeatPassInputGroup,
-      authBtn,
-      toLoginLink,
-      attrs: {
-        class: 'main',
       },
     })
   }

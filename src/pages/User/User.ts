@@ -376,7 +376,7 @@ export default class User extends Component {
 
     const toChatsLink = new RouterLink({
       text: 'К чатам',
-      path: '/chats',
+      path: Routes.Chats,
       className: 'user__back-link',
     })
 

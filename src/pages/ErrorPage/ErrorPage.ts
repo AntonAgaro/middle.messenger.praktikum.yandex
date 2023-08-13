@@ -3,11 +3,12 @@ import type { Props } from '../../types/Props'
 import Component from '../../classes/Component'
 import './errorPage.scss'
 import RouterLink from '../../components/routerLink/RouterLink'
+import { Routes } from '../../enums/Routes'
 
 export default class ErrorPage extends Component {
   constructor(props: Props) {
     const link = new RouterLink({
-      path: '/chats',
+      path: Routes.Chats,
       text: 'К чатам',
     })
     super('main', {

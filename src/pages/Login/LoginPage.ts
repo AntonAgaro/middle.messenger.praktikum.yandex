@@ -9,6 +9,7 @@ import RouterLink from '../../components/routerLink/RouterLink'
 import { AuthApi } from '../../api/Auth.api'
 import Store from '../../classes/Store'
 import LoginController from './LoginController'
+import { Routes } from '../../enums/Routes'
 
 export default class LoginPage extends Component {
   constructor(props: Props) {
@@ -76,7 +77,7 @@ export default class LoginPage extends Component {
     const toRegLink = new RouterLink({
       text: 'Нет аккаунта?',
       className: '',
-      path: '/signup',
+      path: Routes.SignUp,
     })
     super('main', {
       ...props,

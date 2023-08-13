@@ -12,6 +12,7 @@ import Store from '../../classes/Store'
 import Modal from '../../components/modal/Modal'
 import ChatBody from '../../components/chatBody/ChatBody'
 import ChatPageController from './ChatPageController'
+import { Routes } from '../../enums/Routes'
 
 export default class ChatsPage extends Component {
   constructor(props: Props) {
@@ -173,7 +174,7 @@ export default class ChatsPage extends Component {
       ...props,
       modal: chatsModal,
       linkToProfile: new RouterLink({
-        path: '/user',
+        path: Routes.User,
         text: 'В профиль',
         withIcon: true,
       }),
