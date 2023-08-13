@@ -101,7 +101,7 @@ export default class Component {
     this.EventBus.emit(ComponentEvents.FLOW_CDU)
   }
 
-  private addEvents(): void {
+  public addEvents(): void {
     const { events = {} } = this.props
     this.eventListeners = events
     Object.keys(events).forEach((eventName) => {
@@ -109,7 +109,7 @@ export default class Component {
     })
   }
 
-  private removeEvents(): void {
+  public removeEvents(): void {
     Object.keys(this.eventListeners).forEach((eventName) => {
       this.element?.removeEventListener(eventName, this.eventListeners[eventName])
     })

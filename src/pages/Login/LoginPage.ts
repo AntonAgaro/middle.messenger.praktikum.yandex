@@ -72,11 +72,6 @@ export default class LoginPage extends Component {
         class: 'button',
         type: 'submit',
       },
-      events: {
-        click: async (e: Event) => {
-          await LoginController.login(e, loginInput, loginInputGroup, passInput, passInputGroup, this)
-        },
-      },
     })
     const toRegLink = new RouterLink({
       text: 'Нет аккаунта?',
@@ -92,6 +87,11 @@ export default class LoginPage extends Component {
       toRegLink,
       attrs: {
         class: 'main',
+      },
+      events: {
+        submit: async (e: Event) => {
+          await LoginController.login(e, loginInput, loginInputGroup, passInput, passInputGroup, this)
+        },
       },
     })
   }
