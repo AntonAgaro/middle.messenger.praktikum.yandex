@@ -4,17 +4,17 @@ import BaseApi from '../classes/BaseApi'
 const chatApiInstance = new HTTPTransport()
 export class ChatApi extends BaseApi {
   static getUserChats() {
-    return chatApiInstance.get('https://ya-praktikum.tech/api/v2/chats')
+    return chatApiInstance.get('/chats')
   }
 
   static create(data: Record<string, any>) {
-    return chatApiInstance.post('https://ya-praktikum.tech/api/v2/chats', {
+    return chatApiInstance.post('/chats', {
       data,
     })
   }
 
   static addUserToChat(users: number[], activeChatId: number) {
-    return chatApiInstance.put('https://ya-praktikum.tech/api/v2/chats/users', {
+    return chatApiInstance.put('/chats/users', {
       data: {
         chatId: +activeChatId,
         users,
@@ -23,7 +23,7 @@ export class ChatApi extends BaseApi {
   }
 
   static deleteUserFromChat(users: number[], activeChatId: number) {
-    return chatApiInstance.delete('https://ya-praktikum.tech/api/v2/chats/users', {
+    return chatApiInstance.delete('/chats/users', {
       data: {
         chatId: +activeChatId,
         users,
@@ -32,10 +32,10 @@ export class ChatApi extends BaseApi {
   }
 
   static getChatUsers(id: number | string) {
-    return chatApiInstance.get(`https://ya-praktikum.tech/api/v2/chats/${id}/users`)
+    return chatApiInstance.get(`/chats/${id}/users`)
   }
 
   static getChatToken(chatId: string | number) {
-    return chatApiInstance.post(`https://ya-praktikum.tech/api/v2/chats/token/${chatId}`)
+    return chatApiInstance.post(`/chats/token/${chatId}`)
   }
 }

@@ -16,6 +16,7 @@ import { Routes } from '../../enums/Routes'
 import { TUser } from '../../types/TUser'
 import { UserApi } from '../../api/User.api'
 import Modal from '../../components/modal/Modal'
+import HTTPTransport from '../../classes/HTTPTransort'
 
 export default class User extends Component {
   constructor(props: Props) {
@@ -442,7 +443,7 @@ export default class User extends Component {
       ...props,
       toChatsLink,
       userName: user.display_name ?? '',
-      userLogo: user.avatar ? `https://ya-praktikum.tech/api/v2/resources/${user.avatar}` : '',
+      userLogo: user.avatar ? `${HTTPTransport.baseURL}/resources/${user.avatar}` : '',
       userDetails,
       changeDataBtn,
       changePassBtn,
@@ -478,7 +479,7 @@ export default class User extends Component {
       this.setProps({
         user,
         userName: user.display_name,
-        userLogo: `https://ya-praktikum.tech/api/v2/resources/${user.avatar}`,
+        userLogo: `${HTTPTransport.baseURL}/resources/${user.avatar}`,
       })
     })
   }

@@ -5,7 +5,7 @@ export default `
     <div class="chat-preview__left">
         <div class="chat-preview__user-img">
             {{#if avatar }}
-                <img src="{{avatar}}" alt="chat-avatar">
+                <img src="https://ya-praktikum.tech/api/v2/resources/{{avatar}}" alt="chat-avatar">
             {{/if}}
         </div>
         <div class="chat-preview__left-text">

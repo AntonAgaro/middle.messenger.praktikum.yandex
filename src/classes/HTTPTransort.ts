@@ -15,6 +15,8 @@ function queryStringify(data: Record<string, string>) {
 }
 
 export default class HTTPTransport {
+  static baseURL = 'https://ya-praktikum.tech/api/v2'
+
   get = (url: string, options: Record<string, any> = {}) => {
     if (options.data) {
       options.data = queryStringify(options.data)
@@ -39,7 +41,7 @@ export default class HTTPTransport {
     const { method, data } = options
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
-      xhr.open(method, url)
+      xhr.open(method, HTTPTransport.baseURL + url)
       if (options.headers) {
         for (const header in options.headers) {
           xhr.setRequestHeader(header, options.headers[header])

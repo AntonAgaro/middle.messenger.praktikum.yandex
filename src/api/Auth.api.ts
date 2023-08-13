@@ -4,16 +4,16 @@ import BaseApi from '../classes/BaseApi'
 const authApiInstance = new HTTPTransport()
 export class AuthApi extends BaseApi {
   static getUser() {
-    return authApiInstance.get('https://ya-praktikum.tech/api/v2/auth/user')
+    return authApiInstance.get('/auth/user')
   }
 
   static login(data: Record<string, any>) {
-    return authApiInstance.post('https://ya-praktikum.tech/api/v2/auth/signin', {
+    return authApiInstance.post('/auth/signin', {
       data,
     })
   }
 
   static logout() {
-    return authApiInstance.post('https://ya-praktikum.tech/api/v2/auth/logout')
+    return authApiInstance.post('/auth/logout')
   }
 }
