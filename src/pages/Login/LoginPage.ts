@@ -7,8 +7,8 @@ import InputGroup from '../../components/inputGroup/InputGroup'
 import Button from '../../components/button/Button'
 import RouterLink from '../../components/routerLink/RouterLink'
 import { AuthApi } from '../../api/Auth.api'
-import RouterClass from '../../classes/Router/Router'
 import Store from '../../classes/Store'
+import LoginController from './LoginController'
 
 export default class LoginPage extends Component {
   constructor(props: Props) {
@@ -74,32 +74,7 @@ export default class LoginPage extends Component {
       },
       events: {
         click: async (e: Event) => {
-          e.preventDefault()
-          const target = e.target as HTMLElement
-          const form = target.closest('form')
-          const isLoginInputValid = Validator.validate(loginInput, Validator.checkLogin, loginInputGroup)
-          const isPassInputValid = Validator.validate(passInput, Validator.checkPass, passInputGroup)
-          if (!form || !isLoginInputValid || !isPassInputValid) {
-            return
-          }
-          const formData = new FormData(form)
-          const data = Object.fromEntries(formData)
-          const loginRes = (await AuthApi.login(data)) as XMLHttpRequest
-
-          if (loginRes.status !== 200) {
-            this.setProps({
-              serverError: loginRes.response.reason,
-            })
-          }
-          const userRes = (await AuthApi.getUser()) as XMLHttpRequest
-
-          if (userRes.status === 200) {
-            this.setProps({
-              serverError: '',
-            })
-            Store.set('user', userRes.response)
-            RouterClass.go('/chats')
-          }
+          await LoginController.login(e, loginInput, loginInputGroup, passInput, passInputGroup, this)
         },
       },
     })
