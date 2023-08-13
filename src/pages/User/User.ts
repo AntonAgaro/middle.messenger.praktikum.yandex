@@ -260,6 +260,23 @@ export default class User extends Component {
           })
           this.setProps({
             isEditing: 'on',
+            events: {
+              submit: async (e: Event) => {
+                await UserController.changeUserData(
+                  e,
+                  [
+                    Validator.validate(userPageInputs.emailInput, Validator.checkEmail, emailInputGroup),
+                    Validator.validate(userPageInputs.loginInput, Validator.checkLogin, loginInputGroup),
+                    Validator.validate(userPageInputs.nameInput, Validator.checkNames, nameInputGroup),
+                    Validator.validate(userPageInputs.surnameInput, Validator.checkNames, surnameInputGroup),
+                    Validator.validate(userPageInputs.phoneInput, Validator.checkPhone, phoneInputGroup),
+                    Validator.validate(userPageInputs.displayNameInput, Validator.checkLogin, displayNameInputGroup),
+                  ],
+                  this,
+                  userPageInputs,
+                )
+              },
+            },
           })
         },
       },
@@ -275,6 +292,23 @@ export default class User extends Component {
         click: () => {
           this.setProps({
             isPassEditing: 'on',
+            events: {
+              submit: async (e: Event) => {
+                await UserController.changeUserPass(
+                  e,
+                  [
+                    Validator.validate(changePassInputs.oldPassInput, Validator.checkPass, oldPassInputGroup),
+                    Validator.validate(changePassInputs.newPassInput, Validator.checkPass, newPassInputGroup),
+                    Validator.validate(
+                      changePassInputs.repeatNewPassInput,
+                      Validator.checkPass,
+                      repeatNewPassInputGroup,
+                    ),
+                  ],
+                  this,
+                )
+              },
+            },
           })
         },
       },
@@ -299,23 +333,6 @@ export default class User extends Component {
         class: 'button align-center',
         type: 'submit',
       },
-      events: {
-        click: async (e: Event) => {
-          await UserController.changeUserData(
-            e,
-            [
-              Validator.validate(userPageInputs.emailInput, Validator.checkEmail, emailInputGroup),
-              Validator.validate(userPageInputs.loginInput, Validator.checkLogin, loginInputGroup),
-              Validator.validate(userPageInputs.nameInput, Validator.checkNames, nameInputGroup),
-              Validator.validate(userPageInputs.surnameInput, Validator.checkNames, surnameInputGroup),
-              Validator.validate(userPageInputs.phoneInput, Validator.checkPhone, phoneInputGroup),
-              Validator.validate(userPageInputs.displayNameInput, Validator.checkLogin, displayNameInputGroup),
-            ],
-            this,
-            userPageInputs,
-          )
-        },
-      },
     })
 
     const saveNewPassBtn = new Button({
@@ -323,19 +340,6 @@ export default class User extends Component {
       attrs: {
         class: 'button align-center',
         type: 'submit',
-      },
-      events: {
-        click: async (e: Event) => {
-          await UserController.changeUserPass(
-            e,
-            [
-              Validator.validate(changePassInputs.oldPassInput, Validator.checkPass, oldPassInputGroup),
-              Validator.validate(changePassInputs.newPassInput, Validator.checkPass, newPassInputGroup),
-              Validator.validate(changePassInputs.repeatNewPassInput, Validator.checkPass, repeatNewPassInputGroup),
-            ],
-            this,
-          )
-        },
       },
     })
 
