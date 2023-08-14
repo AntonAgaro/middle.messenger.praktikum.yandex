@@ -46,4 +46,10 @@ export class ChatApi extends BaseApi {
       },
     })
   }
+
+  static addChatLogo(data: FormData) {
+    return chatApiInstance.put('/chats/avatar', {
+      data,
+    })
+  }
 }

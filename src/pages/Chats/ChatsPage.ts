@@ -72,6 +72,7 @@ export default class ChatsPage extends Component {
           modalInput.setProps({
             attrs: {
               name: 'title',
+              type: 'text',
             },
           })
           modalInputGroup.setProps({
@@ -119,6 +120,7 @@ export default class ChatsPage extends Component {
             modalInput.setProps({
               attrs: {
                 name: 'login',
+                type: 'text',
               },
             })
             modalInputGroup.setProps({
@@ -153,6 +155,7 @@ export default class ChatsPage extends Component {
             modalInput.setProps({
               attrs: {
                 name: 'login',
+                type: 'text',
               },
             })
             modalInputGroup.setProps({
@@ -182,6 +185,41 @@ export default class ChatsPage extends Component {
         events: {
           click: async () => {
             await ChatPageController.deleteChat()
+          },
+        },
+      }),
+      addChatAvatarBtn: new Button({
+        text: 'Добавить лого чата',
+        attrs: {
+          class: 'button',
+          type: 'submit',
+        },
+        events: {
+          click: () => {
+            chatsModal.setProps({
+              title: 'Добавить лого чата',
+            })
+            modalInput.setProps({
+              attrs: {
+                name: 'avatar',
+                type: 'file',
+              },
+            })
+            modalInputGroup.setProps({
+              label: '',
+              error: '',
+            })
+            modalBtn.setProps({
+              text: 'Загрузить',
+            })
+            chatsModal.setProps({
+              events: {
+                submit: async (e: Event) => {
+                  await ChatPageController.addChatLogo(e, modalInput, modalInputGroup, chatsModal)
+                },
+              },
+            })
+            chatsModal.show()
           },
         },
       }),

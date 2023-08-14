@@ -143,4 +143,32 @@ export default class ChatPageController {
       console.log(error)
     }
   }
+
+  static async addChatLogo(e: Event, fileInput: Component, fileInputGroup: Component, modal: Component) {
+    try {
+      e.preventDefault()
+      const target = e.target as HTMLElement
+      const form = target.closest('form') as HTMLFormElement
+      const input = fileInput.getContent() as HTMLInputElement
+      if (!input.value) {
+        fileInputGroup.setProps({
+          error: 'Добавьте файл!',
+        })
+        return
+      }
+      const formData = new FormData(form)
+      formData.append('chatId', String(Store.getState().activeChatId as number))
+      const chatLogoRes = (await ChatApi.addChatLogo(formData)) as XMLHttpRequest
+      if (chatLogoRes.status !== 200) {
+        fileInputGroup.setProps({
+          error: chatLogoRes.response.reason,
+        })
+        return
+      }
+      await ChatPageController.getUserChats()
+      modal.hide()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
