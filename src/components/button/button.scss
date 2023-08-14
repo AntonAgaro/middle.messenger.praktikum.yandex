@@ -36,4 +36,9 @@
     justify-content: center;
     border-radius: 100%;
   }
+
+  &.xs {
+    min-width: unset;
+    padding: rem(12) rem(8);
+  }
 }

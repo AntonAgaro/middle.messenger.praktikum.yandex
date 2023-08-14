@@ -8,18 +8,31 @@ export default `
         </div>
         <h1 class="user__name">{{ userName }}</h1>
 
+        {{#ifEquals isPassEditing "off"}}
             {{{ userDetails }}}
-
-        <ul class="user__btns">
-        {{#ifEquals isEditing "off"}}
-           {{{ changeDataBtn }}}
-           {{{ changePassBtn }}}
-           {{{ logoutBtn }}}
         {{/ifEquals}}
         
-        {{#ifEquals isEditing "on"}}
-           {{{ saveDataBtn }}}
-       {{/ifEquals}}
+        {{#ifEquals isPassEditing "on"}}
+            {{{ oldPassInput }}}
+            {{{ newPassInput }}}
+            {{{ repeatNewPassInput }}}
+            {{{ saveNewPassBtn }}}
+        {{/ifEquals}}
+
+        <ul class="user__btns">
+        {{#ifEquals isPassEditing "off"}}
+            {{#ifEquals isEditing "off"}}
+               {{{ changeDataBtn }}}
+               {{{ changePassBtn }}}
+               {{{ logoutBtn }}}
+            {{/ifEquals}}
+            
+            {{#ifEquals isEditing "on"}}
+               {{{ saveDataBtn }}}
+           {{/ifEquals}}
+        {{/ifEquals}}
+        
         </ul>
     </form>
+    {{{ modal }}}
 `

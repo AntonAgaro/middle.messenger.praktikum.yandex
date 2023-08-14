@@ -1,8 +1,9 @@
 import '@/scss/app.scss'
 import HandleBars from 'handlebars'
-import Router from './src/utils/Router'
-import routes from './src/utils/routes'
 import { Props } from './src/types/Props'
+import RouterClass from './src/classes/Router/Router'
+import Store from './src/classes/Store'
+import { StoreEvent } from './src/enums/StoreEvents'
 
 HandleBars.registerHelper('ifEquals', function (this: Props, a, b, options) {
   if (a === b) {
@@ -15,5 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!root) {
     return
   }
-  new Router(root, routes)
+
+  Store.on(StoreEvent.Updated, () => {})
+
+  RouterClass.start()
+
+  document.addEventListener('click', (e: Event) => {
+    e.stopPropagation()
+    const target = e.target as HTMLElement
+    if (target.matches('.modal-bg')) {
+      target.style.display = 'none'
+    }
+  })
 })

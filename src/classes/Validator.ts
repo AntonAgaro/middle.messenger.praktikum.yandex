@@ -50,15 +50,19 @@ export default class Validator {
     inputGroup: Component,
   ): boolean {
     const target = inputComponent.getContent() as HTMLInputElement
+    // remove blur before rerender
+    inputComponent.removeEvents()
     if (!validateMethod(target)) {
       inputGroup.setProps({
         error: Validator.setErrorMessage(validateMethod),
       })
+      inputComponent.addEvents()
       return false
     }
     inputGroup.setProps({
       error: '',
     })
+    inputComponent.addEvents()
     return true
   }
 }

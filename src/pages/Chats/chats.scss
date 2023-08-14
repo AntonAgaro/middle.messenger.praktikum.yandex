@@ -3,12 +3,18 @@
 .chats {
   @include limited-container;
 
+  min-height: calc(100vh - 40px);
+
   &__container {
     @include limited-container-inner;
+
+    min-height: calc(100vh - 40px);
   }
 
-  &__list-link-wrapper {
+  &__list-btns-wrapper {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     column-gap: rem(8);
     align-self: flex-end;
@@ -62,7 +68,6 @@
   &__list {
     padding: rem(20) rem(10);
     width: 30%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     background: $chats-list-bg;
@@ -76,7 +81,7 @@
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-between;
     color: $second-text-color;
   }
 
@@ -84,6 +89,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    row-gap: rem(8);
   }
 
   &__body-messages-inputs {
@@ -115,16 +121,87 @@
     height: auto;
     color: $main-text-color;
     border-radius: $elem-br;
+    display: flex;
+    flex-direction: column;
 
-    &--from {
+    &--to {
       align-self: flex-start;
       background: $second-bg-color;
       border-radius: $elem-br;
     }
 
-    &--to {
+    &--from {
       align-self: flex-end;
       background: #e4edfd;
+    }
+  }
+
+  &__message-date {
+    align-self: flex-end;
+    font-size: rem(12);
+  }
+
+  &__body-header {
+    padding: rem(8);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $second-text-color;
+  }
+
+  &__more-dropdown {
+    position: relative;
+  }
+
+  &__more-dropdown-wrapper {
+    display: none;
+    position: absolute;
+    bottom: rem(-120);
+    right: 0;
+    width: rem(210);
+    height: rem(110);
+    background: $second-bg-color;
+    padding: rem(12);
+    flex-direction: column;
+    row-gap: rem(8);
+    border-radius: $elem-br;
+
+    &.active {
+      display: flex;
+    }
+
+    .button {
+      min-width: 100%;
+    }
+  }
+
+  .show-more-actions-btn {
+    width: rem(24);
+    height: rem(24);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $btn-bg;
+    border-radius: 100%;
+    cursor: pointer;
+  }
+
+  .chat__users {
+    display: flex;
+    align-items: center;
+    column-gap: rem(8);
+    color: #1e1e1e;
+  }
+
+  .chat__user {
+    display: flex;
+    align-items: center;
+    column-gap: rem(4);
+
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 100%;
     }
   }
 }

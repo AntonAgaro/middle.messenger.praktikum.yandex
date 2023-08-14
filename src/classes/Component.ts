@@ -2,31 +2,26 @@ import { v4 as makeUUID } from 'uuid'
 import HandleBars from 'handlebars'
 import EventBus from './EventBus'
 import type { Props } from '../types/Props'
+import { ComponentEvents } from '../enums/ComponentEvents'
 
-// TODO Переместить в enums
-enum ComponentEvents {
-  INIT = 'init',
-  FLOW_CDM = 'flow:component-did-mount',
-  FLOW_CDU = 'flow:component-did-update',
-  FLOW_RENDER = 'flow:render',
-}
 export default class Component {
   private EventBus: EventBus
 
   private element: HTMLElement | null = null
 
+  private eventListeners: Record<string, any> = {}
+
   private tagName = 'div'
 
   public id: string
 
-  protected props: Props
+  public props: Props
 
   protected children: Record<string, Component | Component[]>
 
   constructor(tagName: string, propsAndChildren = {}) {
     this.EventBus = new EventBus()
     this.tagName = tagName
-    // TODO сделать только если есть settings для id
     this.id = makeUUID()
     const { props, children } = this.separatePropsAndChildren(propsAndChildren)
     this.props = this.makePropsProxy({ ...props, _id: this.id })
@@ -106,17 +101,17 @@ export default class Component {
     this.EventBus.emit(ComponentEvents.FLOW_CDU)
   }
 
-  private addEvents(): void {
+  public addEvents(): void {
     const { events = {} } = this.props
+    this.eventListeners = events
     Object.keys(events).forEach((eventName) => {
       this.element?.addEventListener(eventName, events[eventName])
     })
   }
 
-  private removeEvents(): void {
-    const { events = {} } = this.props
-    Object.keys(events).forEach((eventName) => {
-      this.element?.removeEventListener(eventName, events[eventName])
+  public removeEvents(): void {
+    Object.keys(this.eventListeners).forEach((eventName) => {
+      this.element?.removeEventListener(eventName, this.eventListeners[eventName])
     })
   }
 
@@ -177,7 +172,6 @@ export default class Component {
       },
       set: (target, prop: any, value) => {
         target[prop] = value
-        this.EventBus.emit(ComponentEvents.FLOW_CDU)
         return true
       },
       deleteProperty() {
@@ -191,7 +185,8 @@ export default class Component {
     const props: Props = {}
     const children: Record<string, Component | Component[]> = {}
     Object.entries(propsAndChildren).forEach(([key, value]) => {
-      if (value instanceof Component || Array.isArray(value)) {
+      // value[0] instanceof Component) чтобы не собирать в children пропс в виде массива
+      if (value instanceof Component || (Array.isArray(value) && value[0] instanceof Component)) {
         children[key] = value
       } else {
         props[key] = value
@@ -209,7 +204,7 @@ export default class Component {
 
   show() {
     if (this.element) {
-      this.element.style.display = 'block'
+      this.element.style.display = 'flex'
     }
   }
 
