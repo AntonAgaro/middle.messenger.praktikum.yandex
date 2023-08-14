@@ -5,18 +5,7 @@ import modalTmpl from './modal.tmpl'
 
 export default class Modal extends Component {
   constructor(props: Props) {
-    super('div', {
-      ...props,
-      events: {
-        click: (e: Event) => {
-          e.stopPropagation()
-          const target = e.target as HTMLElement
-          if (target.matches('.modal-bg')) {
-            target.style.display = 'none'
-          }
-        },
-      },
-    })
+    super('div', props)
   }
 
   render(): DocumentFragment {

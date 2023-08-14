@@ -20,4 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
   Store.on(StoreEvent.Updated, () => {})
 
   RouterClass.start()
+
+  document.addEventListener('click', (e: Event) => {
+    e.stopPropagation()
+    const target = e.target as HTMLElement
+    if (target.matches('.modal-bg')) {
+      target.style.display = 'none'
+    }
+  })
 })
