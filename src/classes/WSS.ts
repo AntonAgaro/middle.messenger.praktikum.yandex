@@ -13,7 +13,7 @@ export default class WSS extends EventBus {
 
   private token: string
 
-  private interval: NodeJS.Timer
+  private interval: NodeJS.Timeout
 
   constructor(userId: string | number, chatId: string | number, token: string) {
     super()
