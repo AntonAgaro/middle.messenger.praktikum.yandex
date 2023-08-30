@@ -2,31 +2,53 @@
   "name": "messenger",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite --open",
     "prebuild": "tsc --noEmit",
     "build": "npm run prebuild && vite build",
     "start": "vite build && node server.cjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "mocha",
+    "eslint": "./node_modules/.bin/eslint .",
+    "stylelint": "npx stylelint \"**/*.scss\"",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test && npm run prebuild && npm run eslint && npm run stylelint"
+    }
   },
   "devDependencies": {
+    "@babel/cli": "^7.22.10",
+    "@babel/core": "^7.22.11",
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-typescript": "^7.22.11",
+    "@babel/register": "^7.22.5",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^20.4.4",
+    "@types/sinon-chai": "^3.2.9",
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.1.0",
     "@typescript-eslint/parser": "^6.1.0",
+    "chai": "^4.3.8",
     "eslint": "^8.45.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "express": "^4.18.2",
+    "husky": "^8.0.3",
+    "jsdom": "^22.1.0",
+    "mocha": "^10.2.0",
     "prettier": "^3.0.0",
     "sass": "^1.63.6",
+    "sinon": "^15.2.0",
+    "sinon-chai": "^3.7.0",
     "stylelint": "^15.10.2",
     "stylelint-config-standard-scss": "^10.0.0",
     "stylelint-scss": "^5.0.1",
-    "typescript": "^5.1.6",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
     "vite": "^4.3.9",
     "vite-plugin-handlebars": "^1.6.0"
   },
@@ -34,6 +56,7 @@
     "node": "16.20.0"
   },
   "dependencies": {
+    "@types/chai": "^4.3.5",
     "handlebars": "^4.7.7",
     "uuid": "^9.0.0"
   }

@@ -2,7 +2,7 @@ import { UserApi } from '../../api/User.api'
 import Store from '../../classes/Store'
 import Component from '../../classes/Component'
 import { AuthApi } from '../../api/Auth.api'
-import Router from '../../classes/Router/Router'
+import RouterClass from '../../classes/Router/Router'
 import { Routes } from '../../enums/Routes'
 
 export default class UserController {
@@ -43,7 +43,7 @@ export default class UserController {
       const logoutRes = (await AuthApi.logout()) as XMLHttpRequest
       if (logoutRes.status === 200) {
         Store.set('user', null)
-        Router.go(Routes.Login)
+        RouterClass.go(Routes.Login)
       }
     } catch (error) {
       console.log(error)
