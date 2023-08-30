@@ -9,7 +9,7 @@
     "start": "vite build && node server.cjs",
     "preview": "vite preview",
     "test": "mocha",
-    "eslisnt": "./node_modules/.bin/eslint .",
+    "eslint": "./node_modules/.bin/eslint .",
     "stylelint": "npx stylelint \"**/*.scss\""
   },
   "husky": {
