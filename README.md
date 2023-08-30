@@ -23,10 +23,14 @@ https://sweet-cucurucho-117501.netlify.app
 4. Добавлена валидация форм, данные форм выводятся в консоль
 5. Добавлен класс для работы с запросами
 
-## Sprint 2
+## Sprint 3
 1. Переписан Router
 2. Использованы Api авторизации, регистрации, пользователя, чатов
 3. Обмен сообщениями реализован через WebSocket
 
 Запустить Eslint: ./node_modules/.bin/eslint .
 Запустить Stylelint: npx stylelint "**/*.scss"
+
+## Sprint 4
+1. npm run test - запустить тесты
+2. Настрое pre-commit
