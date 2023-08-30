@@ -10,7 +10,7 @@ import { Routes } from '../../enums/Routes'
 import Store from '../Store'
 import { AuthApi } from '../../api/Auth.api'
 
-class Router {
+export class Router {
   private static instance: Router
 
   private routes: Route[] = []
@@ -106,7 +106,7 @@ class Router {
 }
 
 const RouterClass = new Router('#app')
-const routes = [
+export const routes = [
   {
     path: Routes.Login,
     component: LoginPage,
