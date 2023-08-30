@@ -8,7 +8,15 @@
     "build": "npm run prebuild && vite build",
     "start": "vite build && node server.cjs",
     "preview": "vite preview",
-    "test": "mocha"
+    "test": "mocha",
+    "eslisnt": "./node_modules/.bin/eslint .",
+    "stylelint": "npx stylelint \"**/*.scss\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm rum test && npm run prebuild && npm run eslint && npm run stylelint"
+
+    }
   },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
@@ -29,6 +37,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "express": "^4.18.2",
+    "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "mocha": "^10.2.0",
     "prettier": "^3.0.0",
